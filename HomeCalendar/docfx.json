@@ -5,8 +5,7 @@
         {
           "files": [
             "**.csproj"
-          ],
-          "src": "C:\\Users\\2268268\\OneDrive - John Abbott College\\HomeCalendar\\HomeCalendar"
+          ]
         }
       ],
       "dest": "api",
