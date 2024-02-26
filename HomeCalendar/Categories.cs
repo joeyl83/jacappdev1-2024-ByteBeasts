@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
+using System.Data.SQLite;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -29,6 +30,7 @@ namespace Calendar
         private List<Category> _Categories = new List<Category>();
         private string? _FileName;
         private string? _DirName;
+        private SQLiteConnection _connection;
 
         // ====================================================================
         // Properties
@@ -98,9 +100,18 @@ namespace Calendar
         ///    9          Holiday       US Holidays
         /// </code>
         /// </example>
-        public Categories()
+        public Categories(SQLiteConnection connection, bool newDB)
         {
-            SetCategoriesToDefaults();
+            _connection = connection;
+
+            if(newDB)
+            {
+                SetCategoriesToDefaults();
+            }
+            //else
+            //{
+
+            //}
         }
 
         // ====================================================================
