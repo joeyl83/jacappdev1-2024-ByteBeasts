@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
+using System.Data.SQLite;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -443,13 +444,11 @@ namespace Calendar
         /// </example>
         public void Add(String desc, Category.CategoryType type)
         {
-            int new_num = 1;
-            if (_Categories.Count > 0)
-            {
-                new_num = (from c in _Categories select c.Id).Max();
-                new_num++;
-            }
-            _Categories.Add(new Category(new_num, desc, type));
+            int id = (int)type;
+            var cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${desc},${type})";
+
+            
         }
 
         // ====================================================================
