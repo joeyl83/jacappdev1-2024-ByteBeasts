@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
+using System.Data.SQLite;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -29,6 +30,7 @@ namespace Calendar
         private List<Category> _Categories = new List<Category>();
         private string? _FileName;
         private string? _DirName;
+        private SQLiteConnection _connection;
 
         // ====================================================================
         // Properties
@@ -511,26 +513,25 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Generates a copy of the category list and returns it. A copy is made so that no changes are ever made to what is a part of this instance.
+        /// Generates a list of category objects from the database and returns it.
         /// </summary>
-        /// <returns>The copy of the category list.</returns>
+        /// <returns>The category list.</returns>
         /// <example>
         /// 
-        /// In this example, assume that the category file contains the following elements:
+        /// In this example, assume that the category table in the database contains the following elements:
         /// 
         /// <code>
-        ///    Id    Type         Description
-        ///    1     Event        School
-        ///    2     Holiday      Canadian Holiday
-        ///    3     Event        Vacation
-        ///    4     Event        Wellness Day
+        ///    Id    TypeId       Description
+        ///    1     1            School
+        ///    2     4            Canadian Holiday
+        ///    3     1            Vacation
+        ///    4     1            Wellness Day
         /// </code>
         /// 
         /// <b>Getting the list of items.</b>
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
-        /// categories.ReadFromFile("category-file.cats");
+        /// Categories categories = new Categories(Database.dbConnection, false);
         /// 
         /// List<Category> copy = categories.List();
         /// 
@@ -554,10 +555,18 @@ namespace Calendar
         public List<Category> List()
         {
             List<Category> newList = new List<Category>();
-            foreach (Category category in _Categories)
+
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories;";
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                newList.Add(new Category(category));
+                newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
             }
+
+            cmd.Dispose();
             return newList;
         }
 
