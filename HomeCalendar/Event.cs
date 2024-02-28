@@ -27,34 +27,34 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Gets and sets the Id.
+        /// Gets the Id.
         /// </summary>
         /// <value>Represents the unique integer id of the event.</value>
         public int Id { get; }
 
         /// <summary>
-        /// Gets and sets the StartDateTime.
+        /// Gets the StartDateTime.
         /// </summary>
         /// <value>Represents the starting date and time of the event as a datetime object.</value>
-        public DateTime StartDateTime { get;  }
+        public DateTime StartDateTime { get; }
 
         /// <summary>
-        /// Gets and sets the DurationInMinutes.
+        /// Gets the DurationInMinutes.
         /// </summary>
         /// <value>Represents the amount of minutes of the event.</value>
-        public Double DurationInMinutes { get; set; }
+        public Double DurationInMinutes { get; }
 
         /// <summary>
-        /// Gets and sets the Details.
+        /// Gets the Details.
         /// </summary>
         /// <value>Represents the details of the event as a string.</value>
-        public String Details { get; set; }
+        public String Details { get; }
 
         /// <summary>
-        /// Gets and sets the Category.
+        /// Gets the Category.
         /// </summary>
         /// <value>Represents the category id that belongs to a category object.</value>
-        public int Category { get; set; }
+        public int Category { get; }
 
         // ====================================================================
         // Constructor
