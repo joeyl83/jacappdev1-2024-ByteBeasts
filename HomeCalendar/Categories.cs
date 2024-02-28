@@ -105,7 +105,7 @@ namespace Calendar
         public Categories(SQLiteConnection connection, bool newDB = false)
         {
             _connection = connection;
-
+ 
             if(newDB)
             {
                 SetCategoriesToDefaults();
