@@ -407,7 +407,11 @@ namespace Calendar
             cmd.ExecuteNonQuery();
             cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Holiday')";
             cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "DELETE FROM categories;";
+            cmd.ExecuteNonQuery();
             cmd.Dispose();
+
             Add("School", Category.CategoryType.Event);
             Add("Personal", Category.CategoryType.Event);
             Add("VideoGames", Category.CategoryType.Event);
