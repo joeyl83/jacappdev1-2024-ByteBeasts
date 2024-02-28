@@ -449,7 +449,7 @@ namespace Calendar
         /// </example>
         private void Add(Category category)
         {
-            var cmd = new SQLiteCommand(_connection);
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${category.Description},${(int)category.Type})";
             cmd.ExecuteNonQuery();
         }
@@ -501,8 +501,10 @@ namespace Calendar
         public void Add(String desc, Category.CategoryType type)
         {
             int id = (int)type;
-            var cmd = new SQLiteCommand(_connection);
-            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${desc},${id})";
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(@desc,@id)";
+            cmd.Parameters.AddWithValue("@desc", desc);
+            cmd.Parameters.AddWithValue("@id", type);
             cmd.ExecuteNonQuery();
 
         }
@@ -555,8 +557,8 @@ namespace Calendar
         {
             try
             {
-                var cmd = new SQLiteCommand(_connection);
-                cmd.CommandText = $"DELETE FROM categories WHERE id={Id}";
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = $"DELETE FROM categories WHERE Id={Id}";
                 cmd.ExecuteNonQuery();
             }
             catch(Exception ex)  

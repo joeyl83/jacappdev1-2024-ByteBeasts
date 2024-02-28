@@ -51,7 +51,7 @@ namespace Calendar
             /// <summary>
             /// Represents a category that is some type of event.
             /// </summary>
-            Event,
+            Event = 1,
 
             /// <summary>
             /// Represents a category that is an all day event.
