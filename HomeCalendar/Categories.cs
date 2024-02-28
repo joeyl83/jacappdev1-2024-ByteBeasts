@@ -30,7 +30,7 @@ namespace Calendar
         private List<Category> _Categories = new List<Category>();
         private string? _FileName;
         private string? _DirName;
-
+        private SQLiteConnection _connection;
         // ====================================================================
         // Properties
         // ====================================================================
@@ -101,6 +101,7 @@ namespace Calendar
         /// </example>
         public Categories()
         {
+
             SetCategoriesToDefaults();
         }
 
@@ -393,20 +394,13 @@ namespace Calendar
         // ====================================================================
         // Add category
         // ====================================================================
-        private void Add(Category category)
-        {
-            _Categories.Add(category);
-        }
-
         /// <summary>
-        /// Adds a new category with the specified description and type to the category list of the current instance. Automatically finds the next
-        /// id that the category should have.
+        /// Adds a new category object with a specified description and type to the category database. 
         /// </summary>
-        /// <param name="desc">The description of the category that will be added to the list.</param>
-        /// <param name="type">The type of the category that will be added to the list.</param>
+        /// <param name="category">The category object which will be added to the database.</param>
         /// <example>
         /// 
-        /// In this example, assume that the category file contains the following elements:
+        /// In this example, assume that the categories database contains the following elements:
         /// 
         /// <code>
         ///    Id    Type         Description
@@ -416,19 +410,61 @@ namespace Calendar
         ///    4     Event        Wellness Day
         /// </code>
         /// 
-        /// <b>Adding a category to the list.</b>
+        /// <b>Adding a category to the database.</b>
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
-        /// categories.ReadFromFile("category-file.cats");
+        /// Categories categories = new Categories(conn,true);
+        /// 
+        /// Category category = new Category("Birthday", Category.CategoryType.Event);
+        /// 
+        /// categories.Add(category);
+        /// 
+        /// List<Category> categories = categories.List()
+        /// ]]>
+        /// </code>
+        /// 
+        /// Sample output:
+        /// <code>
+        ///    Id    Type         Description
+        ///    1     Event        School
+        ///    2     Holiday      Canadian Holiday
+        ///    3     Event        Vacation
+        ///    4     Event        Wellness Day
+        ///    5     Event        Birthday
+        /// </code>
+        /// </example>
+        private void Add(Category category)
+        {
+            var cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${category.Description},${(int)category.Type})";
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Adds a new category with the specified description and type to the category database. 
+        /// </summary>
+        /// <param name="desc">The description of the category that will be added to the database.</param>
+        /// <param name="type">The type of the category that will be added to the database.</param>
+        /// <example>
+        /// 
+        /// In this example, assume that the categories database contains the following elements:
+        /// 
+        /// <code>
+        ///    Id    Type         Description
+        ///    1     Event        School
+        ///    2     Holiday      Canadian Holiday
+        ///    3     Event        Vacation
+        ///    4     Event        Wellness Day
+        /// </code>
+        /// 
+        /// <b>Adding a category to the database.</b>
+        /// <code>
+        /// <![CDATA[
+        /// Categories categories = new Categories(conn,true);
         /// 
         /// categories.Add("Birthday", Category.CategoryType.Event);
         /// 
-        /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
-        /// foreach (Category c in categories.List())
-        /// {
-        ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
-        /// }
+        /// List<Category> categories = categories.List()
         /// ]]>
         /// </code>
         /// 
@@ -446,21 +482,21 @@ namespace Calendar
         {
             int id = (int)type;
             var cmd = new SQLiteCommand(_connection);
-            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${desc},${type})";
+            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${desc},${id})";
+            cmd.ExecuteNonQuery();
 
-            
         }
 
         // ====================================================================
         // Delete category
         // ====================================================================
         /// <summary>
-        /// Removes the category from the list of categories with the specified id. The passed id must be the id of a category in the list.
+        /// Removes the category from the database of categories with the specified id. The passed id must be the id of a category in the database.
         /// </summary>
         /// <param name="Id">The id of the category that will be removed from the list.</param>
         /// <example>
         /// 
-        /// In this example, assume that the category file contains the following elements:
+        /// In this example, assume that the categories database contains the following elements:
         /// 
         /// <code>
         ///    Id    Type         Description
@@ -470,16 +506,17 @@ namespace Calendar
         ///    4     Event        Wellness Day
         /// </code>
         /// 
-        /// <b>Deleting a category from the list.</b>
+        /// <b>Deleting a category from the database.</b>
         /// <code>
         /// <![CDATA[
         /// Categories categories = new Categories();
-        /// categories.ReadFromFile("category-file.cats");
         /// 
         /// categories.Delete(3);
         /// 
+        /// List<Category> categories = categories.List()
+        /// 
         /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
-        /// foreach (Category c in categories.List())
+        /// foreach (Category c in copy)
         /// {
         ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
         /// }
@@ -496,11 +533,18 @@ namespace Calendar
         /// </example>
         public void Delete(int Id)
         {
-            int i = _Categories.FindIndex(x => x.Id == Id);
-            if(i != -1)
+            try
             {
-                _Categories.RemoveAt(i);
+                var cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = $"DELETE FROM categories WHERE id={Id}";
+                cmd.ExecuteNonQuery();
             }
+            catch(Exception ex)  
+            { 
+                Console.WriteLine($"Something went wrong:{ex.Message}");
+            }
+             
+
         }
 
         // ====================================================================
