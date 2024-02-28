@@ -330,7 +330,7 @@ namespace Calendar
         // set categories to default
         // ====================================================================
         /// <summary>
-        /// Sets default categories to the category list of the current instance.
+        /// Sets default categories in the category database as well as filling the CategoryTypes table to default.
         /// </summary>
         /// <example>
         /// 
