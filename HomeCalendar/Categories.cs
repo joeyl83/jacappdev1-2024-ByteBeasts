@@ -420,6 +420,12 @@ namespace Calendar
         /// categories.Add(category);
         /// 
         /// List<Category> categories = categories.List()
+        /// 
+        /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
+        /// foreach (Category c in copy)
+        /// {
+        ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
+        /// }
         /// ]]>
         /// </code>
         /// 
@@ -465,6 +471,12 @@ namespace Calendar
         /// categories.Add("Birthday", Category.CategoryType.Event);
         /// 
         /// List<Category> categories = categories.List()
+        /// 
+        /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
+        /// foreach (Category c in copy)
+        /// {
+        ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
+        /// }
         /// ]]>
         /// </code>
         /// 
