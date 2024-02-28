@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Data.SQLite;
+using System.Data.Common;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -504,6 +505,16 @@ namespace Calendar
             {
                 _Categories.RemoveAt(i);
             }
+        }
+
+        public void Update(int Id, string newDescription, int newTypeId)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
+            cmd.Parameters.AddWithValue("description", newDescription);
+            cmd.Parameters.AddWithValue("typeId", newTypeId);
+            cmd.Parameters.AddWithValue("id", Id);
+            cmd.ExecuteNonQuery();
         }
 
         // ====================================================================
