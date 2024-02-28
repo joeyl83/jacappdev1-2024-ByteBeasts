@@ -549,7 +549,7 @@ namespace Calendar
         ///    4     Event        Wellness Day
         /// </code>
         /// </example>
-        public void Update(int Id, string newDescription, int newTypeId)
+        public void UpdateProperties(int Id, string newDescription, int newTypeId)
         {
             SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
