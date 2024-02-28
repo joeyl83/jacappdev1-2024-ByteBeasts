@@ -507,6 +507,48 @@ namespace Calendar
             }
         }
 
+        /// <summary>
+        /// Updates the specified category in the database with the new passed updated values.
+        /// </summary>
+        /// <param name="Id">The Id of the category that will be updated.</param>
+        /// <param name="newDescription">The new description that will replace the old one.</param>
+        /// <param name="newTypeId">The new type Id that will replace the old one.</param>
+        /// <example>
+        /// 
+        /// In this example, assume that the category table in the database contains the following elements:
+        /// 
+        /// <code>
+        ///    Id    TypeId       Description
+        ///    1     1            School
+        ///    2     4            Canadian Holiday
+        ///    3     1            Vacation
+        ///    4     1            Wellness Day
+        /// </code>
+        /// 
+        /// <b>Updating a row in the database.</b>
+        /// <code>
+        /// <![CDATA[
+        /// Categories categories = new Categories(Database.dbConnection, false);
+        /// 
+        /// categories.Update(1, "National Holiday", 4);
+        /// 
+        /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
+        /// foreach (Category c in copy)
+        /// {
+        ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
+        /// }
+        /// ]]>
+        /// </code>
+        /// 
+        /// Sample output:
+        /// <code>
+        ///    Id    Type         Description
+        ///    1     Holiday      National Holiday
+        ///    5     Event        Birthday
+        ///    3     Event        Vacation
+        ///    4     Event        Wellness Day
+        /// </code>
+        /// </example>
         public void Update(int Id, string newDescription, int newTypeId)
         {
             SQLiteCommand cmd = new SQLiteCommand(_connection);
