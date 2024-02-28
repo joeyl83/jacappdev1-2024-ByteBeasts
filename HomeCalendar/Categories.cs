@@ -557,12 +557,12 @@ namespace Calendar
         ///    4     Event        Wellness Day
         /// </code>
         /// </example>
-        public void UpdateProperties(int Id, string newDescription, int newTypeId)
+        public void UpdateProperties(int Id, string newDescription, Category.CategoryType newType)
         {
             SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
             cmd.Parameters.AddWithValue("description", newDescription);
-            cmd.Parameters.AddWithValue("typeId", newTypeId);
+            cmd.Parameters.AddWithValue("typeId", (int)newType);
             cmd.Parameters.AddWithValue("id", Id);
             cmd.ExecuteNonQuery();
         }
