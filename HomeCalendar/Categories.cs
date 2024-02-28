@@ -569,7 +569,7 @@ namespace Calendar
 
             SQLiteCommand cmd = new SQLiteCommand(_connection);
 
-            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories;";
+            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
             SQLiteDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
