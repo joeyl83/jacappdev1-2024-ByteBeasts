@@ -452,6 +452,7 @@ namespace Calendar
             SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(${category.Description},${(int)category.Type})";
             cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         /// <summary>
@@ -505,6 +506,7 @@ namespace Calendar
             cmd.Parameters.AddWithValue("@desc", desc);
             cmd.Parameters.AddWithValue("@id", (int)type);
             cmd.ExecuteNonQuery();
+            cmd.Dispose();
 
         }
 
@@ -564,6 +566,7 @@ namespace Calendar
                 cmd.CommandText = "DELETE FROM categories WHERE Id=@id";
                 cmd.Parameters.AddWithValue("@id", Id);
                 cmd.ExecuteNonQuery();
+                cmd.Dispose();
             }
             catch(Exception ex)  
             { 
