@@ -136,7 +136,7 @@ namespace CalendarCodeTests
             List<String> columns = new List<string>() { "Id", "Description", "TypeId" };
 
             // Act
-            Database.newDatabase(path + filename);
+            Database.newDatabase(path + "\\" + filename);
 
             // Assert
             string cmd = " \".mode list\" \"pragma table_info(categories)\"";
