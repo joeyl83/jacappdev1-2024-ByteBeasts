@@ -388,6 +388,16 @@ namespace Calendar
             // ---------------------------------------------------------------
             // Add Defaults
             // ---------------------------------------------------------------
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Event')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('AllDayEvent')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Availability')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Holiday')";
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
             Add("School", Category.CategoryType.Event);
             Add("Personal", Category.CategoryType.Event);
             Add("VideoGames", Category.CategoryType.Event);
