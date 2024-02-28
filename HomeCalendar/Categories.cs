@@ -6,6 +6,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.Data.SQLite;
 using System.Data.Common;
+using System.Reflection.PortableExecutable;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -119,15 +120,15 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Gets the category with the specified ID from the stored list of categories. Used to find the category object when you only have the ID. 
-        /// If there is no category at the searched index, an exception is thrown.
+        /// Gets the category with the specified ID from the database. Used to find the category object when you only have the ID. 
+        /// If there is no category with the Id, an exception is thrown.
         /// </summary>
         /// <param name="i">The ID of the searched category.</param>
         /// <returns>The category object with the specified ID.</returns>
-        /// <exception cref="Exception">Throws when there is no category object with the specified ID in the list.</exception>
+        /// <exception cref="Exception">Throws when there is no category with the specified ID in the database.</exception>
         /// <example>
         /// 
-        /// In this example, assume that the category list of the instance contains the following elements:
+        /// In this example, assume that the category table in the database contains the following elements:
         /// 
         /// <code>
         ///    Id    Type         Description
@@ -141,8 +142,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
-        /// categories.ReadFromFile("./category-file.cats");
+        /// Categories categories = new Categories(Database.dbConnection);
         /// 
         /// Category c = categories.GetCategoryFromId(3);
         /// Console.WriteLine(c.Description);
@@ -156,12 +156,22 @@ namespace Calendar
         /// </example>
         public Category GetCategoryFromId(int i)
         {
-            Category? c = _Categories.Find(x => x.Id == i);
-            if (c == null)
+            try
             {
-                throw new Exception("Cannot find category with id " + i.ToString());
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "SELECT * FROM categories WHERE Id = @id;";
+                cmd.Parameters.AddWithValue("id", i);
+                SQLiteDataReader reader = cmd.ExecuteReader();
+
+                reader.Read();
+                Category c = new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2));
+                return c;
             }
-            return c;
+            catch(Exception ex)
+            {
+                throw new Exception("Error. Invalid Id: " + ex.Message);
+            }
+            
         }
 
         // ====================================================================
@@ -521,6 +531,7 @@ namespace Calendar
         /// <param name="Id">The Id of the category that will be updated.</param>
         /// <param name="newDescription">The new description that will replace the old one.</param>
         /// <param name="newTypeId">The new type Id that will replace the old one.</param>
+        /// <exception cref="Exception">Throws when the passed Id does not exist in the database.</exception>
         /// <example>
         /// 
         /// In this example, assume that the category table in the database contains the following elements:
@@ -559,12 +570,20 @@ namespace Calendar
         /// </example>
         public void UpdateProperties(int Id, string newDescription, Category.CategoryType newType)
         {
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-            cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
-            cmd.Parameters.AddWithValue("description", newDescription);
-            cmd.Parameters.AddWithValue("typeId", (int)newType);
-            cmd.Parameters.AddWithValue("id", Id);
-            cmd.ExecuteNonQuery();
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
+                cmd.Parameters.AddWithValue("description", newDescription);
+                cmd.Parameters.AddWithValue("typeId", (int)newType);
+                cmd.Parameters.AddWithValue("id", Id);
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error. Invalid Id: " + ex.Message);
+            }
+            
         }
 
         // ====================================================================
