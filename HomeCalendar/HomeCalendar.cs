@@ -104,38 +104,17 @@ namespace Calendar
         /// <value>Represents the list of events in the home calendar.</value>
         public Events events { get { return _events; } }
 
+
         // -------------------------------------------------------------------
-        // Constructor (new... default categories, no events)
+        // Constructor (existing or new calendar )
         // -------------------------------------------------------------------
 
         /// <summary>
-        /// Initializes a home calendar instance with default categories and no events.
+        /// Initializes a home calendar instance by reading events from XML file and categories from the database. 
         /// </summary>
-        /// <example>
-        /// 
-        /// Example to create a HomeCalendar instance:
-        /// 
-        /// <code>
-        /// <![CDATA[
-        /// HomeCalendar calendar = new HomeCalendar();
-        /// ]]>
-        /// </code>
-        /// </example>
-        public HomeCalendar()
-        {
-            _categories = new Categories();
-            _events = new Events();
-        }
-
-        // -------------------------------------------------------------------
-        // Constructor (existing calendar ... must specify file)
-        // -------------------------------------------------------------------
-
-        /// <summary>
-        /// Initializes a home calendar instance using data from files to populate the categories and events. The file must exist and the path
-        /// must be valid.
-        /// </summary>
-        /// <param name="calendarFileName">The calendar file containing the names of the category and event files.</param>
+        /// <param name="databaseFile">The database file containing the tables of data for categories and events.</param
+        /// <param name="eventsXMLFile">The events file filed with events to will be loadedi nto the calendar.</param>
+        /// <param name="newDB">Boolean value that distinguishes whether to create a new database file.</param>
         /// <example>
         /// 
         /// For this example, assume that the calendar file contains the following data:
@@ -145,13 +124,14 @@ namespace Calendar
         /// event-file.evts
         /// </code>
         /// 
-        /// We will assume that those files are populated with valid categories and events. 
+        /// We will assume that those files/database are populated with valid categories and events. 
         /// <br></br>
-        /// <b>Initializing the home calendar with the file path.</b>
+        /// <b>Initializing the home calendar.</b>
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./calendar-file.calendar");
+        /// 
+        /// HomeCalendar homeCalendar = new HomeCalendar("./databaseFile.db", "./eventFile.evts");
         /// 
         /// Console.WriteLine("Categories:")
         /// foreach (Category c in homeCalendar.categories.List())
@@ -194,12 +174,32 @@ namespace Calendar
         /// Sprint retrospective
         /// </code>
         /// </example>
-        public HomeCalendar(String calendarFileName)
+
+
+        public HomeCalendar(String databaseFile, String eventsXMLFile, bool newDB = false)
         {
-            _categories = new Categories();
+            // if database exists, and user doesn't want a new database, open existing DB
+            if (!newDB && File.Exists(databaseFile))
+            {
+                Database.existingDatabase(databaseFile);
+            }
+
+            // file did not exist, or user wants a new database, so open NEW DB
+            else
+            {
+                Database.newDatabase(databaseFile);
+                newDB = true;
+            }
+
+            // create the category object
+            _categories = new Categories(Database.dbConnection, newDB);
+
+            // create the _events course
             _events = new Events();
-            ReadFromFile(calendarFileName);
+            _events.ReadFromFile(eventsXMLFile);
         }
+
+
 
         #region OpenNewAndSave
         // ---------------------------------------------------------------

@@ -52,11 +52,13 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Initializes an instance with a default collection of categories.
+        /// Initializes a Categories instance with a connection the database or with a default collection of categories.
         /// </summary>
+        /// <param name="connection">The database connection that allows access to the database.</param>    
+        /// <param name="newDB">Boolean value that tells whether it is a new database and sets default categories.</param>    
         /// <example>
         /// 
-        /// For the example below, assume that the default categories are the following elements:
+        /// For the example below, assume that the database has the following information:
         /// 
         /// <code>
         ///    Id         Type          Description
@@ -75,7 +77,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
+        /// Categories categories = new Categories(Database.dbConnection);
         /// 
         /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
         /// foreach (Category c in categories.List())
@@ -99,10 +101,15 @@ namespace Calendar
         ///    9          Holiday       US Holidays
         /// </code>
         /// </example>
-        public Categories()
+        public Categories(SQLiteConnection connection, bool newDB = false)
         {
+            _connection = connection;
 
-            SetCategoriesToDefaults();
+            if(newDB)
+            {
+                SetCategoriesToDefaults();
+            }
+
         }
 
         // ====================================================================
