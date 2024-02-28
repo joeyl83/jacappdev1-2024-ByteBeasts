@@ -85,6 +85,8 @@ namespace Calendar
             CloseDatabaseAndReleaseFile();
 
             // your code
+            string cs = @"data source=" + filename + @";Foreign Keys=1;";
+            _connection = new SQLiteConnection(cs);
             _connection.Open();
         }
 
