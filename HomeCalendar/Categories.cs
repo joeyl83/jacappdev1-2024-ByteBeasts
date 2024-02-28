@@ -557,6 +557,10 @@ namespace Calendar
             try
             {
                 SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "DELETE FROM events WHERE CategoryId=@id";
+                cmd.Parameters.AddWithValue("@id", Id);
+                cmd.ExecuteNonQuery();
+
                 cmd.CommandText = "DELETE FROM categories WHERE Id=@id";
                 cmd.Parameters.AddWithValue("@id", Id);
                 cmd.ExecuteNonQuery();
