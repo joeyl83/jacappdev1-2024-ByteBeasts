@@ -500,11 +500,10 @@ namespace Calendar
         /// </example>
         public void Add(String desc, Category.CategoryType type)
         {
-            int id = (int)type;
             SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(@desc,@id)";
             cmd.Parameters.AddWithValue("@desc", desc);
-            cmd.Parameters.AddWithValue("@id", type);
+            cmd.Parameters.AddWithValue("@id", (int)type);
             cmd.ExecuteNonQuery();
 
         }
@@ -558,7 +557,8 @@ namespace Calendar
             try
             {
                 SQLiteCommand cmd = new SQLiteCommand(_connection);
-                cmd.CommandText = $"DELETE FROM categories WHERE Id={Id}";
+                cmd.CommandText = "DELETE FROM categories WHERE Id=@id";
+                cmd.Parameters.AddWithValue("@id", Id);
                 cmd.ExecuteNonQuery();
             }
             catch(Exception ex)  

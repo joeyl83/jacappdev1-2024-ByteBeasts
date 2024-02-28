@@ -73,6 +73,14 @@ namespace Calendar
             cmd.CommandText = @"CREATE TABLE categories(Id INTEGER PRIMARY KEY, Description TEXT, TypeId INTEGER,
                                     FOREIGN KEY (TypeId) REFERENCES categoryTypes(Id));";
             cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Event')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('AllDayEvent')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Availability')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Holiday')";
+            cmd.ExecuteNonQuery();
             cmd.Dispose();
         }
 
