@@ -4,6 +4,9 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
+using System.Data.SQLite;
+using System.Data.Common;
+using System.Reflection.PortableExecutable;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -29,6 +32,7 @@ namespace Calendar
         private List<Category> _Categories = new List<Category>();
         private string? _FileName;
         private string? _DirName;
+        private SQLiteConnection _connection;
 
         // ====================================================================
         // Properties
@@ -51,11 +55,13 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Initializes an instance with a default collection of categories.
+        /// Initializes a Categories instance with a connection the database or with a default collection of categories.
         /// </summary>
+        /// <param name="connection">The database connection that allows access to the database.</param>    
+        /// <param name="newDB">Boolean value that tells whether it is a new database and sets default categories.</param>    
         /// <example>
         /// 
-        /// For the example below, assume that the default categories are the following elements:
+        /// For the example below, assume that the database has the following information:
         /// 
         /// <code>
         ///    Id         Type          Description
@@ -74,7 +80,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
+        /// Categories categories = new Categories(Database.dbConnection);
         /// 
         /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
         /// foreach (Category c in categories.List())
@@ -98,9 +104,15 @@ namespace Calendar
         ///    9          Holiday       US Holidays
         /// </code>
         /// </example>
-        public Categories()
+        public Categories(SQLiteConnection connection, bool newDB = false)
         {
-            SetCategoriesToDefaults();
+            _connection = connection;
+
+            if(newDB)
+            {
+                SetCategoriesToDefaults();
+            }
+
         }
 
         // ====================================================================
@@ -108,15 +120,15 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Gets the category with the specified ID from the stored list of categories. Used to find the category object when you only have the ID. 
-        /// If there is no category at the searched index, an exception is thrown.
+        /// Gets the category with the specified ID from the database. Used to find the category object when you only have the ID. 
+        /// If there is no category with the Id, an exception is thrown.
         /// </summary>
         /// <param name="i">The ID of the searched category.</param>
         /// <returns>The category object with the specified ID.</returns>
-        /// <exception cref="Exception">Throws when there is no category object with the specified ID in the list.</exception>
+        /// <exception cref="Exception">Throws when there is no category with the specified ID in the database.</exception>
         /// <example>
         /// 
-        /// In this example, assume that the category list of the instance contains the following elements:
+        /// In this example, assume that the category table in the database contains the following elements:
         /// 
         /// <code>
         ///    Id    Type         Description
@@ -130,8 +142,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
-        /// categories.ReadFromFile("./category-file.cats");
+        /// Categories categories = new Categories(Database.dbConnection);
         /// 
         /// Category c = categories.GetCategoryFromId(3);
         /// Console.WriteLine(c.Description);
@@ -145,12 +156,22 @@ namespace Calendar
         /// </example>
         public Category GetCategoryFromId(int i)
         {
-            Category? c = _Categories.Find(x => x.Id == i);
-            if (c == null)
+            try
             {
-                throw new Exception("Cannot find category with id " + i.ToString());
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "SELECT * FROM categories WHERE Id = @id;";
+                cmd.Parameters.AddWithValue("id", i);
+                SQLiteDataReader reader = cmd.ExecuteReader();
+
+                reader.Read();
+                Category c = new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2));
+                return c;
             }
-            return c;
+            catch(Exception ex)
+            {
+                throw new Exception("Error. Invalid Id: " + ex.Message);
+            }
+            
         }
 
         // ====================================================================
@@ -504,6 +525,67 @@ namespace Calendar
             }
         }
 
+        /// <summary>
+        /// Updates the specified category in the database with the new passed updated values.
+        /// </summary>
+        /// <param name="Id">The Id of the category that will be updated.</param>
+        /// <param name="newDescription">The new description that will replace the old one.</param>
+        /// <param name="newTypeId">The new type Id that will replace the old one.</param>
+        /// <exception cref="Exception">Throws when the passed Id does not exist in the database.</exception>
+        /// <example>
+        /// 
+        /// In this example, assume that the category table in the database contains the following elements:
+        /// 
+        /// <code>
+        ///    Id    TypeId       Description
+        ///    1     1            School
+        ///    2     4            Canadian Holiday
+        ///    3     1            Vacation
+        ///    4     1            Wellness Day
+        /// </code>
+        /// 
+        /// <b>Updating a row in the database.</b>
+        /// <code>
+        /// <![CDATA[
+        /// Categories categories = new Categories(Database.dbConnection, false);
+        /// 
+        /// categories.Update(1, "National Holiday", 4);
+        /// 
+        /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
+        /// foreach (Category c in copy)
+        /// {
+        ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
+        /// }
+        /// ]]>
+        /// </code>
+        /// 
+        /// Sample output:
+        /// <code>
+        ///    Id    Type         Description
+        ///    1     Holiday      National Holiday
+        ///    5     Event        Birthday
+        ///    3     Event        Vacation
+        ///    4     Event        Wellness Day
+        /// </code>
+        /// </example>
+        public void UpdateProperties(int Id, string newDescription, Category.CategoryType newType)
+        {
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
+                cmd.Parameters.AddWithValue("description", newDescription);
+                cmd.Parameters.AddWithValue("typeId", (int)newType);
+                cmd.Parameters.AddWithValue("id", Id);
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error. Invalid Id: " + ex.Message);
+            }
+            
+        }
+
         // ====================================================================
         // Return list of categories
         // Note:  make new copy of list, so user cannot modify what is part of
@@ -511,26 +593,25 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Generates a copy of the category list and returns it. A copy is made so that no changes are ever made to what is a part of this instance.
+        /// Generates a list of category objects from the database and returns it.
         /// </summary>
-        /// <returns>The copy of the category list.</returns>
+        /// <returns>The category list.</returns>
         /// <example>
         /// 
-        /// In this example, assume that the category file contains the following elements:
+        /// In this example, assume that the category table in the database contains the following elements:
         /// 
         /// <code>
-        ///    Id    Type         Description
-        ///    1     Event        School
-        ///    2     Holiday      Canadian Holiday
-        ///    3     Event        Vacation
-        ///    4     Event        Wellness Day
+        ///    Id    TypeId       Description
+        ///    1     1            School
+        ///    2     4            Canadian Holiday
+        ///    3     1            Vacation
+        ///    4     1            Wellness Day
         /// </code>
         /// 
         /// <b>Getting the list of items.</b>
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
-        /// categories.ReadFromFile("category-file.cats");
+        /// Categories categories = new Categories(Database.dbConnection, false);
         /// 
         /// List<Category> copy = categories.List();
         /// 
@@ -554,10 +635,18 @@ namespace Calendar
         public List<Category> List()
         {
             List<Category> newList = new List<Category>();
-            foreach (Category category in _Categories)
+
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                newList.Add(new Category(category));
+                newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
             }
+
+            cmd.Dispose();
             return newList;
         }
 

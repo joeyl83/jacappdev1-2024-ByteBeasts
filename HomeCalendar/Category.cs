@@ -29,19 +29,19 @@ namespace Calendar
         /// Gets and sets the Id.
         /// </summary>
         /// <value>Represents the unique integer id of the category.</value>
-        public int Id { get; set; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets and sets the Description.
         /// </summary>
         /// <value>Represents the description of the category as a string.</value>
-        public String Description { get; set; }
+        public String Description { get; }
 
         /// <summary>
         /// Gets and sets the Type.
         /// </summary>
         /// <value>Represents the type of category as an enum.</value>
-        public CategoryType Type { get; set; }
+        public CategoryType Type { get; }
 
         /// <summary>
         /// Represents a set of possible category types.
