@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Data.SQLite;
+using System.Data.Common;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -566,6 +567,58 @@ namespace Calendar
 
         }
 
+        /// <summary>
+        /// Updates the specified category in the database with the new passed updated values.
+        /// </summary>
+        /// <param name="Id">The Id of the category that will be updated.</param>
+        /// <param name="newDescription">The new description that will replace the old one.</param>
+        /// <param name="newTypeId">The new type Id that will replace the old one.</param>
+        /// <example>
+        /// 
+        /// In this example, assume that the category table in the database contains the following elements:
+        /// 
+        /// <code>
+        ///    Id    TypeId       Description
+        ///    1     1            School
+        ///    2     4            Canadian Holiday
+        ///    3     1            Vacation
+        ///    4     1            Wellness Day
+        /// </code>
+        /// 
+        /// <b>Updating a row in the database.</b>
+        /// <code>
+        /// <![CDATA[
+        /// Categories categories = new Categories(Database.dbConnection, false);
+        /// 
+        /// categories.Update(1, "National Holiday", 4);
+        /// 
+        /// Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", "Id", "Type", "Description"));
+        /// foreach (Category c in copy)
+        /// {
+        ///     Console.WriteLine(string.Format("{0, -10} {1,-10} {2,-10}", c.Id, c.Type, c.Description));
+        /// }
+        /// ]]>
+        /// </code>
+        /// 
+        /// Sample output:
+        /// <code>
+        ///    Id    Type         Description
+        ///    1     Holiday      National Holiday
+        ///    5     Event        Birthday
+        ///    3     Event        Vacation
+        ///    4     Event        Wellness Day
+        /// </code>
+        /// </example>
+        public void UpdateProperties(int Id, string newDescription, Category.CategoryType newType)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = "UPDATE categories set Description = @description, TypeId = @typeId WHERE Id = @id;";
+            cmd.Parameters.AddWithValue("description", newDescription);
+            cmd.Parameters.AddWithValue("typeId", (int)newType);
+            cmd.Parameters.AddWithValue("id", Id);
+            cmd.ExecuteNonQuery();
+        }
+
         // ====================================================================
         // Return list of categories
         // Note:  make new copy of list, so user cannot modify what is part of
@@ -573,26 +626,25 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Generates a copy of the category list and returns it. A copy is made so that no changes are ever made to what is a part of this instance.
+        /// Generates a list of category objects from the database and returns it.
         /// </summary>
-        /// <returns>The copy of the category list.</returns>
+        /// <returns>The category list.</returns>
         /// <example>
         /// 
-        /// In this example, assume that the category file contains the following elements:
+        /// In this example, assume that the category table in the database contains the following elements:
         /// 
         /// <code>
-        ///    Id    Type         Description
-        ///    1     Event        School
-        ///    2     Holiday      Canadian Holiday
-        ///    3     Event        Vacation
-        ///    4     Event        Wellness Day
+        ///    Id    TypeId       Description
+        ///    1     1            School
+        ///    2     4            Canadian Holiday
+        ///    3     1            Vacation
+        ///    4     1            Wellness Day
         /// </code>
         /// 
         /// <b>Getting the list of items.</b>
         /// <code>
         /// <![CDATA[
-        /// Categories categories = new Categories();
-        /// categories.ReadFromFile("category-file.cats");
+        /// Categories categories = new Categories(Database.dbConnection, false);
         /// 
         /// List<Category> copy = categories.List();
         /// 
@@ -616,10 +668,18 @@ namespace Calendar
         public List<Category> List()
         {
             List<Category> newList = new List<Category>();
-            foreach (Category category in _Categories)
+
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                newList.Add(new Category(category));
+                newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
             }
+
+            cmd.Dispose();
             return newList;
         }
 
