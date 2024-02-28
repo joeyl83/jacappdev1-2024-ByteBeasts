@@ -41,7 +41,7 @@ namespace Calendar
         // ===================================================================
         public static void newDatabase(string filename)
         {
-
+          
             // If there was a database open before, close it and release the lock
             CloseDatabaseAndReleaseFile();
 
@@ -73,6 +73,7 @@ namespace Calendar
             cmd.CommandText = @"CREATE TABLE categories(Id INTEGER PRIMARY KEY, Description TEXT, TypeId INTEGER,
                                     FOREIGN KEY (TypeId) REFERENCES categoryTypes(Id));";
             cmd.ExecuteNonQuery();
+            
             cmd.Dispose();
         }
 
@@ -81,7 +82,7 @@ namespace Calendar
        // ===================================================================
        public static void existingDatabase(string filename)
         {
-
+            
             CloseDatabaseAndReleaseFile();
 
             // your code
