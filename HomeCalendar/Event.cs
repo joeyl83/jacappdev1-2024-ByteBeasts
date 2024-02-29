@@ -42,19 +42,19 @@ namespace Calendar
         /// Gets the DurationInMinutes.
         /// </summary>
         /// <value>Represents the amount of minutes of the event.</value>
-        public Double DurationInMinutes { get; }
+        public Double DurationInMinutes { get; set; }
 
         /// <summary>
         /// Gets the Details.
         /// </summary>
         /// <value>Represents the details of the event as a string.</value>
-        public String Details { get; }
+        public String Details { get; set; }
 
         /// <summary>
         /// Gets the Category.
         /// </summary>
         /// <value>Represents the category id that belongs to a category object.</value>
-        public int Category { get; }
+        public int Category { get; set; }
 
         // ====================================================================
         // Constructor
