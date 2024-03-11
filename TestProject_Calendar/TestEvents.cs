@@ -43,7 +43,28 @@ namespace CalendarCodeTests
 
         }
         [Fact]
-       
+        public void EventsMethod_Delete()
+        {
+            // Arrange
+            String folder = TestConstants.GetSolutionDir();
+            String goodDB = $"{folder}\\{TestConstants.testDBInputFile}";
+            String messyDB = $"{folder}\\messy.db";
+            System.IO.File.Copy(goodDB, messyDB, true);
+            Database.existingDatabase(messyDB);
+            SQLiteConnection conn = Database.dbConnection;
+            Events events = new Events(conn, false);
+            int IdToDelete = 3;
+
+            // Act
+            events.Delete(IdToDelete);
+            List<Event> eventsList = events.List();
+            int sizeOfList = eventsList.Count;
+
+            // Assert
+            Assert.Equal(numberOfEventsInFile - 1, sizeOfList);
+            Assert.False(eventsList.Exists(e => e.Id == IdToDelete), "correct Event item deleted");
+
+        }
         //[Fact]
         //public void EventsObject_New()
         //{
