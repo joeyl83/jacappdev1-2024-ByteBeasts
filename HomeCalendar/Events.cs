@@ -417,10 +417,18 @@ namespace Calendar
         public List<Event> List()
         {
             List<Event> newList = new List<Event>();
-            foreach (Event Event in _Events)
+
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+            cmd.CommandText = "SELECT Id, StartDateTime, Details, DurationInMinutes, CategoryId FROM events ORDER BY Id;";
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                newList.Add(new Event(Event));
+                newList.Add(new Event(reader.GetInt32(0), DateTime.Parse(reader.GetString(1)), reader.GetInt32(3), reader.GetInt32(4), reader.GetString(2)));
             }
+
+            cmd.Dispose();
             return newList;
         }
 
