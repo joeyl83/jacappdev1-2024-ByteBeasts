@@ -417,7 +417,7 @@ namespace Calendar
 
             while (reader.Read())
             {
-                newList.Add(new Event(reader.GetInt32(0), DateTime.Parse(reader.GetString(1)), reader.GetInt32(3), reader.GetInt32(4), reader.GetString(2));
+                newList.Add(new Event(reader.GetInt32(0), DateTime.Parse(reader.GetString(1)), reader.GetInt32(3), reader.GetInt32(4), reader.GetString(2)));
             }
 
             cmd.Dispose();
