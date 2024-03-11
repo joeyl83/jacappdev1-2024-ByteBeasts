@@ -158,7 +158,7 @@ namespace Calendar
             try
             {
                 SQLiteCommand cmd = new SQLiteCommand(_connection);
-                cmd.CommandText = "SELECT * FROM categories WHERE Id = @id;";
+                cmd.CommandText = "SELECT Id, Description, TypeId FROM categories WHERE Id = @id;";
                 cmd.Parameters.AddWithValue("id", i);
                 SQLiteDataReader reader = cmd.ExecuteReader();
 
@@ -531,7 +531,6 @@ namespace Calendar
             cmd.Parameters.AddWithValue("@id", (int)type);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
-
         }
 
         // ====================================================================
