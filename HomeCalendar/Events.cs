@@ -367,6 +367,17 @@ namespace Calendar
             }
         }
 
+
+
+
+
+
+        public void Update(int  Id, DateTime? date, int? category, Double? duration, String? details)
+        {
+
+        }
+
+
         // ====================================================================
         // Return list of Events
         // Note:  make new copy of list, so user cannot modify what is part of
