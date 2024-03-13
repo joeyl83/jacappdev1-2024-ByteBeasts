@@ -370,11 +370,25 @@ namespace Calendar
 
 
 
-
-
-        public void Update(int  Id, DateTime? date, int? category, Double? duration, String? details)
+        public void Update(int  Id, DateTime date, int category, Double duration, String details)
         {
+            try
+            {
+                
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "UPDATE events SET events WHERE Id=@id";
+                cmd.Parameters.AddWithValue("@id", Id);
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@category", category);
+                cmd.Parameters.AddWithValue("@duration", duration);
+                cmd.Parameters.AddWithValue("@details", details);
+                cmd.ExecuteNonQuery();
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong: {ex.Message}");
+            }
         }
 
 
