@@ -3,6 +3,7 @@ using Xunit;
 using System.IO;
 using System.Collections.Generic;
 using Calendar;
+using System.Data.SQLite;
 
 namespace CalendarCodeTests
 {
@@ -80,12 +81,14 @@ namespace CalendarCodeTests
         public void EventsMethod_List_ReturnsListOfEvents()
         {
             // Arrange
-            String dir = TestConstants.GetSolutionDir();
-            Events Events = new Events();
-            Events.ReadFromFile(dir + "\\" + testInputFile);
+            String folder = TestConstants.GetSolutionDir();
+            String newDB = $"{folder}\\{TestConstants.testDBInputFile}";
+            Database.existingDatabase(newDB);
+            SQLiteConnection conn = Database.dbConnection;
+            Events events = new Events(conn, false);
 
             // Act
-            List<Event> list = Events.List();
+            List<Event> list = events.List();
 
             // Assert
             Assert.Equal(numberOfEventsInFile, list.Count);
