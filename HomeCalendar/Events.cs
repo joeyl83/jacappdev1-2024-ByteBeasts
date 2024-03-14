@@ -372,12 +372,16 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Updates an event from the list of events with the specified id. 
+        /// Updates the event from the database events table with the specified id. The passed id must be valid.
         /// </summary>
-        /// <param name="Id">The id of the event that will be removed from the list.</param>
+        /// <param name="Id">The id of the event that will be updated from the database.</param>
+        /// <param name="date">The object representing the new start date/time for the event.</param>
+        /// <param name="category">The new category for the event.</param>
+        /// <param name="duration">The new duration in minutes for the event.</param>
+        /// <param name="details">The new details for the event.</param>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the events table contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -387,13 +391,17 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// 
-        /// <b>Updating an event(1) from the list.</b>
+        /// <b>Updating an event from the database.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(database.db);
+        /// DateTime newDate = DateTime.Today;
+        /// int newCat = 1;
+        /// Double newDuration = 2;
+        /// String newDetails = "New Event details!";
+        /// int id = 1;
         /// 
-        /// categories.Delete(3);
+        /// events.Update(id, newDate, newCat, newDuration, newDetails);
         /// 
         /// Console.WriteLine(string.Format("{0, -2} {1,-25} {2,-10} {3,-10} {4,-10}", "Id", "Start date/time", "Category", "Duration", "Details"));
         /// foreach (Event e in events.List())
@@ -406,8 +414,9 @@ namespace Calendar
         /// Sample output:
         /// <code>
         /// Id Start date/time           Category   Duration   Details
-        /// 1  2018-01-10 10:00:00 AM    3          40         App Dev Homework
+        /// 1  2024-01-10 10:00:00 AM    1          2          New Event details!
         /// 2  2020-01-09 12:00:00 AM    9          1440       Honolulu
+        /// 3  2020-01-10 12:00:00 AM    9          1440       Honolulu
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// </example>
