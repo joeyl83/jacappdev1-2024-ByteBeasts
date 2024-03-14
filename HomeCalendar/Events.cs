@@ -369,7 +369,50 @@ namespace Calendar
 
 
 
+        // ====================================================================
+        // Update Event
+        // ====================================================================
 
+        /// <summary>
+        /// Updates an event from the list of events with the specified id. 
+        /// </summary>
+        /// <param name="Id">The id of the event that will be removed from the list.</param>
+        /// <example>
+        /// 
+        /// In this example, assume that the event file contains the following elements:
+        /// 
+        /// <code>
+        /// Id Start date/time           Category   Duration   Details
+        /// 1  2018-01-10 10:00:00 AM    3          40         App Dev Homework
+        /// 2  2020-01-09 12:00:00 AM    9          1440       Honolulu
+        /// 3  2020-01-10 12:00:00 AM    9          1440       Honolulu
+        /// 4  2020-01-20 11:00:00 AM    7          180        On call security
+        /// </code>
+        /// 
+        /// <b>Updating an event(1) from the list.</b>
+        /// <code>
+        /// <![CDATA[
+        /// Events events = new Events();
+        /// events.ReadFromFile("./event-file.evts");
+        /// 
+        /// categories.Delete(3);
+        /// 
+        /// Console.WriteLine(string.Format("{0, -2} {1,-25} {2,-10} {3,-10} {4,-10}", "Id", "Start date/time", "Category", "Duration", "Details"));
+        /// foreach (Event e in events.List())
+        /// {
+        ///     Console.WriteLine(string.Format("{0, -2} {1,-25} {2,-10} {3,-10} {4,-10}", e.Id, e.StartDateTime, e.Category, e.DurationInMinutes, e.Details));
+        /// }
+        /// ]]>
+        /// </code>
+        /// 
+        /// Sample output:
+        /// <code>
+        /// Id Start date/time           Category   Duration   Details
+        /// 1  2018-01-10 10:00:00 AM    3          40         App Dev Homework
+        /// 2  2020-01-09 12:00:00 AM    9          1440       Honolulu
+        /// 4  2020-01-20 11:00:00 AM    7          180        On call security
+        /// </code>
+        /// </example>
         public void Update(int  Id, DateTime date, int category, Double duration, String details)
         {
             try

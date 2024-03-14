@@ -38,8 +38,11 @@ namespace CalendarCodeTests
             events.Add(date, category, duration, details);
             List<Event> eventsList = events.List();
             int sizeOfList = events.List().Count;
+            //Event theEvent = eventsList[10];
+
 
             // Assert
+            //Assert.Equal(theEvent.Id, 1);
             Assert.Equal(numberOfEventsInFile + 1, sizeOfList);
             Assert.Equal(details, eventsList[sizeOfList - 1].Details);
 
