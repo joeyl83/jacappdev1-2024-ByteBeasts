@@ -374,12 +374,12 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Generates a copy of the event list and returns it. A copy is made so that no changes are ever made to what is a part of this instance.
+        /// Generates a list of all stored events. The list is sorted by Id.
         /// </summary>
-        /// <returns>The copy of the event list.</returns>
+        /// <returns>The list of all stored events.</returns>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the event table in the database contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -392,8 +392,7 @@ namespace Calendar
         /// <b>Getting the list of items.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(Database.dbConnection, false);
         /// 
         /// List<Event> copy = events.List();
         /// 
