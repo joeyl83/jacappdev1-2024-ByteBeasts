@@ -7,6 +7,9 @@ using System.IO;
 using System.Xml;
 using System.Collections;
 using System.Drawing;
+using System.Data.Common;
+using System.Data.SQLite;
+using System.Data.SqlClient;
 
 // ============================================================================
 // (c) Sandy Bultena 2018
@@ -26,13 +29,14 @@ namespace Calendar
     /// Manages a collection of event items. Reads and writes to files storing the events. Initialized with default values in the constructor, 
     /// but also from files with data containing various events when using the ReadFromFile method.
     /// </summary>
+  
     public class Events
     {
         private static String DefaultFileName = "calendar.txt";
         private List<Event> _Events = new List<Event>();
         private string _FileName;
         private string _DirName;
-
+        private SQLiteConnection _connection;
         // ====================================================================
         // Properties
         // ====================================================================
@@ -49,6 +53,10 @@ namespace Calendar
         /// <value>Represents the directory name where the file containing the events data in xml form is located.</value>
         public String DirName { get { return _DirName; } }
 
+        public Events(SQLiteConnection connection, bool newDB = false)
+        {
+            _connection = connection;
+        }
         // ====================================================================
         // populate categories from a file
         // if filepath is not specified, read/save in AppData file
@@ -243,8 +251,7 @@ namespace Calendar
         }
 
         /// <summary>
-        /// Adds a new event with the specified values to the event list of the current instance. Automatically finds the next
-        /// id that the event should have.
+        /// Adds a new event with the specified values to the database's event table.
         /// </summary>
         /// <param name="date">The object representing the start date/time of the added event.</param>
         /// <param name="category">The category of the added event.</param>
@@ -252,7 +259,7 @@ namespace Calendar
         /// <param name="details">The details of the added event.</param>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the event database contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -262,11 +269,10 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// 
-        /// <b>Adding a event to the list.</b>
+        /// <b>Adding a event to the database.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(database.db);
         /// 
         /// events.Add(new DateTime(2024, 02, 06, 19, 50, 32), 5, 60, "History Exam";
         /// 
@@ -290,16 +296,14 @@ namespace Calendar
         /// </example>
         public void Add(DateTime date, int category, Double duration, String details)
         {
-            int new_id = 1;
-
-            // if we already have Events, set ID to max
-            if (_Events.Count > 0)
-            {
-                new_id = (from e in _Events select e.Id).Max();
-                new_id++;
-            }
-
-            _Events.Add(new Event(new_id, date, category, duration, details));
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+            cmd.CommandText = $"INSERT INTO events(StartDateTime,Details,DurationInMinutes,CategoryId) VALUES(@startdate,@details,@duration,@categoryId)";
+            cmd.Parameters.AddWithValue("@startdate", date.ToString());
+            cmd.Parameters.AddWithValue("@details", details);
+            cmd.Parameters.AddWithValue("@duration", duration);
+            cmd.Parameters.AddWithValue("@categoryId", category );
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
 
         }
 
@@ -308,12 +312,12 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Removes the event from the list of events with the specified id. The passed id must be the id of a category in the list.
+        /// Removes the event from the database events table with the specified id. The passed id must be valid.
         /// </summary>
-        /// <param name="Id">The id of the event that will be removed from the list.</param>
+        /// <param name="Id">The id of the event that will be removed from the database.</param>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the events table contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -323,13 +327,12 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// 
-        /// <b>Deleting an event from the list.</b>
+        /// <b>Deleting an event from the database.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(database.db);
         /// 
-        /// categories.Delete(3);
+        /// events.Delete(3);
         /// 
         /// Console.WriteLine(string.Format("{0, -2} {1,-25} {2,-10} {3,-10} {4,-10}", "Id", "Start date/time", "Category", "Duration", "Details"));
         /// foreach (Event e in events.List())
@@ -349,10 +352,16 @@ namespace Calendar
         /// </example>
         public void Delete(int Id)
         {
-            int i = _Events.FindIndex(x => x.Id == Id);
-            if(i != -1)
+            try
             {
-                _Events.RemoveAt(i);
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = "DELETE FROM events WHERE Id=@id";
+                cmd.Parameters.AddWithValue("@id", Id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong:{ex.Message}");
             }
         }
 
@@ -363,12 +372,12 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Generates a copy of the event list and returns it. A copy is made so that no changes are ever made to what is a part of this instance.
+        /// Generates a list of all stored events. The list is sorted by Id.
         /// </summary>
-        /// <returns>The copy of the event list.</returns>
+        /// <returns>The list of all stored events.</returns>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the event table in the database contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -381,8 +390,7 @@ namespace Calendar
         /// <b>Getting the list of items.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(Database.dbConnection, false);
         /// 
         /// List<Event> copy = events.List();
         /// 
@@ -406,10 +414,18 @@ namespace Calendar
         public List<Event> List()
         {
             List<Event> newList = new List<Event>();
-            foreach (Event Event in _Events)
+
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+            cmd.CommandText = "SELECT Id, StartDateTime, Details, DurationInMinutes, CategoryId FROM events ORDER BY Id;";
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                newList.Add(new Event(Event));
+                newList.Add(new Event(reader.GetInt32(0), DateTime.Parse(reader.GetString(1)), reader.GetInt32(4), reader.GetDouble(3), reader.GetString(2)));
             }
+
+            cmd.Dispose();
             return newList;
         }
 

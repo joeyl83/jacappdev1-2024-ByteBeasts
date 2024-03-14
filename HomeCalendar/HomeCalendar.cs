@@ -195,7 +195,7 @@ namespace Calendar
             _categories = new Categories(Database.dbConnection, newDB);
 
             // create the _events course
-            _events = new Events();
+            _events = new Events(Database.dbConnection, newDB);
             _events.ReadFromFile(eventsXMLFile);
         }
 
