@@ -73,7 +73,7 @@ namespace Calendar
             cmd.CommandText = @"CREATE TABLE categories(Id INTEGER PRIMARY KEY, Description TEXT, TypeId INTEGER,
                                     FOREIGN KEY (TypeId) REFERENCES categoryTypes(Id));";
             cmd.ExecuteNonQuery();
-            
+
             cmd.Dispose();
         }
 
