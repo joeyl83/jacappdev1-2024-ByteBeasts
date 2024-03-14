@@ -251,8 +251,7 @@ namespace Calendar
         }
 
         /// <summary>
-        /// Adds a new event with the specified values to the event list of the current instance. Automatically finds the next
-        /// id that the event should have.
+        /// Adds a new event with the specified values to the database's event table.
         /// </summary>
         /// <param name="date">The object representing the start date/time of the added event.</param>
         /// <param name="category">The category of the added event.</param>
@@ -260,7 +259,7 @@ namespace Calendar
         /// <param name="details">The details of the added event.</param>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the event database contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -270,11 +269,10 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// 
-        /// <b>Adding a event to the list.</b>
+        /// <b>Adding a event to the database.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(database.db);
         /// 
         /// events.Add(new DateTime(2024, 02, 06, 19, 50, 32), 5, 60, "History Exam";
         /// 
@@ -314,12 +312,12 @@ namespace Calendar
         // ====================================================================
 
         /// <summary>
-        /// Removes the event from the list of events with the specified id. The passed id must be the id of a category in the list.
+        /// Removes the event from the database events table with the specified id. The passed id must be valid.
         /// </summary>
-        /// <param name="Id">The id of the event that will be removed from the list.</param>
+        /// <param name="Id">The id of the event that will be removed from the database.</param>
         /// <example>
         /// 
-        /// In this example, assume that the event file contains the following elements:
+        /// In this example, assume that the events table contains the following elements:
         /// 
         /// <code>
         /// Id Start date/time           Category   Duration   Details
@@ -329,13 +327,12 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// 
-        /// <b>Deleting an event from the list.</b>
+        /// <b>Deleting an event from the database.</b>
         /// <code>
         /// <![CDATA[
-        /// Events events = new Events();
-        /// events.ReadFromFile("./event-file.evts");
+        /// Events events = new Events(database.db);
         /// 
-        /// categories.Delete(3);
+        /// events.Delete(3);
         /// 
         /// Console.WriteLine(string.Format("{0, -2} {1,-25} {2,-10} {3,-10} {4,-10}", "Id", "Start date/time", "Category", "Duration", "Details"));
         /// foreach (Event e in events.List())
