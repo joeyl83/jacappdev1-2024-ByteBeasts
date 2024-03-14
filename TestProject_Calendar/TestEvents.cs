@@ -8,6 +8,7 @@ using System.Diagnostics.Tracing;
 
 namespace CalendarCodeTests
 {
+    [Collection("Sequential")]
     public class TestEvents
     {
         int numberOfEventsInFile = TestConstants.numberOfEventsInFile;
@@ -72,8 +73,10 @@ namespace CalendarCodeTests
         {
             // Arrange
             String folder = TestConstants.GetSolutionDir();
-            String newDB = $"{folder}\\newDB.db";
-            Database.newDatabase(newDB);
+            String goodDB = $"{folder}\\{TestConstants.testDBInputFile}";
+            String messyDB = $"{folder}\\messy.db";
+            System.IO.File.Copy(goodDB, messyDB, true);
+            Database.existingDatabase(messyDB);
             SQLiteConnection conn = Database.dbConnection;
             Events events = new Events(conn, true);
             DateTime newDate = DateTime.Today;
@@ -85,7 +88,7 @@ namespace CalendarCodeTests
             // Act
             events.Update(id, newDate, newCat, newDuration, newDetails);
             List<Event> eventList = events.List();
-            Event theEvent = eventList[id];
+            Event theEvent = eventList[id - 1];
 
 
             // Assert 

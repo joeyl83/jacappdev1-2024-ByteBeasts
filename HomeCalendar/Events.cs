@@ -376,12 +376,12 @@ namespace Calendar
             {
                 
                 SQLiteCommand cmd = new SQLiteCommand(_connection);
-                cmd.CommandText = "UPDATE events SET events WHERE Id=@id";
-                cmd.Parameters.AddWithValue("@id", Id);
+                cmd.CommandText = "UPDATE events SET StartDateTime = @date, DurationInMinutes = @duration, Details = @details, CategoryId = @category WHERE Id=@id";
                 cmd.Parameters.AddWithValue("@date", date);
-                cmd.Parameters.AddWithValue("@category", category);
                 cmd.Parameters.AddWithValue("@duration", duration);
                 cmd.Parameters.AddWithValue("@details", details);
+                cmd.Parameters.AddWithValue("@category", category);
+                cmd.Parameters.AddWithValue("@id", Id);
                 cmd.ExecuteNonQuery();
 
             }
