@@ -29,6 +29,7 @@ namespace Calendar
     /// Manages a collection of event items. Reads and writes to files storing the events. Initialized with default values in the constructor, 
     /// but also from files with data containing various events when using the ReadFromFile method.
     /// </summary>
+  
     public class Events
     {
         private static String DefaultFileName = "calendar.txt";
@@ -299,7 +300,7 @@ namespace Calendar
         {
             SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText = $"INSERT INTO events(StartDateTime,Details,DurationInMinutes,CategoryId) VALUES(@startdate,@details,@duration,@categoryId)";
-            cmd.Parameters.AddWithValue("@startdate", date);
+            cmd.Parameters.AddWithValue("@startdate", date.ToString());
             cmd.Parameters.AddWithValue("@details", details);
             cmd.Parameters.AddWithValue("@duration", duration);
             cmd.Parameters.AddWithValue("@categoryId", category );

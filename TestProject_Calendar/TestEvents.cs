@@ -7,6 +7,7 @@ using System.Data.SQLite;
 
 namespace CalendarCodeTests
 {
+    [Collection("Sequential")]
     public class TestEvents
     {
         int numberOfEventsInFile = TestConstants.numberOfEventsInFile;
@@ -35,12 +36,12 @@ namespace CalendarCodeTests
             // Act
             events.Add(date, category, duration, details);
             List<Event> eventsList = events.List();
-            int sizeOfList = events.List().Count;
-
+            int sizeOfList = eventsList.Count;
+            events.Delete(10);
+            
             // Assert
             Assert.Equal(numberOfEventsInFile + 1, sizeOfList);
             Assert.Equal(details, eventsList[sizeOfList - 1].Details);
-
         }
         [Fact]
         public void EventsMethod_Delete()
@@ -103,7 +104,7 @@ namespace CalendarCodeTests
 
             // Act
             List<Event> list = events.List();
-
+        }
             //// ========================================================================
 
             //[Fact]
@@ -334,7 +335,7 @@ namespace CalendarCodeTests
             //    }
 
             //}
-        }
+        
     }
 }
 
