@@ -66,6 +66,33 @@ namespace CalendarCodeTests
             Assert.False(eventsList.Exists(e => e.Id == IdToDelete), "correct Event item deleted");
 
         }
+        [Fact]
+        public void EventsMethod_Delete_InvalidIDDoesntCrash()
+        {
+            // Arrange
+            String folder = TestConstants.GetSolutionDir();
+            String goodDB = $"{folder}\\{TestConstants.testDBInputFile}";
+            String messyDB = $"{folder}\\messyDB";
+            System.IO.File.Copy(goodDB, messyDB, true);
+            Database.existingDatabase(messyDB);
+            SQLiteConnection conn = Database.dbConnection;
+            Events events = new Events(conn, false);
+            int IdToDelete = 9999;
+            int sizeOfList = events.List().Count;
+
+            // Act
+            try
+            {
+                events.Delete(IdToDelete);
+                Assert.Equal(sizeOfList, events.List().Count);
+            }
+
+            // Assert
+            catch
+            {
+                Assert.True(false, "Invalid ID causes Delete to break");
+            }
+        }
         //[Fact]
         //public void EventsObject_New()
         //{
