@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using Calendar;
 using System.Data.SQLite;
+using System.Diagnostics.Tracing;
 
 namespace CalendarCodeTests
 {
@@ -40,6 +41,7 @@ namespace CalendarCodeTests
             events.Delete(10);
             
             // Assert
+            //Assert.Equal(theEvent.Id, 1);
             Assert.Equal(numberOfEventsInFile + 1, sizeOfList);
             Assert.Equal(details, eventsList[sizeOfList - 1].Details);
         }
@@ -65,6 +67,36 @@ namespace CalendarCodeTests
             Assert.Equal(numberOfEventsInFile - 1, sizeOfList);
             Assert.False(eventsList.Exists(e => e.Id == IdToDelete), "correct Event item deleted");
 
+        }
+
+        [Fact]
+        public void EventsMethod_Update()
+        {
+            // Arrange
+            String folder = TestConstants.GetSolutionDir();
+            String goodDB = $"{folder}\\{TestConstants.testDBInputFile}";
+            String messyDB = $"{folder}\\messy.db";
+            System.IO.File.Copy(goodDB, messyDB, true);
+            Database.existingDatabase(messyDB);
+            SQLiteConnection conn = Database.dbConnection;
+            Events events = new Events(conn, true);
+            DateTime newDate = DateTime.Today;
+            int newCat = 1;
+            Double newDuration = 2;
+            String newDetails = "New Event details!";
+            int id = 1;
+
+            // Act
+            events.Update(id, newDate, newCat, newDuration, newDetails);
+            List<Event> eventList = events.List();
+            Event theEvent = eventList[id - 1];
+
+
+            // Assert 
+            Assert.Equal(newDate, theEvent.StartDateTime);
+            Assert.Equal(newCat, theEvent.Category);
+            Assert.Equal(newDuration, theEvent.DurationInMinutes);
+            Assert.Equal(newDetails, theEvent.Details);
         }
         [Fact]
         public void EventsMethod_Delete_InvalidIDDoesntCrash()
@@ -98,28 +130,28 @@ namespace CalendarCodeTests
         //{
         //    // Arrange
 
-        //    // Act
-        //    Events Events = new Events();
+            //    // Act
+            //    Events Events = new Events();
 
-        //    // Assert 
-        //    Assert.IsType<Events>(Events);
+            //    // Assert 
+            //    Assert.IsType<Events>(Events);
 
-        //    Assert.True(typeof(Events).GetProperty("FileName").CanWrite == false);
-        //    Assert.True(typeof(Events).GetProperty("DirName").CanWrite == false);
+            //    Assert.True(typeof(Events).GetProperty("FileName").CanWrite == false);
+            //    Assert.True(typeof(Events).GetProperty("DirName").CanWrite == false);
 
-        //}
+            //}
 
 
-        //// ========================================================================
+            //// ========================================================================
 
-        //[Fact]
-        //public void EventsMethod_ReadFromFile_NotExist_ThrowsException()
-        //{
-        //    // Arrange
-        //    String badFile = "abc.txt";
-        //    Events Events = new Events();
+            //[Fact]
+            //public void EventsMethod_ReadFromFile_NotExist_ThrowsException()
+            //{
+            //    // Arrange
+            //    String badFile = "abc.txt";
+            //    Events Events = new Events();
 
-        [Fact]
+            [Fact]
         public void EventsMethod_List_ReturnsListOfEvents()
         {
             // Arrange
