@@ -12,7 +12,6 @@ namespace CalendarCodeTests
     public class TestEvents
     {
         int numberOfEventsInFile = TestConstants.numberOfEventsInFile;
-        String testInputFile = TestConstants.testEventsInputFile;
         int maxIDInEventFile = TestConstants.maxIDInEventFile;
         Event firstEventInFile = new Event(1, new DateTime(2021, 1, 10), 3, 40, "App Dev Homework");
 
