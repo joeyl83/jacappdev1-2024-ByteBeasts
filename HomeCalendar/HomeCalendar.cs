@@ -1014,23 +1014,27 @@ namespace Calendar
             var summary = new List<CalendarItemsByCategory>();
             foreach (var CategoryGroup in newList)
             {
-                List<CalendarItem> filteredItems = GetCalendarItems(Start, End, FilterFlag,CategoryGroup.Id);
-                // calculate totalBusyTime for this category, and create list of items
-                double total = 0;
-                var items = new List<CalendarItem>();
-                foreach (var item in filteredItems)
+                List<CalendarItem> filteredItems = GetCalendarItems(Start, End, true,CategoryGroup.Id);
+                if( filteredItems.Count != 0)
                 {
-                    total = total + item.DurationInMinutes;
-                    items.Add(item);
-                }
+                    // calculate totalBusyTime for this category, and create list of items
+                    double total = 0;
+                    var items = new List<CalendarItem>();
+                    foreach (var item in filteredItems)
+                    {
+                        total = total + item.DurationInMinutes;
+                        items.Add(item);
+                    }
 
-                // Add new CalendarItemsByCategory to our list
-                summary.Add(new CalendarItemsByCategory
-                {
-                    Category = CategoryGroup.Description,
-                    Items = items,
-                    TotalBusyTime = total
-                });
+                    // Add new CalendarItemsByCategory to our list
+                    summary.Add(new CalendarItemsByCategory
+                    {
+                        Category = CategoryGroup.Description,
+                        Items = items,
+                        TotalBusyTime = total
+                    });
+                }
+                
             }
 
             return summary;
