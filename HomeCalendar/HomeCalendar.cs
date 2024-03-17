@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -980,23 +982,43 @@ namespace Calendar
             // -----------------------------------------------------------------------
             // get all items first
             // -----------------------------------------------------------------------
-            List<CalendarItem> filteredItems = GetCalendarItems(Start, End, FilterFlag, CategoryID);
 
+
+            List<Category> newList = new List<Category>();
+
+            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
+
+            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
+
+            if (FilterFlag)
+            {
+                cmd.CommandText = "SELECT Id, Description, TypeId FROM categories WHERE Id=@CatId ORDER BY Id;";
+                cmd.Parameters.AddWithValue("CatId", CategoryID);
+            }
+        
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
+            }
+
+            cmd.Dispose();
             // -----------------------------------------------------------------------
             // Group by Category
             // -----------------------------------------------------------------------
-            var GroupedByCategory = filteredItems.GroupBy(c => c.Category);
 
             // -----------------------------------------------------------------------
             // create new list
             // -----------------------------------------------------------------------
             var summary = new List<CalendarItemsByCategory>();
-            foreach (var CategoryGroup in GroupedByCategory.OrderBy(g => g.Key))
+            foreach (var CategoryGroup in newList)
             {
+                List<CalendarItem> filteredItems = GetCalendarItems(Start, End, FilterFlag,CategoryGroup.Id);
                 // calculate totalBusyTime for this category, and create list of items
                 double total = 0;
                 var items = new List<CalendarItem>();
-                foreach (var item in CategoryGroup)
+                foreach (var item in filteredItems)
                 {
                     total = total + item.DurationInMinutes;
                     items.Add(item);
@@ -1005,7 +1027,7 @@ namespace Calendar
                 // Add new CalendarItemsByCategory to our list
                 summary.Add(new CalendarItemsByCategory
                 {
-                    Category = CategoryGroup.Key,
+                    Category = CategoryGroup.Description,
                     Items = items,
                     TotalBusyTime = total
                 });
