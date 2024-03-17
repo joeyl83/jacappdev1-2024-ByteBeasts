@@ -138,7 +138,7 @@ namespace Calendar
         /// </example>
 
 
-        public HomeCalendar(String databaseFile, String eventsXMLFile, bool newDB = false)
+        public HomeCalendar(String databaseFile, bool newDB = false)
         {
             // if database exists, and user doesn't want a new database, open existing DB
             if (!newDB && File.Exists(databaseFile))
