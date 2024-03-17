@@ -988,11 +988,11 @@ namespace Calendar
 
             SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
 
-            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
+            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Description;";
 
             if (FilterFlag)
             {
-                cmd.CommandText = "SELECT Id, Description, TypeId FROM categories WHERE Id=@CatId ORDER BY Id;";
+                cmd.CommandText = "SELECT Id, Description, TypeId FROM categories WHERE Id=@CatId ORDER BY Description;";
                 cmd.Parameters.AddWithValue("CatId", CategoryID);
             }
         
@@ -1004,6 +1004,7 @@ namespace Calendar
             }
 
             cmd.Dispose();
+        
             // -----------------------------------------------------------------------
             // Group by Category
             // -----------------------------------------------------------------------
