@@ -83,22 +83,15 @@ namespace CalendarCodeTests
             DurationInMinutes = 60
         };
         public static int numberOfCategoriesInFile = 12;
-        public static String testCategoriesInputFile = "test_categories.cats";
         public static String testDBInputFile = "testDBInput.db";
         public static int maxIDInCategoryInFile = 12;
         public static Category firstCategoryInFile = new Category(1, "School", Category.CategoryType.Event);
         public static int CategoryIDWithAllDayEventType = 9;
         public static int CategoryIDWithAvailabilityType = 6;
-        public static string CategoriesOutputTestFile = "test_output.cats";
 
         public static int numberOfEventsInFile = 9;
-        public static String testEventsInputFile = "test_events.evts";
         public static int maxIDInEventFile = 9;
         public static Event firstEventInFile { get { return Event1; } }
-        public static string EventOutputTestFile = "test_output.evts";
-
-        public static string testCalendarFile = "test.Calendar";
-        public static string outputTestCalendarFile = "output_test.Calendar";
 
         public static List<Event> filteredbyCat3()
         {
@@ -382,31 +375,6 @@ namespace CalendarCodeTests
         }
 
         // source taken from: https://www.dotnetperls.com/file-equals
-
-        static public bool FileEquals(string path1, string path2)
-        {
-            byte[] file1 = File.ReadAllBytes(path1);
-            byte[] file2 = File.ReadAllBytes(path2);
-            if (file1.Length == file2.Length)
-            {
-                for (int i = 0; i < file1.Length; i++)
-                {
-                    if (file1[i] != file2[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-
-        static public bool FileSameSize(string path1, string path2)
-        {
-            byte[] file1 = File.ReadAllBytes(path1);
-            byte[] file2 = File.ReadAllBytes(path2);
-            return (file1.Length == file2.Length);
-        }
     }
 }
 
