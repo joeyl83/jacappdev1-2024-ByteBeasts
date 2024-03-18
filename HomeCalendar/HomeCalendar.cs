@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -288,40 +289,59 @@ namespace Calendar
             Start = Start ?? new DateTime(1900, 1, 1);
             End = End ?? new DateTime(2500, 1, 1);
 
-            var query =  from c in _categories.List()
-                        join e in _events.List() on c.Id equals e.Category
-                        where e.StartDateTime >= Start && e.StartDateTime <= End
-                        select new { CatId = c.Id, EventId = e.Id, e.StartDateTime, Category = c.Description, e.Details, e.DurationInMinutes };
+            string query = @"
+                SELECT
+                    c.Id AS CatId,
+                    e.Id AS EventId,
+                    e.StartDateTime,
+                    c.Description AS Category,
+                    e.Details,
+                    e.DurationInMinutes
+                FROM
+                    categories c
+                JOIN
+                    events e ON c.Id = e.CategoryId
+                WHERE
+                    e.StartDateTime >= @Start
+                    AND e.StartDateTime <= @End;";
 
-            // ------------------------------------------------------------------------
-            // create a CalendarItem list with totals,
-            // ------------------------------------------------------------------------
+            SQLiteCommand cmd = new SQLiteCommand(query,Database.dbConnection);
+            cmd.Parameters.AddWithValue("@Start", Start);
+            cmd.Parameters.AddWithValue("@End", End);
+            cmd.Prepare();
+
+            if (FilterFlag)
+            {
+                query += "\n AND c.Id = @catId";
+                cmd.Parameters.AddWithValue("catId", CategoryID);
+            }
+
+            query += "ORDER BY e.StartDateTime ASC;";
+
+
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+
             List<CalendarItem> items = new List<CalendarItem>();
             Double totalBusyTime = 0;
-
-            foreach (var e in query.OrderBy(q => q.StartDateTime))
+            while (reader.Read()) // For each row/record...
             {
-                // filter out unwanted categories if filter flag is on
-                if (FilterFlag && CategoryID != e.CatId)
-                {
-                    continue;
-                }
-
-                // keep track of running totals
-                totalBusyTime = totalBusyTime + e.DurationInMinutes;
+                totalBusyTime = totalBusyTime + reader.GetDouble(5);
                 items.Add(new CalendarItem
                 {
-                    CategoryID = e.CatId,
-                    EventID = e.EventId,
-                    ShortDescription = e.Details,
-                    StartDateTime = e.StartDateTime,
-                    DurationInMinutes = e.DurationInMinutes,
-                    Category = e.Category,
+                    CategoryID = reader.GetInt32(0),
+                    EventID = reader.GetInt32(1),
+                    StartDateTime = reader.GetDateTime(2),
+                    Category = reader.GetString(3),
+                    ShortDescription = reader.GetString(4),
+                    DurationInMinutes = reader.GetDouble(5),
                     BusyTime = totalBusyTime
                 });
+                //totalBusyTime += reader.GetDouble()}
             }
 
             return items;
+
         }
 
         // ============================================================================
