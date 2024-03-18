@@ -981,17 +981,23 @@ namespace Calendar
             // -----------------------------------------------------------------------
             // get all items first
             // -----------------------------------------------------------------------
-
+            Start = Start ?? new DateTime(1900, 1, 1);
+            End = End ?? new DateTime(2500, 1, 1);
 
             List<Category> newList = new List<Category>();
 
             SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
-
-            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Description;";
+           
+            cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end GROUP BY CategoryId ORDER BY c.Description;";
+            cmd.Parameters.AddWithValue("startdate", Start);
+            cmd.Parameters.AddWithValue("end", End);
 
             if (FilterFlag)
             {
-                cmd.CommandText = "SELECT Id, Description, TypeId FROM categories WHERE Id=@CatId ORDER BY Description;";
+                cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end and CategoryId=@CatId GROUP BY CategoryId ORDER BY c.Description;";
+                cmd.Parameters.AddWithValue("startdate", Start);
+                cmd.Parameters.AddWithValue("end", End);
+
                 cmd.Parameters.AddWithValue("CatId", CategoryID);
             }
         
@@ -1003,7 +1009,7 @@ namespace Calendar
             }
 
             cmd.Dispose();
-        
+
             // -----------------------------------------------------------------------
             // Group by Category
             // -----------------------------------------------------------------------
@@ -1014,11 +1020,11 @@ namespace Calendar
             var summary = new List<CalendarItemsByCategory>();
             foreach (var CategoryGroup in newList)
             {
+               
                 List<CalendarItem> filteredItems = GetCalendarItems(Start, End, true,CategoryGroup.Id);
-                if( filteredItems.Count != 0)
-                {
-                    // calculate totalBusyTime for this category, and create list of items
-                    double total = 0;
+
+                // calculate totalBusyTime for this category, and create list of items
+                double total = 0;
                     var items = new List<CalendarItem>();
                     foreach (var item in filteredItems)
                     {
@@ -1033,7 +1039,7 @@ namespace Calendar
                         Items = items,
                         TotalBusyTime = total
                     });
-                }
+             
                 
             }
 
