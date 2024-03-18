@@ -830,10 +830,9 @@ namespace Calendar
         // ============================================================================
 
         /// <summary>
-        /// Groups all events by category and stores them in a list of CalendarItemsByCategory. CalendarItemsByCategory is category, list of calendar
-        /// items and totalBusyTime for that category.  The list will only have items with a start date/time that is in between the specified range. 
-        /// To not have a date range, the date values can be set to null. Additionally, if the filter flag is enabled, the list will only contain 
-        /// items with the specified category id. 
+        /// Gets all categories within the database and uses the retrieved categories to get all calendar items within that category from the database. The user can
+        /// pass filters; a start date time, end date time and a specified category id to find calendar items in. The specified category id will only
+        /// be accounted for if the filter flag is true.
         /// </summary>
         /// <param name="Start">The start date/time of the range. No start date/time if null.</param>
         /// <param name="End">The end date/time of the range. No end date/time if null.</param>
@@ -842,7 +841,7 @@ namespace Calendar
         /// <returns>The list of CalendarItemsByCategory that respects the specified conditions.</returns>
         /// <example>
         /// 
-        /// For all examples below, assume the calendar file contains the following elements:
+        /// For all examples below, assume the calendar database contains the following elements:
         /// 
         /// <code>
         /// Cat_ID  Event_ID  StartDateTime           Details                 DurationInMinutes
@@ -860,7 +859,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./test.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(messyDB, inFile, false);
         /// 
         /// List<CalendarItemsByCategory> calendarItemsByCategory = homeCalendar.GetCalendarItemsByCategory(null, null, false, 0);
         /// 
@@ -908,7 +907,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./test.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(messyDB, inFile, false);
         /// 
         /// List<CalendarItemsByCategory> calendarItemsByCategory = homeCalendar.GetCalendarItemsByCategory(null, null, true, 9);
         /// 
@@ -940,7 +939,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./test.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(messyDB, inFile, false);
         /// 
         /// List<CalendarItemsByCategory> calendarItemsByCategory = homeCalendar.GetCalendarItemsByCategory(new DateTime(2019, 01, 01), new DateTime(2021, 01, 01), false, 0);
         /// 
