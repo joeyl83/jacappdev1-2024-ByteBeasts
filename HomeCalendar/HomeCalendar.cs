@@ -291,17 +291,21 @@ namespace Calendar
             List<CalendarItem> items = new List<CalendarItem>();
             Double totalBusyTime = 0;
 
+            //Write base query
             cmd.CommandText = "SELECT c.Id AS CatId, e.Id AS EventId, e.StartDateTime, c.Description AS Category, e.Details, e.DurationInMinutes FROM categories c JOIN events e ON c.Id = e.CategoryId WHERE e.StartDateTime >= @Start AND e.StartDateTime <= @End ";
             if (FilterFlag)
             {
+                // Append extra condition if filterFlag is True
                 cmd.CommandText += "AND c.Id = @catId ";
                 cmd.Parameters.AddWithValue("catId", CategoryID);
             }
+            // Top it off with 'ORDER BY' clause
             cmd.CommandText += "ORDER BY e.StartDateTime ASC;";
             cmd.Parameters.AddWithValue("@Start", Start);
             cmd.Parameters.AddWithValue("@End", End);
             cmd.Prepare();
 
+            //Begin reading each row, creating new calendarItems.
             SQLiteDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) // For each row/record...
             {
@@ -317,6 +321,7 @@ namespace Calendar
                     BusyTime = totalBusyTime
                 });
             }
+            // Return new list of CalendarItems
             return items;
         }
 
