@@ -284,47 +284,25 @@ namespace Calendar
         /// </example>
         public List<CalendarItem> GetCalendarItems(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            // ------------------------------------------------------------------------
-            // return joined list within time frame
-            // ------------------------------------------------------------------------
+            // Declare Variables:
             Start = Start ?? new DateTime(1900, 1, 1);
             End = End ?? new DateTime(2500, 1, 1);
+            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
+            List<CalendarItem> items = new List<CalendarItem>();
+            Double totalBusyTime = 0;
 
-            string query = @"
-                SELECT
-                    c.Id AS CatId,
-                    e.Id AS EventId,
-                    e.StartDateTime,
-                    c.Description AS Category,
-                    e.Details,
-                    e.DurationInMinutes
-                FROM
-                    categories c
-                JOIN
-                    events e ON c.Id = e.CategoryId
-                WHERE
-                    e.StartDateTime >= @Start
-                    AND e.StartDateTime <= @End;";
-
-            SQLiteCommand cmd = new SQLiteCommand(query,Database.dbConnection);
+            cmd.CommandText = "SELECT c.Id AS CatId, e.Id AS EventId, e.StartDateTime, c.Description AS Category, e.Details, e.DurationInMinutes FROM categories c JOIN events e ON c.Id = e.CategoryId WHERE e.StartDateTime >= @Start AND e.StartDateTime <= @End ";
+            if (FilterFlag)
+            {
+                cmd.CommandText += "AND c.Id = @catId ";
+                cmd.Parameters.AddWithValue("catId", CategoryID);
+            }
+            cmd.CommandText += "ORDER BY e.StartDateTime ASC;";
             cmd.Parameters.AddWithValue("@Start", Start);
             cmd.Parameters.AddWithValue("@End", End);
             cmd.Prepare();
 
-            if (FilterFlag)
-            {
-                query += "\n AND c.Id = @catId";
-                cmd.Parameters.AddWithValue("catId", CategoryID);
-            }
-
-            query += "ORDER BY e.StartDateTime ASC;";
-
-
             SQLiteDataReader reader = cmd.ExecuteReader();
-
-
-            List<CalendarItem> items = new List<CalendarItem>();
-            Double totalBusyTime = 0;
             while (reader.Read()) // For each row/record...
             {
                 totalBusyTime = totalBusyTime + reader.GetDouble(5);
@@ -338,11 +316,8 @@ namespace Calendar
                     DurationInMinutes = reader.GetDouble(5),
                     BusyTime = totalBusyTime
                 });
-                //totalBusyTime += reader.GetDouble()}
             }
-
             return items;
-
         }
 
         // ============================================================================
