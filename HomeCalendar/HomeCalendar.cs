@@ -16,7 +16,6 @@ namespace Calendar
     // ====================================================================
     // CLASS: HomeCalendar
     //        - Combines a Categories Class and an Events Class
-    //        - One File defines Category and Events File
     //        - etc
     // ====================================================================
 
@@ -68,7 +67,7 @@ namespace Calendar
 
 
         // -------------------------------------------------------------------
-        // Constructor (existing or new calendar )
+        // Constructor (existing or new database )
         // -------------------------------------------------------------------
 
         /// <summary>
@@ -165,7 +164,7 @@ namespace Calendar
 
 
         // ============================================================================
-        // Get all events list
+        // Get all calendar items list
         // ============================================================================
 
         /// <summary>
