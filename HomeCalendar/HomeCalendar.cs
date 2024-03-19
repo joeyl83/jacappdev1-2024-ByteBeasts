@@ -167,27 +167,27 @@ namespace Calendar
 
 
         // ============================================================================
-        // Get all events list
+        // Get list of CalendarItems
         // ============================================================================
 
         /// <summary>
         /// Retrieves a list of calendar items from the category and event lists of the current home calendar instance. The list will only have items
-        /// with a start date/time that is in between the specified range. To not have a date range, the date values can be set to null. Additionally, 
-        /// if the filter flag is enabled, the list will only contain items with the specified category id. 
+        /// with a start date/time that is in between the specified range. The user can pass filters; a start date time, end date time and a specified 
+        /// category id to find calendar items in. 
         /// </summary>
-        /// <param name="Start">The start date/time of the range. No start date/time if null.</param>
-        /// <param name="End">The end date/time of the range. No end date/time if null.</param>
+        /// <param name="Start">The start date/time of the range. year 1900 by default.</param>
+        /// <param name="End">The end date/time of the range. year 2500 by default.</param>
         /// <param name="FilterFlag">True if the category id will be filtered; false otherwise.</param>
         /// <param name="CategoryID">The specified category id that will be filtered, only if the filter flag is true.</param>
         /// <returns>The list of calendar items that respects the specified conditions.</returns>
         /// <example>
         /// 
-        /// For all examples below, assume the calendar file contains the following elements:
+        /// For all examples below, assume the cdayabase contains the following items:
         /// 
         /// <code>
         /// Cat_ID  Event_ID  StartDateTime           Details                 DurationInMinutes
         ///    3       1      1/10/2018 10:00:00 AM   App Dev Homework             40
-        ///    9       2      1/9/2020 12:00:00 AM    Honolulu		        1440
+        ///    9       2      1/9/2020 12:00:00 AM    Honolulu		             1440
         ///    9       3      1/10/2020 12:00:00 AM   Honolulu                   1440
         ///    7       4      1/20/2020 11:00:00 AM   On call security            180
         ///    2       5      1/11/2018 7:30:00 PM    staff meeting                15
