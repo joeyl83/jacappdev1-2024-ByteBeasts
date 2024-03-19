@@ -350,7 +350,8 @@ namespace Calendar
         // Delete category
         // ====================================================================
         /// <summary>
-        /// Removes the category from the database of categories with the specified id. The passed id must be the id of a category in the database.
+        /// Removes the category from the database with the specified id, all events associated with that category will also be deleted. 
+        /// The passed id must be the id of a category in the database.
         /// </summary>
         /// <param name="Id">The id of the category that will be removed from the list.</param>
         /// <example>
