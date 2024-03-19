@@ -345,7 +345,7 @@ namespace Calendar
         /// <returns>The list of CalendarItemsByMonth that respects the specified conditions.</returns>
         /// <example>
         /// 
-        /// For all examples below, assume the calendar file contains the following elements:
+        /// For all examples below, assume home calendar has the following items:
         /// 
         /// <code>
         /// Cat_ID  Event_ID  StartDateTime           Details                 DurationInMinutes
@@ -363,7 +363,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./calendar-file.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(Database.dbConnection, false);
         /// 
         /// List<CalendarItemsByMonth> calendarItemsByMonth = homeCalendar.GetCalendarItemsByMonth(null, null, false, 0);
         /// 
@@ -435,7 +435,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./calendar-file.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(Database.dbConnection, false);
         /// 
         /// List<CalendarItemsByMonth> calendarItemsByMonth = homeCalendar.GetCalendarItemsByMonth(new DateTime(2019, 01, 01), new DateTime(2021, 01, 01), false, 0);
         /// 
@@ -1035,16 +1035,6 @@ namespace Calendar
 
 
         #endregion GetList
-
-        private string DateTimeToMonthGroup(DateTime date)
-        {
-            return date.Year.ToString("D4") + "-" + date.Month.ToString("D2");
-        }
-
-        private DateTime StringToDateTime(string date)
-        {
-            return DateTime.ParseExact(date, "yyyy-MM-dd H:mm:ss", CultureInfo.InvariantCulture);
-        }
 
         private string DateTimeToString(DateTime date)
         {
