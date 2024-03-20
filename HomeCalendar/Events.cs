@@ -21,19 +21,23 @@ namespace Calendar
     // ====================================================================
     // CLASS: Events
     //        - A collection of Event items,
-    //        - Read / write to file
+    //        - Read / write to database
     //        - etc
     // ====================================================================
 
     /// <summary>
-    /// Manages a collection of event items. Reads and writes to files storing the events. Initialized with default values in the constructor, 
-    /// but also from files with data containing various events when using the ReadFromFile method.
+    /// Manages a collection of event items. Reads and writes to database storing the events. Initialized with the connection and whether it is a new or old database in the constructor.
     /// </summary>
   
     public class Events
     {
         private SQLiteConnection _connection;
 
+        /// <summary>
+        /// Initializes an Events instance with a connection to the database.
+        /// </summary>
+        /// <param name="connection">The database connection that allows access to the database.</param>
+        /// <param name="newDB">Boolean value that tells whether it is a new database.</param>
         public Events(SQLiteConnection connection, bool newDB = false)
         {
             _connection = connection;

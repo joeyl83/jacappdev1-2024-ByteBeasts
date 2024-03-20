@@ -18,13 +18,12 @@ namespace Calendar
     // ====================================================================
     // CLASS: categories
     //        - A collection of category items,
-    //        - Read / write to file
+    //        - Read / write to database
     //        - etc
     // ====================================================================
 
     /// <summary>
-    /// Manages a collection of category items. Reads and writes to files storing the categories. Initialized with default values in the constructor, 
-    /// but also from files with data containing various categories when using the ReadFromFile method.
+    /// Manages a collection of category items. Reads and writes to the database storing the categories. Initialized with the connection and whether it is a new or old database in the constructor.
     /// </summary>
     public class Categories
     {
