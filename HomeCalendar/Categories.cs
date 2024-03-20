@@ -212,21 +212,7 @@ namespace Calendar
             // Add Defaults
             // ---------------------------------------------------------------
             SQLiteCommand cmd = new SQLiteCommand(_connection);
-            foreach(string category in Enum.GetNames(typeof(Category.CategoryType)))
-            {
-                cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('@categoryName')";
-                cmd.Parameters.AddWithValue("categoryName", category);
-                cmd.ExecuteNonQuery();
-            }
-            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Event')";
-            //cmd.ExecuteNonQuery();
-            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('AllDayEvent')";
-            //cmd.ExecuteNonQuery();
-            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Availability')";
-            //cmd.ExecuteNonQuery();
-            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Holiday')";
-            //cmd.ExecuteNonQuery();
-
+            AddCategoryTypes(cmd);
             cmd.CommandText = "DELETE FROM categories;";
             cmd.ExecuteNonQuery();
             cmd.Dispose();
@@ -242,6 +228,16 @@ namespace Calendar
             Add("US Holidays", Category.CategoryType.Holiday);
         }
 
+        public static void AddCategoryTypes(SQLiteCommand cmd)
+        {
+            foreach (string category in Enum.GetNames(typeof(Category.CategoryType)))
+            {
+                cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('@categoryName')";
+                cmd.Parameters.AddWithValue("categoryName", category);
+                cmd.ExecuteNonQuery();
+            }
+ 
+        }
         // ====================================================================
         // Add category
         // ====================================================================
