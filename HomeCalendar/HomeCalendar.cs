@@ -166,27 +166,27 @@ namespace Calendar
 
 
         // ============================================================================
-        // Get all calendar items list
+        // Get list of CalendarItems
         // ============================================================================
 
         /// <summary>
         /// Retrieves a list of calendar items from the category and event lists of the current home calendar instance. The list will only have items
-        /// with a start date/time that is in between the specified range. To not have a date range, the date values can be set to null. Additionally, 
-        /// if the filter flag is enabled, the list will only contain items with the specified category id. 
+        /// with a start date/time that is in between the specified range. The user can pass filters; a start date time, end date time and a specified 
+        /// category id to find calendar items in. 
         /// </summary>
-        /// <param name="Start">The start date/time of the range. No start date/time if null.</param>
-        /// <param name="End">The end date/time of the range. No end date/time if null.</param>
+        /// <param name="Start">The start date/time of the range. year 1900 by default.</param>
+        /// <param name="End">The end date/time of the range. year 2500 by default.</param>
         /// <param name="FilterFlag">True if the category id will be filtered; false otherwise.</param>
         /// <param name="CategoryID">The specified category id that will be filtered, only if the filter flag is true.</param>
         /// <returns>The list of calendar items that respects the specified conditions.</returns>
         /// <example>
         /// 
-        /// For all examples below, assume the calendar file contains the following elements:
+        /// For all examples below, assume the cdayabase contains the following items:
         /// 
         /// <code>
         /// Cat_ID  Event_ID  StartDateTime           Details                 DurationInMinutes
         ///    3       1      1/10/2018 10:00:00 AM   App Dev Homework             40
-        ///    9       2      1/9/2020 12:00:00 AM    Honolulu		        1440
+        ///    9       2      1/9/2020 12:00:00 AM    Honolulu		             1440
         ///    9       3      1/10/2020 12:00:00 AM   Honolulu                   1440
         ///    7       4      1/20/2020 11:00:00 AM   On call security            180
         ///    2       5      1/11/2018 7:30:00 PM    staff meeting                15
@@ -283,45 +283,44 @@ namespace Calendar
         /// </example>
         public List<CalendarItem> GetCalendarItems(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            // ------------------------------------------------------------------------
-            // return joined list within time frame
-            // ------------------------------------------------------------------------
+            // Declare Variables:
             Start = Start ?? new DateTime(1900, 1, 1);
             End = End ?? new DateTime(2500, 1, 1);
-
-            var query =  from c in _categories.List()
-                        join e in _events.List() on c.Id equals e.Category
-                        where e.StartDateTime >= Start && e.StartDateTime <= End
-                        select new { CatId = c.Id, EventId = e.Id, e.StartDateTime, Category = c.Description, e.Details, e.DurationInMinutes };
-
-            // ------------------------------------------------------------------------
-            // create a CalendarItem list with totals,
-            // ------------------------------------------------------------------------
+            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
             List<CalendarItem> items = new List<CalendarItem>();
             Double totalBusyTime = 0;
 
-            foreach (var e in query.OrderBy(q => q.StartDateTime))
+            //Write base query
+            cmd.CommandText = "SELECT c.Id AS CatId, e.Id AS EventId, e.StartDateTime, c.Description AS Category, e.Details, e.DurationInMinutes FROM categories c JOIN events e ON c.Id = e.CategoryId WHERE e.StartDateTime >= @Start AND e.StartDateTime <= @End ";
+            if (FilterFlag)
             {
-                // filter out unwanted categories if filter flag is on
-                if (FilterFlag && CategoryID != e.CatId)
-                {
-                    continue;
-                }
+                // Append extra condition if filterFlag is True
+                cmd.CommandText += "AND c.Id = @catId ";
+                cmd.Parameters.AddWithValue("catId", CategoryID);
+            }
+            // Top it off with 'ORDER BY' clause
+            cmd.CommandText += "ORDER BY e.StartDateTime ASC;";
+            cmd.Parameters.AddWithValue("@Start", Start);
+            cmd.Parameters.AddWithValue("@End", End);
+            cmd.Prepare();
 
-                // keep track of running totals
-                totalBusyTime = totalBusyTime + e.DurationInMinutes;
+            //Begin reading each row, creating new calendarItems.
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            while (reader.Read()) // For each row/record...
+            {
+                totalBusyTime = totalBusyTime + reader.GetDouble(5);
                 items.Add(new CalendarItem
                 {
-                    CategoryID = e.CatId,
-                    EventID = e.EventId,
-                    ShortDescription = e.Details,
-                    StartDateTime = e.StartDateTime,
-                    DurationInMinutes = e.DurationInMinutes,
-                    Category = e.Category,
+                    CategoryID = reader.GetInt32(0),
+                    EventID = reader.GetInt32(1),
+                    StartDateTime = reader.GetDateTime(2),
+                    Category = reader.GetString(3),
+                    ShortDescription = reader.GetString(4),
+                    DurationInMinutes = reader.GetDouble(5),
                     BusyTime = totalBusyTime
                 });
             }
-
+            // Return new list of CalendarItems
             return items;
         }
 
