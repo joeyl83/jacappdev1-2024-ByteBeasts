@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -343,7 +344,7 @@ namespace Calendar
         /// <returns>The list of CalendarItemsByMonth that respects the specified conditions.</returns>
         /// <example>
         /// 
-        /// For all examples below, assume the calendar file contains the following elements:
+        /// For all examples below, assume home calendar has the following items:
         /// 
         /// <code>
         /// Cat_ID  Event_ID  StartDateTime           Details                 DurationInMinutes
@@ -361,7 +362,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./calendar-file.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(Database.dbConnection, false);
         /// 
         /// List<CalendarItemsByMonth> calendarItemsByMonth = homeCalendar.GetCalendarItemsByMonth(null, null, false, 0);
         /// 
@@ -433,7 +434,7 @@ namespace Calendar
         /// 
         /// <code>
         /// <![CDATA[
-        /// HomeCalendar homeCalendar = new HomeCalendar("./calendar-file.calendar");
+        /// HomeCalendar homeCalendar = new HomeCalendar(Database.dbConnection, false);
         /// 
         /// List<CalendarItemsByMonth> calendarItemsByMonth = homeCalendar.GetCalendarItemsByMonth(new DateTime(2019, 01, 01), new DateTime(2021, 01, 01), false, 0);
         /// 
@@ -466,38 +467,53 @@ namespace Calendar
         /// </example>
         public List<CalendarItemsByMonth> GetCalendarItemsByMonth(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            // -----------------------------------------------------------------------
-            // get all items first
-            // -----------------------------------------------------------------------
-            List<CalendarItem> items = GetCalendarItems(Start, End, FilterFlag, CategoryID);
+            DateTime startFilter = Start ?? new DateTime(1900, 1, 1);
+            DateTime endFilter = End ?? new DateTime(2500, 1, 1);
 
-            // -----------------------------------------------------------------------
-            // Group by year/month
-            // -----------------------------------------------------------------------
-            var GroupedByMonth = items.GroupBy(c => c.StartDateTime.Year.ToString("D4") + "/" + c.StartDateTime.Month.ToString("D2"));
+            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
+            cmd.CommandText = "SELECT substr(StartDateTime, 1, 7) FROM events WHERE StartDateTime >= @start AND StartDateTime <= @end GROUP BY substr(StartDateTime, 1, 7) ORDER BY StartDateTime;";
+            cmd.Parameters.AddWithValue("@start", DateTimeToString(startFilter));
+            cmd.Parameters.AddWithValue("@end", DateTimeToString(endFilter));
 
-            // -----------------------------------------------------------------------
-            // create new list
-            // -----------------------------------------------------------------------
-            var summary = new List<CalendarItemsByMonth>();
-            foreach (var MonthGroup in GroupedByMonth)
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            List<CalendarItemsByMonth> summary = new List<CalendarItemsByMonth>();
+
+            while (reader.Read())
             {
-                // calculate totalBusyTime for this month, and create list of items
-                double total = 0;
-                var itemsList = new List<CalendarItem>();
-                foreach (var item in MonthGroup)
+                string monthGroup = reader.GetString(0);
+                string[] data = monthGroup.Split('-');
+                int year = int.Parse(data[0]);
+                int month = int.Parse(data[1]);
+                DateTime startMonth = new DateTime(year, month, 1);
+                DateTime endMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+                if (startFilter.Year == year && startFilter.Month == month)
                 {
-                    total = total + item.DurationInMinutes;
-                    itemsList.Add(item);
+                    startMonth = startFilter;
                 }
 
-                // Add new CalendarItemsByMonth to our list
-                summary.Add(new CalendarItemsByMonth
+                if (endFilter.Year == year && endFilter.Month == month)
                 {
-                    Month = MonthGroup.Key,
-                    Items = itemsList,
-                    TotalBusyTime = total
-                });
+                    endMonth = endFilter;
+                }
+
+                List<CalendarItem> itemList = GetCalendarItems(startMonth, endMonth, FilterFlag, CategoryID);
+
+                double total = 0;
+                foreach (var item in itemList)
+                {
+                    total = total + item.DurationInMinutes;
+                }
+
+                if(itemList.Count != 0)
+                {
+                    summary.Add(new CalendarItemsByMonth
+                    {
+                        Items = GetCalendarItems(startMonth, endMonth, FilterFlag, CategoryID),
+                        Month = data[0] + "/" + data[1],
+                        TotalBusyTime = total
+                    });
+                }
             }
 
             return summary;
@@ -1049,5 +1065,9 @@ namespace Calendar
 
         #endregion GetList
 
+        private string DateTimeToString(DateTime date)
+        {
+            return date.ToString("yyyy-MM-dd H:mm:ss");
+        }
     }
 }
