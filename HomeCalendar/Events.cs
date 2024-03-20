@@ -21,19 +21,23 @@ namespace Calendar
     // ====================================================================
     // CLASS: Events
     //        - A collection of Event items,
-    //        - Read / write to file
+    //        - Read / write to database
     //        - etc
     // ====================================================================
 
     /// <summary>
-    /// Manages a collection of event items. Reads and writes to files storing the events. Initialized with default values in the constructor, 
-    /// but also from files with data containing various events when using the ReadFromFile method.
+    /// Manages a collection of event items. Reads and writes to database storing the events. Initialized with the connection and whether it is a new or old database in the constructor.
     /// </summary>
-  
+
     public class Events
     {
         private SQLiteConnection _connection;
 
+        /// <summary>
+        /// Initializes an Events instance with a connection to the database.
+        /// </summary>
+        /// <param name="connection">The database connection that allows access to the database.</param>
+        /// <param name="newDB">Boolean value that tells whether it is a new database.</param>
         public Events(SQLiteConnection connection, bool newDB = false)
         {
             _connection = connection;
@@ -85,15 +89,21 @@ namespace Calendar
         /// </example>
         public void Add(DateTime date, int category, Double duration, String details)
         {
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-            cmd.CommandText = $"INSERT INTO events(StartDateTime,Details,DurationInMinutes,CategoryId) VALUES(@startdate,@details,@duration,@categoryId)";
-            cmd.Parameters.AddWithValue("@startdate", date.ToString());
-            cmd.Parameters.AddWithValue("@details", details);
-            cmd.Parameters.AddWithValue("@duration", duration);
-            cmd.Parameters.AddWithValue("@categoryId", category );
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = $"INSERT INTO events(StartDateTime,Details,DurationInMinutes,CategoryId) VALUES(@startdate,@details,@duration,@categoryId)";
+                cmd.Parameters.AddWithValue("@startdate", date.ToString());
+                cmd.Parameters.AddWithValue("@details", details);
+                cmd.Parameters.AddWithValue("@duration", duration);
+                cmd.Parameters.AddWithValue("@categoryId", category);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong: " + ex.Message);
+            }
         }
 
         // ====================================================================
@@ -150,7 +160,7 @@ namespace Calendar
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Something went wrong:{ex.Message}");
+                throw new Exception($"Invalid ID:{ex.Message}");
             }
         }
 
@@ -209,11 +219,11 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// </example>
-        public void Update(int  Id, DateTime date, int category, Double duration, String details)
+        public void Update(int Id, DateTime date, int category, Double duration, String details)
         {
             try
             {
-                
+
                 SQLiteCommand cmd = new SQLiteCommand(_connection);
                 cmd.CommandText = "UPDATE events SET StartDateTime = @date, DurationInMinutes = @duration, Details = @details, CategoryId = @category WHERE Id=@id";
                 cmd.Parameters.AddWithValue("@date", date);
@@ -226,7 +236,7 @@ namespace Calendar
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Something went wrong: {ex.Message}");
+                throw new Exception($"Invalid ID: {ex.Message}");
             }
         }
 
@@ -279,20 +289,28 @@ namespace Calendar
         /// </example>
         public List<Event> List()
         {
-            List<Event> newList = new List<Event>();
-
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-
-            cmd.CommandText = "SELECT Id, StartDateTime, Details, DurationInMinutes, CategoryId FROM events ORDER BY Id;";
-            SQLiteDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                newList.Add(new Event(reader.GetInt32(0), DateTime.Parse(reader.GetString(1)), reader.GetInt32(4), reader.GetDouble(3), reader.GetString(2)));
+                List<Event> newList = new List<Event>();
+
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+                cmd.CommandText = "SELECT Id, StartDateTime, Details, DurationInMinutes, CategoryId FROM events ORDER BY Id;";
+                SQLiteDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    newList.Add(new Event(reader.GetInt32(0), DateTime.Parse(reader.GetString(1)), reader.GetInt32(4), reader.GetDouble(3), reader.GetString(2)));
+                }
+
+                cmd.Dispose();
+                return newList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong: " + ex.Message);
             }
 
-            cmd.Dispose();
-            return newList;
         }
     }
 }

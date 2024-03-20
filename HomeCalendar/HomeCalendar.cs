@@ -284,45 +284,52 @@ namespace Calendar
         /// </example>
         public List<CalendarItem> GetCalendarItems(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            // Declare Variables:
-            Start = Start ?? new DateTime(1900, 1, 1);
-            End = End ?? new DateTime(2500, 1, 1);
-            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
-            List<CalendarItem> items = new List<CalendarItem>();
-            Double totalBusyTime = 0;
-
-            //Write base query
-            cmd.CommandText = "SELECT c.Id AS CatId, e.Id AS EventId, e.StartDateTime, c.Description AS Category, e.Details, e.DurationInMinutes FROM categories c JOIN events e ON c.Id = e.CategoryId WHERE e.StartDateTime >= @Start AND e.StartDateTime <= @End ";
-            if (FilterFlag)
+            try
             {
-                // Append extra condition if filterFlag is True
-                cmd.CommandText += "AND c.Id = @catId ";
-                cmd.Parameters.AddWithValue("catId", CategoryID);
-            }
-            // Top it off with 'ORDER BY' clause
-            cmd.CommandText += "ORDER BY e.StartDateTime ASC;";
-            cmd.Parameters.AddWithValue("@Start", Start);
-            cmd.Parameters.AddWithValue("@End", End);
-            cmd.Prepare();
+                // Declare Variables:
+                Start = Start ?? new DateTime(1900, 1, 1);
+                End = End ?? new DateTime(2500, 1, 1);
+                SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
+                List<CalendarItem> items = new List<CalendarItem>();
+                Double totalBusyTime = 0;
 
-            //Begin reading each row, creating new calendarItems.
-            SQLiteDataReader reader = cmd.ExecuteReader();
-            while (reader.Read()) // For each row/record...
-            {
-                totalBusyTime = totalBusyTime + reader.GetDouble(5);
-                items.Add(new CalendarItem
+                //Write base query
+                cmd.CommandText = "SELECT c.Id AS CatId, e.Id AS EventId, e.StartDateTime, c.Description AS Category, e.Details, e.DurationInMinutes FROM categories c JOIN events e ON c.Id = e.CategoryId WHERE e.StartDateTime >= @Start AND e.StartDateTime <= @End ";
+                if (FilterFlag)
                 {
-                    CategoryID = reader.GetInt32(0),
-                    EventID = reader.GetInt32(1),
-                    StartDateTime = reader.GetDateTime(2),
-                    Category = reader.GetString(3),
-                    ShortDescription = reader.GetString(4),
-                    DurationInMinutes = reader.GetDouble(5),
-                    BusyTime = totalBusyTime
-                });
+                    // Append extra condition if filterFlag is True
+                    cmd.CommandText += "AND c.Id = @catId ";
+                    cmd.Parameters.AddWithValue("catId", CategoryID);
+                }
+                // Top it off with 'ORDER BY' clause
+                cmd.CommandText += "ORDER BY e.StartDateTime ASC;";
+                cmd.Parameters.AddWithValue("@Start", Start);
+                cmd.Parameters.AddWithValue("@End", End);
+                cmd.Prepare();
+
+                //Begin reading each row, creating new calendarItems.
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                while (reader.Read()) // For each row/record...
+                {
+                    totalBusyTime = totalBusyTime + reader.GetDouble(5);
+                    items.Add(new CalendarItem
+                    {
+                        CategoryID = reader.GetInt32(0),
+                        EventID = reader.GetInt32(1),
+                        StartDateTime = reader.GetDateTime(2),
+                        Category = reader.GetString(3),
+                        ShortDescription = reader.GetString(4),
+                        DurationInMinutes = reader.GetDouble(5),
+                        BusyTime = totalBusyTime
+                    });
+                }
+                // Return new list of CalendarItems
+                return items;
             }
-            // Return new list of CalendarItems
-            return items;
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong:" + ex.Message);
+            }
         }
 
         // ============================================================================
@@ -467,56 +474,63 @@ namespace Calendar
         /// </example>
         public List<CalendarItemsByMonth> GetCalendarItemsByMonth(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            DateTime startFilter = Start ?? new DateTime(1900, 1, 1);
-            DateTime endFilter = End ?? new DateTime(2500, 1, 1);
-
-            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
-            cmd.CommandText = "SELECT substr(StartDateTime, 1, 7) FROM events WHERE StartDateTime >= @start AND StartDateTime <= @end GROUP BY substr(StartDateTime, 1, 7) ORDER BY StartDateTime;";
-            cmd.Parameters.AddWithValue("@start", DateTimeToString(startFilter));
-            cmd.Parameters.AddWithValue("@end", DateTimeToString(endFilter));
-
-            SQLiteDataReader reader = cmd.ExecuteReader();
-            List<CalendarItemsByMonth> summary = new List<CalendarItemsByMonth>();
-
-            while (reader.Read())
+            try
             {
-                string monthGroup = reader.GetString(0);
-                string[] data = monthGroup.Split('-');
-                int year = int.Parse(data[0]);
-                int month = int.Parse(data[1]);
-                DateTime startMonth = new DateTime(year, month, 1);
-                DateTime endMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+                DateTime startFilter = Start ?? new DateTime(1900, 1, 1);
+                DateTime endFilter = End ?? new DateTime(2500, 1, 1);
 
-                if (startFilter.Year == year && startFilter.Month == month)
+                SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
+                cmd.CommandText = "SELECT substr(StartDateTime, 1, 7) FROM events WHERE StartDateTime >= @start AND StartDateTime <= @end GROUP BY substr(StartDateTime, 1, 7) ORDER BY StartDateTime;";
+                cmd.Parameters.AddWithValue("@start", DateTimeToString(startFilter));
+                cmd.Parameters.AddWithValue("@end", DateTimeToString(endFilter));
+
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                List<CalendarItemsByMonth> summary = new List<CalendarItemsByMonth>();
+
+                while (reader.Read())
                 {
-                    startMonth = startFilter;
-                }
+                    string monthGroup = reader.GetString(0);
+                    string[] data = monthGroup.Split('-');
+                    int year = int.Parse(data[0]);
+                    int month = int.Parse(data[1]);
+                    DateTime startMonth = new DateTime(year, month, 1);
+                    DateTime endMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-                if (endFilter.Year == year && endFilter.Month == month)
-                {
-                    endMonth = endFilter;
-                }
-
-                List<CalendarItem> itemList = GetCalendarItems(startMonth, endMonth, FilterFlag, CategoryID);
-
-                double total = 0;
-                foreach (var item in itemList)
-                {
-                    total = total + item.DurationInMinutes;
-                }
-
-                if(itemList.Count != 0)
-                {
-                    summary.Add(new CalendarItemsByMonth
+                    if (startFilter.Year == year && startFilter.Month == month)
                     {
-                        Items = GetCalendarItems(startMonth, endMonth, FilterFlag, CategoryID),
-                        Month = data[0] + "/" + data[1],
-                        TotalBusyTime = total
-                    });
-                }
-            }
+                        startMonth = startFilter;
+                    }
 
-            return summary;
+                    if (endFilter.Year == year && endFilter.Month == month)
+                    {
+                        endMonth = endFilter;
+                    }
+
+                    List<CalendarItem> itemList = GetCalendarItems(startMonth, endMonth, FilterFlag, CategoryID);
+
+                    double total = 0;
+                    foreach (var item in itemList)
+                    {
+                        total = total + item.DurationInMinutes;
+                    }
+
+                    if (itemList.Count != 0)
+                    {
+                        summary.Add(new CalendarItemsByMonth
+                        {
+                            Items = GetCalendarItems(startMonth, endMonth, FilterFlag, CategoryID),
+                            Month = data[0] + "/" + data[1],
+                            TotalBusyTime = total
+                        });
+                    }
+                }
+
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong:" + ex.Message);
+            }
         }
 
         // ============================================================================
@@ -672,53 +686,49 @@ namespace Calendar
         /// </example>
         public List<CalendarItemsByCategory> GetCalendarItemsByCategory(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            // -----------------------------------------------------------------------
-            // get all items first
-            // -----------------------------------------------------------------------
-            Start = Start ?? new DateTime(1900, 1, 1);
-            End = End ?? new DateTime(2500, 1, 1);
 
-            List<Category> newList = new List<Category>();
-
-            SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
-           
-            cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end GROUP BY CategoryId ORDER BY c.Description;";
-            cmd.Parameters.AddWithValue("startdate", Start);
-            cmd.Parameters.AddWithValue("end", End);
-
-            if (FilterFlag)
+            try
             {
-                cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end and CategoryId=@CatId GROUP BY CategoryId ORDER BY c.Description;";
+                //If undefined set Start and End to default.
+                Start = Start ?? new DateTime(1900, 1, 1);
+                End = End ?? new DateTime(2500, 1, 1);
+
+                List<Category> newList = new List<Category>();
+
+                SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
+
+                //Get all categories that are within the time frame and groups them.
+                cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end GROUP BY CategoryId ORDER BY c.Description;";
                 cmd.Parameters.AddWithValue("startdate", Start);
                 cmd.Parameters.AddWithValue("end", End);
 
-                cmd.Parameters.AddWithValue("CatId", CategoryID);
-            }
-        
-            SQLiteDataReader reader = cmd.ExecuteReader();
+                //If filter flag is true add a where clause which only gets events for that category.
+                if (FilterFlag)
+                {
+                    cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end and CategoryId=@CatId GROUP BY CategoryId ORDER BY c.Description;";
+                    cmd.Parameters.AddWithValue("startdate", Start);
+                    cmd.Parameters.AddWithValue("end", End);
 
-            while (reader.Read())
-            {
-                newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
-            }
+                    cmd.Parameters.AddWithValue("CatId", CategoryID);
+                }
 
-            cmd.Dispose();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
-            // -----------------------------------------------------------------------
-            // Group by Category
-            // -----------------------------------------------------------------------
+                while (reader.Read())
+                {
+                    newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
+                }
 
-            // -----------------------------------------------------------------------
-            // create new list
-            // -----------------------------------------------------------------------
-            var summary = new List<CalendarItemsByCategory>();
-            foreach (var CategoryGroup in newList)
-            {
-               
-                List<CalendarItem> filteredItems = GetCalendarItems(Start, End, true,CategoryGroup.Id);
+                cmd.Dispose();
 
-                // calculate totalBusyTime for this category, and create list of items
-                double total = 0;
+                var summary = new List<CalendarItemsByCategory>();
+                foreach (var CategoryGroup in newList)
+                {
+                    //Get all calendar items for each category.
+                    List<CalendarItem> filteredItems = GetCalendarItems(Start, End, true, CategoryGroup.Id);
+
+                    // calculate totalBusyTime for this category, and create list of items
+                    double total = 0;
                     var items = new List<CalendarItem>();
                     foreach (var item in filteredItems)
                     {
@@ -733,11 +743,16 @@ namespace Calendar
                         Items = items,
                         TotalBusyTime = total
                     });
-             
-                
-            }
 
-            return summary;
+
+                }
+
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong:" + ex.Message);
+            }
         }
 
 
@@ -983,7 +998,7 @@ namespace Calendar
         /// Birthdays: 1440
         /// </code>
         /// </example>
-        public List<Dictionary<string,object>> GetCalendarDictionaryByCategoryAndMonth(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
+        public List<Dictionary<string, object>> GetCalendarDictionaryByCategoryAndMonth(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
             // -----------------------------------------------------------------------
             // get all items by month 
