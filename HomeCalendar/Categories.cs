@@ -211,21 +211,30 @@ namespace Calendar
             // ---------------------------------------------------------------
             // Add Defaults
             // ---------------------------------------------------------------
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-            AddCategoryTypes(cmd);
-            cmd.CommandText = "DELETE FROM categories;";
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
+            try
+            {
 
-            Add("School", Category.CategoryType.Event);
-            Add("Personal", Category.CategoryType.Event);
-            Add("VideoGames", Category.CategoryType.Event);
-            Add("Medical", Category.CategoryType.Event);
-            Add("Sleep", Category.CategoryType.Event);
-            Add("Vacation", Category.CategoryType.AllDayEvent);
-            Add("Travel days", Category.CategoryType.AllDayEvent);
-            Add("Canadian Holidays", Category.CategoryType.Holiday);
-            Add("US Holidays", Category.CategoryType.Holiday);
+
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                AddCategoryTypes(cmd);
+                cmd.CommandText = "DELETE FROM categories;";
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                Add("School", Category.CategoryType.Event);
+                Add("Personal", Category.CategoryType.Event);
+                Add("VideoGames", Category.CategoryType.Event);
+                Add("Medical", Category.CategoryType.Event);
+                Add("Sleep", Category.CategoryType.Event);
+                Add("Vacation", Category.CategoryType.AllDayEvent);
+                Add("Travel days", Category.CategoryType.AllDayEvent);
+                Add("Canadian Holidays", Category.CategoryType.Holiday);
+                Add("US Holidays", Category.CategoryType.Holiday);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong: " + ex.Message);
+            }
         }
         /// <summary>
         /// Adds all category types into the database.
@@ -343,12 +352,21 @@ namespace Calendar
         /// </example>
         public void Add(String desc, Category.CategoryType type)
         {
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-            cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(@desc,@id)";
-            cmd.Parameters.AddWithValue("@desc", desc);
-            cmd.Parameters.AddWithValue("@id", (int)type);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
+            try
+            {
+
+
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+                cmd.CommandText = $"INSERT INTO categories(Description,TypeId) VALUES(@desc,@id)";
+                cmd.Parameters.AddWithValue("@desc", desc);
+                cmd.Parameters.AddWithValue("@id", (int)type);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong: " + ex.Message);
+            }
         }
 
         // ====================================================================
@@ -412,7 +430,7 @@ namespace Calendar
             }
             catch(Exception ex)  
             { 
-                Console.WriteLine($"Something went wrong:{ex.Message}");
+                throw new Exception($"Something went wrong:{ex.Message}");
             }
              
 
@@ -527,20 +545,27 @@ namespace Calendar
         /// </example>
         public List<Category> List()
         {
-            List<Category> newList = new List<Category>();
-
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-
-            cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
-            SQLiteDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
-            }
+                List<Category> newList = new List<Category>();
 
-            cmd.Dispose();
-            return newList;
+                SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+                cmd.CommandText = "SELECT Id, Description, TypeId FROM categories ORDER BY Id;";
+                SQLiteDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    newList.Add(new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2)));
+                }
+
+                cmd.Dispose();
+                return newList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong: " + ex.Message);
+            }
         }
     }
 }
