@@ -286,8 +286,6 @@ namespace Calendar
         {
             try
             {
-
-
                 // Declare Variables:
                 Start = Start ?? new DateTime(1900, 1, 1);
                 End = End ?? new DateTime(2500, 1, 1);
@@ -478,8 +476,6 @@ namespace Calendar
         {
             try
             {
-
-
                 DateTime startFilter = Start ?? new DateTime(1900, 1, 1);
                 DateTime endFilter = End ?? new DateTime(2500, 1, 1);
 
@@ -690,24 +686,23 @@ namespace Calendar
         /// </example>
         public List<CalendarItemsByCategory> GetCalendarItemsByCategory(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-            // -----------------------------------------------------------------------
-            // get all items first
-            // -----------------------------------------------------------------------
+           
             try
             {
-
-
+                //If undefined set Start and End to default.
                 Start = Start ?? new DateTime(1900, 1, 1);
                 End = End ?? new DateTime(2500, 1, 1);
 
                 List<Category> newList = new List<Category>();
 
                 SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
-
+                
+                //Get all categories that are within the time frame and groups them.
                 cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end GROUP BY CategoryId ORDER BY c.Description;";
                 cmd.Parameters.AddWithValue("startdate", Start);
                 cmd.Parameters.AddWithValue("end", End);
 
+                //If filter flag is true add a where clause which only gets events for that category.
                 if (FilterFlag)
                 {
                     cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end and CategoryId=@CatId GROUP BY CategoryId ORDER BY c.Description;";
@@ -725,18 +720,11 @@ namespace Calendar
                 }
 
                 cmd.Dispose();
-
-                // -----------------------------------------------------------------------
-                // Group by Category
-                // -----------------------------------------------------------------------
-
-                // -----------------------------------------------------------------------
-                // create new list
-                // -----------------------------------------------------------------------
+            
                 var summary = new List<CalendarItemsByCategory>();
                 foreach (var CategoryGroup in newList)
                 {
-
+                    //Get all calendar items for each category.
                     List<CalendarItem> filteredItems = GetCalendarItems(Start, End, true, CategoryGroup.Id);
 
                     // calculate totalBusyTime for this category, and create list of items
