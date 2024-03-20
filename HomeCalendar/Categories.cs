@@ -212,14 +212,20 @@ namespace Calendar
             // Add Defaults
             // ---------------------------------------------------------------
             SQLiteCommand cmd = new SQLiteCommand(_connection);
-            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Event')";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('AllDayEvent')";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Availability')";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Holiday')";
-            cmd.ExecuteNonQuery();
+            foreach(string category in Enum.GetNames(typeof(Category.CategoryType)))
+            {
+                cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('@categoryName')";
+                cmd.Parameters.AddWithValue("categoryName", category);
+                cmd.ExecuteNonQuery();
+            }
+            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Event')";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('AllDayEvent')";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Availability')";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO categoryTypes(Description) VALUES('Holiday')";
+            //cmd.ExecuteNonQuery();
 
             cmd.CommandText = "DELETE FROM categories;";
             cmd.ExecuteNonQuery();
@@ -350,7 +356,8 @@ namespace Calendar
         // Delete category
         // ====================================================================
         /// <summary>
-        /// Removes the category from the database of categories with the specified id. The passed id must be the id of a category in the database.
+        /// Removes the category from the database with the specified id, all events assocaciated with the category will also be deleted.
+        /// The passed id must be the id of a category in the database.
         /// </summary>
         /// <param name="Id">The id of the category that will be removed from the list.</param>
         /// <example>

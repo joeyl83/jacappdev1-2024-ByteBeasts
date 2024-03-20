@@ -39,9 +39,27 @@ namespace Calendar
         // ===================================================================
         // create and open a new database
         // ===================================================================
+        /// <summary>
+        /// Creates tables necessary for the home calendar API to function within a new database, i.e events,categories,categoryTypes.
+        /// </summary>
+        /// <param name="filename">The filename of the new database.</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// public IsNewDatabase(string filename, bool newDB = true)
+        ///     {
+        ///        if(newDB)
+        ///       {
+        ///           Database.newDatabase(filename)
+        ///       }
+        ///     }
+        /// 
+        /// ]]>
+        /// </code>
+        /// </example>
         public static void newDatabase(string filename)
         {
-          
+
             // If there was a database open before, close it and release the lock
             CloseDatabaseAndReleaseFile();
 
@@ -68,7 +86,7 @@ namespace Calendar
             cmd.CommandText = @"CREATE TABLE events(Id INTEGER PRIMARY KEY, 
                                     StartDateTime TEXT, Details TEXT, DurationInMinutes DOUBLE, CategoryId INTEGER, 
                                     FOREIGN KEY (CategoryId) REFERENCES categories(Id));";
-            cmd.ExecuteNonQuery ();
+            cmd.ExecuteNonQuery();
 
             cmd.CommandText = @"CREATE TABLE categories(Id INTEGER PRIMARY KEY, Description TEXT, TypeId INTEGER,
                                     FOREIGN KEY (TypeId) REFERENCES categoryTypes(Id));";
@@ -77,12 +95,27 @@ namespace Calendar
             cmd.Dispose();
         }
 
-       // ===================================================================
-       // open an existing database
-       // ===================================================================
-       public static void existingDatabase(string filename)
+        // ===================================================================
+        // open an existing database
+        // ===================================================================
+        /// <summary>
+        /// Establishes a connection and opens the existing database for use.
+        /// </summary>
+        /// <param name="filename">The filename of the existing database.</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        ///     Database.existingDatabase(messyDB);
+        ///     SQLiteConnection conn = Database.dbConnection;
+        ///     Events events = new Events(conn, false);
+        ///     events.Add(DateTime.Today,1,1,"Event details");
+        /// 
+        /// ]]>
+        /// </code>
+        /// </example>
+        public static void existingDatabase(string filename)
         {
-            
+
             CloseDatabaseAndReleaseFile();
 
             // your code
@@ -91,17 +124,31 @@ namespace Calendar
             _connection.Open();
         }
 
-       // ===================================================================
-       // close existing database, wait for garbage collector to
-       // release the lock before continuing
-       // ===================================================================
+        // ===================================================================
+        // close existing database, wait for garbage collector to
+        // release the lock before continuing
+        // ===================================================================
+        /// <summary>
+        /// Closes the existing database and waits for the garbage collector to release from the database file.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        ///     Database.existingDatabase(messyDB);
+        ///     SQLiteConnection conn = Database.dbConnection;
+        ///     Events events = new Events(conn, false);
+        ///     events.Add(DateTime.Today,1,1,"Event details");
+        ///     Database.CloseDatabaseAndReleaseFile()
+        /// ]]>
+        /// </code>
+        /// </example>
         static public void CloseDatabaseAndReleaseFile()
         {
             if (Database.dbConnection != null)
             {
                 // close the database connection
                 Database.dbConnection.Close();
-                
+
 
                 // wait for the garbage collector to remove the
                 // lock from the database file
