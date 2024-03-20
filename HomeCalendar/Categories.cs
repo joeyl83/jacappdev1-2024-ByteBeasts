@@ -227,7 +227,10 @@ namespace Calendar
             Add("Canadian Holidays", Category.CategoryType.Holiday);
             Add("US Holidays", Category.CategoryType.Holiday);
         }
-
+        /// <summary>
+        /// Adds all category types into the database.
+        /// </summary>
+        /// <param name="cmd">The command needed to execute the database queries.</param>
         public static void AddCategoryTypes(SQLiteCommand cmd)
         {
             foreach (string category in Enum.GetNames(typeof(Category.CategoryType)))
