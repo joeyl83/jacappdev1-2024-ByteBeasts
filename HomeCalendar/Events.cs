@@ -28,7 +28,7 @@ namespace Calendar
     /// <summary>
     /// Manages a collection of event items. Reads and writes to database storing the events. Initialized with the connection and whether it is a new or old database in the constructor.
     /// </summary>
-  
+
     public class Events
     {
         private SQLiteConnection _connection;
@@ -219,11 +219,11 @@ namespace Calendar
         /// 4  2020-01-20 11:00:00 AM    7          180        On call security
         /// </code>
         /// </example>
-        public void Update(int  Id, DateTime date, int category, Double duration, String details)
+        public void Update(int Id, DateTime date, int category, Double duration, String details)
         {
             try
             {
-                
+
                 SQLiteCommand cmd = new SQLiteCommand(_connection);
                 cmd.CommandText = "UPDATE events SET StartDateTime = @date, DurationInMinutes = @duration, Details = @details, CategoryId = @category WHERE Id=@id";
                 cmd.Parameters.AddWithValue("@date", date);
@@ -306,11 +306,11 @@ namespace Calendar
                 cmd.Dispose();
                 return newList;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Something went wrong: " + ex.Message);
             }
-  
+
         }
     }
 }

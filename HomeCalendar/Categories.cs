@@ -86,8 +86,8 @@ namespace Calendar
         public Categories(SQLiteConnection connection, bool newDB = false)
         {
             _connection = connection;
- 
-            if(newDB)
+
+            if (newDB)
             {
                 SetCategoriesToDefaults();
             }
@@ -146,11 +146,11 @@ namespace Calendar
                 Category c = new Category(reader.GetInt32(0), reader.GetString(1), (Category.CategoryType)reader.GetInt32(2));
                 return c;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error. Invalid Id: " + ex.Message);
             }
-            
+
         }
 
         // ====================================================================
@@ -247,7 +247,7 @@ namespace Calendar
                 cmd.Parameters.AddWithValue("categoryName", category);
                 cmd.ExecuteNonQuery();
             }
- 
+
         }
         // ====================================================================
         // Add category
@@ -427,11 +427,11 @@ namespace Calendar
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
-            catch(Exception ex)  
-            { 
+            catch (Exception ex)
+            {
                 throw new Exception($"Something went wrong:{ex.Message}");
             }
-             
+
 
         }
 
@@ -489,11 +489,11 @@ namespace Calendar
                 cmd.Parameters.AddWithValue("id", Id);
                 cmd.ExecuteNonQuery();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error. Invalid Id: " + ex.Message);
             }
-            
+
         }
 
         // ====================================================================

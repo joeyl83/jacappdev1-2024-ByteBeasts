@@ -686,7 +686,7 @@ namespace Calendar
         /// </example>
         public List<CalendarItemsByCategory> GetCalendarItemsByCategory(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
-           
+
             try
             {
                 //If undefined set Start and End to default.
@@ -696,7 +696,7 @@ namespace Calendar
                 List<Category> newList = new List<Category>();
 
                 SQLiteCommand cmd = new SQLiteCommand(Database.dbConnection);
-                
+
                 //Get all categories that are within the time frame and groups them.
                 cmd.CommandText = "SELECT c.Id,c.Description,c.TypeId FROM events e inner join categories c on e.CategoryId=c.Id WHERE StartDateTime >= @startdate and StartDateTime <= @end GROUP BY CategoryId ORDER BY c.Description;";
                 cmd.Parameters.AddWithValue("startdate", Start);
@@ -720,7 +720,7 @@ namespace Calendar
                 }
 
                 cmd.Dispose();
-            
+
                 var summary = new List<CalendarItemsByCategory>();
                 foreach (var CategoryGroup in newList)
                 {
@@ -998,7 +998,7 @@ namespace Calendar
         /// Birthdays: 1440
         /// </code>
         /// </example>
-        public List<Dictionary<string,object>> GetCalendarDictionaryByCategoryAndMonth(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
+        public List<Dictionary<string, object>> GetCalendarDictionaryByCategoryAndMonth(DateTime? Start, DateTime? End, bool FilterFlag, int CategoryID)
         {
             // -----------------------------------------------------------------------
             // get all items by month 
