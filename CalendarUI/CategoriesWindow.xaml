@@ -15,9 +15,11 @@
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40">Add Category</TextBlock>
         <TextBlock Grid.Row="1" HorizontalAlignment="Center">Category Name:</TextBlock>
-        <TextBox Grid.Row="1" Width="100" Height="30"></TextBox>
+        <TextBox Name="CategoryName" Grid.Row="1" Width="100" Height="30"></TextBox>
         <TextBlock Grid.Row="2" HorizontalAlignment="Center">Category Type:</TextBlock>
-        <ComboBox Grid.Row="2" Width="100" Height="30"></ComboBox>
-        <Button Grid.Row="3" Width="100" Height="30" VerticalAlignment="Top">Create</Button>
+        <ComboBox Name="CategoryType" Grid.Row="2" Width="100" Height="30"></ComboBox>
+        <Button Grid.Row="3" Width="100" Height="30" VerticalAlignment="Top" Click="Btn_AddCategory">Create</Button>
+        <TextBlock Name="Sucess" Foreground="Green" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">Category successfuly created</TextBlock>
+        <TextBlock Name="SucessCategory" Foreground="Green" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">Category details:</TextBlock>
     </Grid>
 </Window>
