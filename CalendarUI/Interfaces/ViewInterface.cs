@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Calendar;
 
-namespace CalendarUI
+namespace CalendarUI.Interfaces
 {
     class ViewInterface
     {
@@ -17,11 +17,11 @@ namespace CalendarUI
             void SetEvent(Event theEvent);
             void SetCategory(Category theCategory);
             void SetDate(DateTime date);
-            void SetDuration(Double duration);
-            void SetDetails(String details);
+            void SetDuration(double duration);
+            void SetDetails(string details);
             void SetCategoryID(int categoryID);
             void SetEventID(int eventID);
-            void SetError(String error);
+            void SetError(string error);
             void ClearError();
             void ClearEvent();
             void ClearCategory();
