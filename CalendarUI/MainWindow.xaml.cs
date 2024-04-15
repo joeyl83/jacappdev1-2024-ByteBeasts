@@ -27,6 +27,7 @@ namespace CalendarUI
         {
             string input = NewCalendarTextBox.Text;
             NewCalendar(input);
+            ChangeWindow();
         }
 
         public void NewCalendar(string filename)
@@ -36,7 +37,10 @@ namespace CalendarUI
 
         public void ChangeWindow()
         {
-            throw new NotImplementedException();
+          
+           CategoriesWindow categories = new CategoriesWindow(presenter);
+           categories.Show();
+            this.Close();
         }
     }
 }
