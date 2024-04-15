@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,9 +32,26 @@ namespace CalendarUI
             NewCalendar(calendarFolderName, calendarName);
         }
 
+        public void OpenCalendarBtnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filepath = openFileDialog.FileName;
+                OpenExistingCalendar(filepath);
+            }
+            
+        }
+
         public void NewCalendar(string directory, string filename)
         {
-            presenter.InitlializeHomeCalendar(directory, filename, true);
+            presenter.NewHomeCalendar(directory, filename);
+        }
+
+        public void OpenExistingCalendar(string filepath)
+        {
+            presenter.OpenHomeCalendar(filepath);
         }
 
         public void ChangeWindow()

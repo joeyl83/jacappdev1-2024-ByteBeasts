@@ -17,13 +17,18 @@ namespace CalendarUI
             view = v;
         }
 
-        public void InitlializeHomeCalendar(string directory, string fileName, bool newDB)
+        public void NewHomeCalendar(string directory, string fileName)
         {
             if(!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
-            model = new HomeCalendar(directory + "/" + fileName + ".db", newDB);
+            model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+        }
+
+        public void OpenHomeCalendar(string filepath)
+        {
+            model = new HomeCalendar(filepath);
         }
     }
 }

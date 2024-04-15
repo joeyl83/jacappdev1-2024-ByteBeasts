@@ -9,6 +9,7 @@ namespace CalendarUI
     public interface ViewInterface
     {
         void NewCalendar(string directory, string filename);
+        void OpenExistingCalendar(string filepath);
         void ChangeWindow();
     }
 }

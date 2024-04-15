@@ -27,7 +27,8 @@
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Folder Name</Label>
         <TextBox Name="NewCalendarFolderTextBox" Grid.Row="2" Grid.Column="1" Width="350" Height="30" VerticalContentAlignment="Center"></TextBox>
 
-        <Button Name="NewCalendarButton" Click="NewCalendarBtnClick"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Width="120" Height="30" HorizontalAlignment="Right" Margin="30">Create new calendar</Button>
+        <Button Name="NewCalendarButton" Click="NewCalendarBtnClick"  Grid.Row="3" Grid.Column="1" Width="120" Height="30" HorizontalAlignment="Right" Margin="30">Create new calendar</Button>
+        <Button Name="OpenCalendarButton" Click="OpenCalendarBtnClick"  Grid.Row="3" Grid.Column="0" Width="120" Height="30" HorizontalAlignment="Left" Margin="30">Open Calendar</Button>
 
     </Grid>
 </Window>
