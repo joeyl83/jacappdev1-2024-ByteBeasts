@@ -12,6 +12,7 @@ namespace CalendarUI
     {
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
+        private HomePageViewInterface homePageView;
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
@@ -26,6 +27,7 @@ namespace CalendarUI
                 Directory.CreateDirectory(directory);
             }
             model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+            view.ChangeWindow();
         }
 
         public void OpenHomeCalendar(string filepath)
@@ -34,6 +36,7 @@ namespace CalendarUI
             if(extension == ".db")
             {
                 model = new HomeCalendar(filepath);
+                view.ChangeWindow();
             }
             else
             {
@@ -56,6 +59,10 @@ namespace CalendarUI
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;
+        }
+        public void InitializeHomePageView(HomePageViewInterface view)
+        {
+            homePageView = view;
         }
     }
 }
