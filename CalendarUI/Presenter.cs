@@ -11,6 +11,8 @@ namespace CalendarUI
     public class Presenter
     {
         private readonly ViewInterface view;
+        private CategoriesViewInterface categoryView;
+        // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
         {
@@ -21,10 +23,14 @@ namespace CalendarUI
         {
             model = new HomeCalendar(databaseFilename + ".db", newDB);
         }
-        public void ProcessInput(string categoryName, Category.CategoryType type)
+        public void ProcessAddCategory(string categoryName, Category.CategoryType type)
         {
-            _model.categories.Add(categoryName, type);
-            _view.AddCategory();
+            model.categories.Add(categoryName, type);
+            categoryView.AddCategory();
+        }
+        public void InitializeCategoryView(CategoriesViewInterface view)
+        {
+            categoryView = view;
         }
     }
 }

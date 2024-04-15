@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
         Title="CategoriesWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Name="InputGrid">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>

@@ -19,10 +19,12 @@ namespace CalendarUI
     /// </summary>
     public partial class CategoriesWindow : Window, CategoriesViewInterface
     {
-        private readonly CategoriesPresenter _presenter;
-        public CategoriesWindow()
+        private readonly Presenter _presenter;
+        public CategoriesWindow(Presenter presenter)
         {
             InitializeComponent();
+            _presenter = presenter;
+            _presenter.InitializeCategoryView(this);
         }
 
         public void AddCategory()
@@ -47,8 +49,12 @@ namespace CalendarUI
 
         private void Btn_AddCategory(object sender, RoutedEventArgs e)
         {
+            int typenumber = 0;
+            string[] array = CategoryType.Text.Split(':');
+            typenumber = Int32.Parse(array[1].Trim());
+            Category.CategoryType type = (Category.CategoryType)typenumber;
             Sucess.Visibility = Visibility.Collapsed;
-
+            _presenter.ProcessAddCategory(CategoryName.Text,type);
         }
     }
 }
