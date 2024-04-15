@@ -52,9 +52,9 @@ namespace CalendarUI
             throw new NotImplementedException();
         }
 
-        public void SetError()
+        public void SetError(string message)
         {
-            throw new NotImplementedException();
+            ErrorMessage.Text = message;
         }
 
         private void Btn_AddCategory(object sender, RoutedEventArgs e)
