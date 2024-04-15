@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +17,13 @@ namespace CalendarUI
             view = v;
         }
 
-        public void InitlializeHomeCalendar(string databaseFilename, bool newDB)
+        public void InitlializeHomeCalendar(string directory, string fileName, bool newDB)
         {
-            model = new HomeCalendar(databaseFilename + ".db", newDB);
+            if(!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            model = new HomeCalendar(directory + "/" + fileName + ".db", newDB);
         }
     }
 }

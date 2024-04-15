@@ -8,7 +8,7 @@ namespace CalendarUI
 {
     public interface ViewInterface
     {
-        void NewCalendar(string filename);
+        void NewCalendar(string directory, string filename);
         void ChangeWindow();
     }
 }

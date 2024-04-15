@@ -25,13 +25,14 @@ namespace CalendarUI
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)
         {
-            string input = NewCalendarTextBox.Text;
-            NewCalendar(input);
+            string calendarName = NewCalendarNameTextBox.Text;
+            string calendarFolderName = NewCalendarFolderTextBox.Text;
+            NewCalendar(calendarFolderName, calendarName);
         }
 
-        public void NewCalendar(string filename)
+        public void NewCalendar(string directory, string filename)
         {
-            presenter.InitlializeHomeCalendar(filename, true);
+            presenter.InitlializeHomeCalendar(directory, filename, true);
         }
 
         public void ChangeWindow()
