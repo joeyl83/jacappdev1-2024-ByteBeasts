@@ -25,8 +25,18 @@ namespace CalendarUI
             InitializeComponent();
             _presenter = presenter;
             _presenter.InitializeCategoryView(this);
+            LoadComboBox();
         }
 
+        public void LoadComboBox()
+        {
+            int count = 0;
+            foreach (string category in Enum.GetNames(typeof(Category.CategoryType)))
+            {
+                count++;
+                CategoryType.Items.Add($"{category}:{count}");
+            }
+        }
         public void AddCategory()
         {
            Sucess.Visibility = Visibility.Visible;
