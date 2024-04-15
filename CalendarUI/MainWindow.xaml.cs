@@ -54,6 +54,11 @@ namespace CalendarUI
             presenter.OpenHomeCalendar(filepath);
         }
 
+        public void ShowError(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         public void ChangeWindow()
         {
             throw new NotImplementedException();

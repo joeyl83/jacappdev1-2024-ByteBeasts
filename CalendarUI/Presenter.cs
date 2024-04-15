@@ -28,7 +28,15 @@ namespace CalendarUI
 
         public void OpenHomeCalendar(string filepath)
         {
-            model = new HomeCalendar(filepath);
+            string extension = Path.GetExtension(filepath);
+            if(extension == ".db")
+            {
+                model = new HomeCalendar(filepath);
+            }
+            else
+            {
+                view.ShowError("Invalid file");
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace CalendarUI
     {
         void NewCalendar(string directory, string filename);
         void OpenExistingCalendar(string filepath);
+        void ShowError(string message);
         void ChangeWindow();
     }
 }
