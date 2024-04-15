@@ -18,7 +18,7 @@ namespace CalendarUI
 
         public void InitlializeHomeCalendar(string databaseFilename, bool newDB)
         {
-            model = new HomeCalendar(databaseFilename, newDB);
+            model = new HomeCalendar(databaseFilename + ".db", newDB);
         }
     }
 }
