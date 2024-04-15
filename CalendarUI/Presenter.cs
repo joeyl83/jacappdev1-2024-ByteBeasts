@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,11 @@ namespace CalendarUI
         public void InitlializeHomeCalendar(string databaseFilename, bool newDB)
         {
             model = new HomeCalendar(databaseFilename + ".db", newDB);
+        }
+        public void ProcessInput(string categoryName, Category.CategoryType type)
+        {
+            _model.categories.Add(categoryName, type);
+            _view.AddCategory();
         }
     }
 }
