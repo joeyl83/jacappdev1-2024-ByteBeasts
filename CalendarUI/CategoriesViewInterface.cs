@@ -10,10 +10,6 @@ namespace CalendarUI
     {
         public void AddCategory();
 
-        public void RemoveCategory();
-
         public void ShowError(string message);
-
-        public void ClearError();
     }
 }

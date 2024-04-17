@@ -42,16 +42,6 @@ namespace CalendarUI
            Success.Visibility = Visibility.Visible;
         }
 
-        public void ClearError()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveCategory()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowError(string message)
         {
             MessageBox.Show(message,"Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -63,7 +53,7 @@ namespace CalendarUI
             {
                 ShowError("Please select a value for Category Type and input a name for Category Name.");
             }
-            if (string.IsNullOrWhiteSpace(CategoryType.Text))
+            else if (string.IsNullOrWhiteSpace(CategoryType.Text))
             {
                 ShowError("Please select a value for Category Type.");
             }
