@@ -25,8 +25,16 @@ namespace CalendarUI
         }
         public void ProcessAddCategory(string categoryName, Category.CategoryType type)
         {
-            model.categories.Add(categoryName, type);
-            categoryView.AddCategory();
+            try
+            {
+                model.categories.Add(categoryName, type);
+                categoryView.AddCategory();
+            }
+            catch (Exception ex)
+            {
+                categoryView.ShowError(ex.Message);
+            }
+           
         }
         public void InitializeCategoryView(CategoriesViewInterface view)
         {

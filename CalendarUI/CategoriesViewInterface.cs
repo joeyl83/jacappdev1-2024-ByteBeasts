@@ -12,7 +12,7 @@ namespace CalendarUI
 
         public void RemoveCategory();
 
-        public void SetError(string message);
+        public void ShowError(string message);
 
         public void ClearError();
     }

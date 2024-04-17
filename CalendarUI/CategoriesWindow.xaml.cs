@@ -39,7 +39,7 @@ namespace CalendarUI
         }
         public void AddCategory()
         {
-           Sucess.Visibility = Visibility.Visible;
+           Success.Visibility = Visibility.Visible;
         }
 
         public void ClearError()
@@ -52,19 +52,35 @@ namespace CalendarUI
             throw new NotImplementedException();
         }
 
-        public void SetError(string message)
+        public void ShowError(string message)
         {
-            ErrorMessage.Text = message;
+            MessageBox.Show(message,"Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void Btn_AddCategory(object sender, RoutedEventArgs e)
         {
-            int typenumber = 0;
-            string[] array = CategoryType.Text.Split(':');
-            typenumber = Int32.Parse(array[1].Trim());
-            Category.CategoryType type = (Category.CategoryType)typenumber;
-            Sucess.Visibility = Visibility.Collapsed;
-            _presenter.ProcessAddCategory(CategoryName.Text,type);
+            if (string.IsNullOrWhiteSpace(CategoryType.Text) && string.IsNullOrWhiteSpace(CategoryName.Text))
+            {
+                ShowError("Please select a value for Category Type and input a name for Category Name.");
+            }
+            if (string.IsNullOrWhiteSpace(CategoryType.Text))
+            {
+                ShowError("Please select a value for Category Type.");
+            }
+            else if(string.IsNullOrWhiteSpace(CategoryName.Text))
+            {
+                ShowError("Please input a value for Category Name.");
+            }
+            else
+            {
+                int typenumber = 0;
+                string[] array = CategoryType.Text.Split(':');
+                typenumber = Int32.Parse(array[1].Trim());
+                Category.CategoryType type = (Category.CategoryType)typenumber;
+                Success.Visibility = Visibility.Collapsed;
+                _presenter.ProcessAddCategory(CategoryName.Text, type);
+            }
+          
         }
     }
 }

@@ -37,10 +37,9 @@ namespace CalendarUI
 
         public void ChangeWindow()
         {
-          
            CategoriesWindow categories = new CategoriesWindow(presenter);
            categories.Show();
-            this.Close();
+           this.Close();
         }
     }
 }
