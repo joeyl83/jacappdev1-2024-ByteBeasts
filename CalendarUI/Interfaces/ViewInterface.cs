@@ -10,7 +10,8 @@ namespace CalendarUI.Interfaces
     class ViewInterface
     {
         // This is the interface for the View class
-        public interface IView
+        public interface IView : Interface1
+
         {
             void SetEvents(List<Event> events);
             void SetCategories(List<Category> categories);

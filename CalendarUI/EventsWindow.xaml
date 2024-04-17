@@ -1,0 +1,38 @@
+﻿<Window x:Class="CalendarUI.EventsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarUI"
+        mc:Ignorable="d"
+        Title="EventsWindow" Height="450" Width="800">
+    
+        <Grid x:Name="mainGrid" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+                <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="40">Add Event</Label>
+                <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="20">Please input the following:</Label>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+            <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="40">Add Event</Label>
+            <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+        </StackPanel>
+
+            <StackPanel Grid.Row="2">
+                <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="40">Add Event</Label>
+                <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="20">Please input the following:</Label>
+            </StackPanel>
+
+
+
+
+
+    </Grid>
+</Window>
