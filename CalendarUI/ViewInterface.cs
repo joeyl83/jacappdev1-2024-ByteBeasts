@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace CalendarUI
 {
-    class ViewInterface
+    public interface ViewInterface
     {
-
+        void NewCalendar(string directory, string filename);
+        void OpenExistingCalendar(string filepath);
+        void ShowError(string message);
+        void ChangeWindow();
     }
 }

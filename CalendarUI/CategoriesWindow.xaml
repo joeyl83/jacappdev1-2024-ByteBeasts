@@ -1,0 +1,24 @@
+﻿<Window x:Class="CalendarUI.CategoriesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarUI"
+        mc:Ignorable="d"
+        Title="CategoriesWindow" Height="450" Width="800">
+    <Grid Name="InputGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40">Add Category</TextBlock>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center">Category Name:</TextBlock>
+        <TextBox Name="CategoryName" Grid.Row="1" Width="100" Height="30"></TextBox>
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center">Category Type:</TextBlock>
+        <ComboBox Name="CategoryType" Grid.Row="2" Width="100" Height="30"></ComboBox>
+        <Button Grid.Row="3" Width="100" Height="30" VerticalAlignment="Top" Click="Btn_AddCategory">Create</Button>
+        <TextBlock Name="Success" Foreground="Green" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">Category successfuly created</TextBlock>
+    </Grid>
+</Window>

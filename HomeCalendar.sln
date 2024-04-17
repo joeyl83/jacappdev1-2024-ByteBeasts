@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeCalendar", "HomeCalenda
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject_Calendar", "TestProject_Calendar\TestProject_Calendar.csproj", "{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarUI", "CalendarUI\CalendarUI.csproj", "{1F949564-BFAA-4041-AE85-C7918B950685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarUI", "CalendarUI\CalendarUI.csproj", "{1F949564-BFAA-4041-AE85-C7918B950685}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,8 +35,8 @@ Global
 		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Release|x64.Build.0 = Release|x64
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|x64.Build.0 = Debug|Any CPU
+		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|x64.ActiveCfg = Debug|x64
+		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|x64.Build.0 = Debug|x64
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Release|x64.ActiveCfg = Release|Any CPU
