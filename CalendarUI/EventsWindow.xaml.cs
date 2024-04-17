@@ -24,7 +24,7 @@ namespace CalendarUI
             InitializeComponent();
         }
 
-        private void CalendarButton_Click(object sender, RoutedEventArgs e)
+        private void addEventButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
