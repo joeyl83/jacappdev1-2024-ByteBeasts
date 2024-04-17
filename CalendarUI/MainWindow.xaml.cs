@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,14 +27,36 @@ namespace CalendarUI
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)
         {
-            string input = NewCalendarTextBox.Text;
-            NewCalendar(input);
-            ChangeWindow();
+            string calendarName = NewCalendarNameTextBox.Text;
+            string calendarFolderName = NewCalendarFolderTextBox.Text;
+            NewCalendar(calendarFolderName, calendarName);
         }
 
-        public void NewCalendar(string filename)
+        public void OpenCalendarBtnClick(object sender, RoutedEventArgs e)
         {
-            presenter.InitlializeHomeCalendar(filename, true);
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filepath = openFileDialog.FileName;
+                OpenExistingCalendar(filepath);
+            }
+            
+        }
+
+        public void NewCalendar(string directory, string filename)
+        {
+            presenter.NewHomeCalendar(directory, filename);
+        }
+
+        public void OpenExistingCalendar(string filepath)
+        {
+            presenter.OpenHomeCalendar(filepath);
+        }
+
+        public void ShowError(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public void ChangeWindow()

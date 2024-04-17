@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +19,26 @@ namespace CalendarUI
             view = v;
         }
 
-        public void InitlializeHomeCalendar(string databaseFilename, bool newDB)
+        public void NewHomeCalendar(string directory, string fileName)
         {
-            model = new HomeCalendar(databaseFilename + ".db", newDB);
+            if(!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+        }
+
+        public void OpenHomeCalendar(string filepath)
+        {
+            string extension = Path.GetExtension(filepath);
+            if(extension == ".db")
+            {
+                model = new HomeCalendar(filepath);
+            }
+            else
+            {
+                view.ShowError("Invalid file");
+            }
         }
         public void ProcessAddCategory(string categoryName, Category.CategoryType type)
         {
