@@ -50,9 +50,29 @@ namespace CalendarUI
 
         private void addEventButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] array = CatComboBox.Text.Split(':');
-            int catId = Int32.Parse(array[1].Trim());
-            _presenter.ProcessAddEvent((DateTime)StartDate.SelectedDate, Double.Parse(Duration.Text), Details.Text,catId);
+            if(string.IsNullOrWhiteSpace(StartDate.Text))
+            {
+                ShowError("Fields empty.");
+            }
+            else if (string.IsNullOrWhiteSpace(CatComboBox.Text))
+            {
+                ShowError("Fields empty.");
+            }
+            else if (string.IsNullOrWhiteSpace(Duration.Text))
+            {
+                ShowError("Fields empty.");
+            }
+            else if (string.IsNullOrWhiteSpace(Details.Text))
+            {
+                ShowError("Fields empty.");
+            }
+            else
+            {
+                string[] array = CatComboBox.Text.Split(':');
+                int catId = Int32.Parse(array[1].Trim());
+                _presenter.ProcessAddEvent((DateTime)StartDate.SelectedDate, Double.Parse(Duration.Text), Details.Text, catId);
+            }
+          
         }
 
         public void LoadCategories(List<string> categories)
