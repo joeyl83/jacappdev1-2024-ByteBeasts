@@ -28,7 +28,7 @@ namespace CalendarUI
             _presenter.LoadCategoryTypes();
         }
 
-        public void LoadCategoryTypes(string[] categoryTypes)
+        public void LoadCategoryTypes(List<string> categoryTypes)
         {
             foreach (string type in categoryTypes)
             {

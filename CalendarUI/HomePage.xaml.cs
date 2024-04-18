@@ -44,7 +44,8 @@ namespace CalendarUI
 
         public void OpenAddEventWindow()
         {
-            //Opens the add event window (not implemented yet)
+            EventsWindow events = new EventsWindow(presenter);
+            events.Show();
         }
     }
 }

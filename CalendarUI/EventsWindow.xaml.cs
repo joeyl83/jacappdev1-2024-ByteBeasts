@@ -31,7 +31,7 @@ namespace CalendarUI
 
         public void AddEvent()
         {
-            EventSuccess.Visibility = Visibility.Collapsed;
+            EventSuccess.Visibility = Visibility.Visible;
             ClearEventDetails();
         }
 
@@ -55,7 +55,7 @@ namespace CalendarUI
             _presenter.ProcessAddEvent((DateTime)StartDate.SelectedDate, Double.Parse(Duration.Text), Details.Text,catId);
         }
 
-        public void LoadCategories(string[] categories)
+        public void LoadCategories(List<string> categories)
         {
             foreach (string type in categories)
             {

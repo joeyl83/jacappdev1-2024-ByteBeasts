@@ -12,7 +12,7 @@ namespace CalendarUI
         void ShowError(string error);
         void AddEvent();
         void ClearEventDetails();
-        void LoadCategories(string[] categories);
+        void LoadCategories(List<string> categories);
         
     }
 }

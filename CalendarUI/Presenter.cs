@@ -13,6 +13,7 @@ namespace CalendarUI
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
         private HomePageViewInterface homePageView;
+        private EventViewInterface eventView;
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
@@ -74,29 +75,33 @@ namespace CalendarUI
         }
         public void LoadCategoryTypes()
         {
-            string[] array = { };
+            List<string> list=new List<string>();
             int count = 0;
             foreach (string categoryType in Enum.GetNames(typeof(Category.CategoryType)))
             {
                 count++;
-                array[count]=$"{categoryType}:{count}";
+                list.Add($"{categoryType}:{count}");
             }
-            categoryView.LoadCategoryTypes(array);
+            categoryView.LoadCategoryTypes(list);
         }
         public void LoadCategories()
         {
-            string[] array = { };
+            List<string> list = new List<string>();
             int count = 0;
             foreach (Category category in model.categories.List())
             {
                 count++;
-                array[count] = $"{category.Description}:{count}";
+                list.Add($"{category.Description}:{count}");
             }
-            eventView.LoadCategories(array);
+            eventView.LoadCategories(list);
         }
         public void InitializeEventView(EventViewInterface view)
         {
             eventView = view;
+        }
+        public void InitializeHomePageView(HomePageViewInterface view)
+        {
+            homePageView = view;
         }
     }
 }
