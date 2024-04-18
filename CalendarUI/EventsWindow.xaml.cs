@@ -26,6 +26,7 @@ namespace CalendarUI
             InitializeComponent();
             _presenter = presenter;
             _presenter.InitializeEventView(this);
+            _presenter.LoadCategories();
         }
 
         public void AddEvent()
@@ -50,7 +51,18 @@ namespace CalendarUI
 
         private void addEventButton_Click(object sender, RoutedEventArgs e)
         {
+            string[] array = categoryGroupBox.ContentStringFormat.Split(':');
+            int catId = Int32.Parse(array[1].Trim());
+            _presenter.ProcessAddEvent((DateTime)StartDate, Double.Parse(Duration.Text), detailsGroupBox.ContentStringFormat,catId);
 
+        }
+
+        public void LoadCategories(string[] categories)
+        {
+            foreach (string type in categories)
+            {
+                CatComboBox.Items.Add(type);
+            }
         }
     }
 }

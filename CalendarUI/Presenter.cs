@@ -70,6 +70,28 @@ namespace CalendarUI
         {
             categoryView = view;
         }
+        public void LoadCategoryTypes()
+        {
+            string[] array = { };
+            int count = 0;
+            foreach (string categoryType in Enum.GetNames(typeof(Category.CategoryType)))
+            {
+                count++;
+                array[count]=$"{categoryType}:{count}";
+            }
+            categoryView.LoadCategoryTypes(array);
+        }
+        public void LoadCategories()
+        {
+            string[] array = { };
+            int count = 0;
+            foreach (Category category in model.categories.List())
+            {
+                count++;
+                array[count] = $"{category.Description}:{count}";
+            }
+            eventView.LoadCategories(array);
+        }
         public void InitializeEventView(EventViewInterface view)
         {
             eventView = view;

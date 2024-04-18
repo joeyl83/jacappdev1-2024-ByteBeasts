@@ -25,7 +25,7 @@
         <GroupBox x:Name="dateGroupBox" Header="Date" Grid.Row="1" >
             <StackPanel Grid.Row="1">
                 <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Date for of occurence:</Label>
-                <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+                <DatePicker Name="StartDate" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
             </StackPanel>
         </GroupBox>
 
@@ -33,21 +33,20 @@
         <GroupBox x:Name="categoryGroupBox" Header="Category" Grid.Row="2" >
             <StackPanel Grid.Row="1">
                 <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Associated category:</Label>
-                <ComboBox Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+                <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
             </StackPanel>
         </GroupBox>
 
         <GroupBox x:Name="durationGroupBox" Header="Duration" Grid.Row="3" >
             <StackPanel Grid.Row="1">
                 <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Event Duration:</Label>
-                <ComboBox Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+                <ComboBox Name="Duration" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
             </StackPanel>
         </GroupBox>
 
         <GroupBox x:Name="detailsGroupBox" Header="Details" Grid.Row="4" >
             <StackPanel Grid.Row="1">
-                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Date for of occurence:</Label>
-                <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+                <TextBox Height="70"></TextBox>
             </StackPanel>
         </GroupBox>
 

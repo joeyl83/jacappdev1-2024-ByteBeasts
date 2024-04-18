@@ -25,16 +25,14 @@ namespace CalendarUI
             InitializeComponent();
             _presenter = presenter;
             _presenter.InitializeCategoryView(this);
-            LoadComboBox();
+            _presenter.LoadCategoryTypes();
         }
 
-        public void LoadComboBox()
+        public void LoadCategoryTypes(string[] categoryTypes)
         {
-            int count = 0;
-            foreach (string category in Enum.GetNames(typeof(Category.CategoryType)))
+            foreach (string type in categoryTypes)
             {
-                count++;
-                CategoryType.Items.Add($"{category}:{count}");
+                CategoryType.Items.Add(type);
             }
         }
         public void AddCategory()
