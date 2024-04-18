@@ -62,8 +62,8 @@ namespace CalendarUI
 
         public void ChangeWindow()
         {
-           EventsWindow window= new EventsWindow(presenter);
-           window.Show();
+            HomePage homePage = new HomePage(presenter);
+            homePage.Show();
            this.Close();
         }
 
