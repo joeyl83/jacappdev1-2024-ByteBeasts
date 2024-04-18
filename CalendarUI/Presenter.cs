@@ -12,6 +12,7 @@ namespace CalendarUI
     {
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
+        private EventViewInterface eventView;
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
@@ -53,9 +54,25 @@ namespace CalendarUI
             }
            
         }
+        public void ProcessAddEvent(DateTime StartDateTime,double DurationInMinutes,string Details,int CatId)
+        {
+            try
+            {
+                model.events.Add(StartDateTime,CatId,DurationInMinutes, Details);
+                eventView.AddEvent();
+            }
+            catch(Exception ex)
+            {
+                eventView.ShowError(ex.Message);
+            }
+        }
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;
+        }
+        public void InitializeEventView(EventViewInterface view)
+        {
+            eventView = view;
         }
     }
 }

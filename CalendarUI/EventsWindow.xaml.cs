@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calendar;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,34 @@ namespace CalendarUI
     /// <summary>
     /// Interaction logic for EventsWindow.xaml
     /// </summary>
-    public partial class EventsWindow : Window
+    public partial class EventsWindow : Window,EventViewInterface
     {
-        public EventsWindow()
+        private Presenter _presenter;
+        public EventsWindow(Presenter presenter)
         {
             InitializeComponent();
+            _presenter = presenter;
+            _presenter.InitializeEventView(this);
+        }
+
+        public void AddEvent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearEventDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetEvent(Event theEvent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowError(string error)
+        {
+            throw new NotImplementedException();
         }
 
         private void addEventButton_Click(object sender, RoutedEventArgs e)
