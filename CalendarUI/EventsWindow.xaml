@@ -1,0 +1,59 @@
+﻿<Window x:Class="CalendarUI.EventsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarUI"
+        mc:Ignorable="d"
+        Title="EventsWindow" Height="600" Width="450" ResizeMode="NoResize">
+    
+        <Grid x:Name="mainGrid" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+                <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="30" Margin="0">Add Event</Label>
+                <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="20">Please input the following:</Label>
+        </StackPanel>
+
+        <GroupBox x:Name="dateGroupBox" Header="Date" Grid.Row="1" >
+            <StackPanel Grid.Row="1">
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Date for of occurence:</Label>
+                <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+            </StackPanel>
+        </GroupBox>
+
+
+        <GroupBox x:Name="categoryGroupBox" Header="Category" Grid.Row="2" >
+            <StackPanel Grid.Row="1">
+                <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Associated category:</Label>
+                <ComboBox Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox x:Name="durationGroupBox" Header="Duration" Grid.Row="3" >
+            <StackPanel Grid.Row="1">
+                <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Event Duration:</Label>
+                <ComboBox Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox x:Name="detailsGroupBox" Header="Details" Grid.Row="4" >
+            <StackPanel Grid.Row="1">
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Date for of occurence:</Label>
+                <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+            </StackPanel>
+        </GroupBox>
+
+
+        <Button x:Name="addEventButton" Grid.Row="5" Grid.RowSpan="20" Content="Add Event" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Width="200px" Click="addEventButton_Click"></Button>
+
+
+    </Grid>
+</Window>

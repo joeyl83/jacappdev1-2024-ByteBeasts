@@ -22,6 +22,12 @@ namespace CalendarUI
         public MainWindow()
         {
             InitializeComponent();
+
+
+            // Create a new instance of the EventsWindow class
+            EventsWindow eventsWindow = new EventsWindow();
+            eventsWindow.Show();
+
             presenter = new Presenter(this);
         }
 
@@ -65,5 +71,6 @@ namespace CalendarUI
            categories.Show();
            this.Close();
         }
+
     }
 }
