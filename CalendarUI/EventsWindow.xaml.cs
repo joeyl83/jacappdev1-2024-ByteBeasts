@@ -31,30 +31,28 @@ namespace CalendarUI
 
         public void AddEvent()
         {
-            throw new NotImplementedException();
+            EventSuccess.Visibility = Visibility.Collapsed;
+            ClearEventDetails();
         }
 
         public void ClearEventDetails()
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetEvent(Event theEvent)
-        {
-            throw new NotImplementedException();
+            StartDate.SelectedDate = DateTime.MinValue;
+            Duration.Clear();
+            Details.Clear();
+            CatComboBox.SelectedIndex = 0;
         }
 
         public void ShowError(string error)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void addEventButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] array = categoryGroupBox.ContentStringFormat.Split(':');
+            string[] array = CatComboBox.Text.Split(':');
             int catId = Int32.Parse(array[1].Trim());
-            _presenter.ProcessAddEvent((DateTime)StartDate, Double.Parse(Duration.Text), detailsGroupBox.ContentStringFormat,catId);
-
+            _presenter.ProcessAddEvent((DateTime)StartDate.SelectedDate, Double.Parse(Duration.Text), Details.Text,catId);
         }
 
         public void LoadCategories(string[] categories)

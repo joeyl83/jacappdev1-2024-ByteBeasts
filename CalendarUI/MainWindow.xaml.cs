@@ -21,14 +21,9 @@ namespace CalendarUI
         private readonly Presenter presenter;
         public MainWindow()
         {
-            InitializeComponent();
-
-
-            // Create a new instance of the EventsWindow class
-            EventsWindow eventsWindow = new EventsWindow();
-            eventsWindow.Show();
-
+            InitializeComponent();          
             presenter = new Presenter(this);
+            
         }
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)
@@ -47,7 +42,7 @@ namespace CalendarUI
                 string filepath = openFileDialog.FileName;
                 OpenExistingCalendar(filepath);
             }
-            
+           
         }
 
         public void NewCalendar(string directory, string filename)
@@ -67,8 +62,8 @@ namespace CalendarUI
 
         public void ChangeWindow()
         {
-           CategoriesWindow categories = new CategoriesWindow(presenter);
-           categories.Show();
+           EventsWindow window= new EventsWindow(presenter);
+           window.Show();
            this.Close();
         }
 
