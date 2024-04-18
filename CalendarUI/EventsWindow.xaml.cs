@@ -19,7 +19,7 @@ namespace CalendarUI
     /// <summary>
     /// Interaction logic for EventsWindow.xaml
     /// </summary>
-    public partial class EventsWindow : Window,EventViewInterface, PersonalizationInterface
+    public partial class EventsWindow : Window,EventViewInterface
     {
         private Presenter _presenter;
         public EventsWindow(Presenter presenter)

@@ -51,11 +51,23 @@ namespace CalendarUI
 
         }
 
+        private void btn_ChangeFontColor(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Media.Color backgroundColor = colorPicker.SelectedColor;
+            _presenter.ProcessBackgroundColor(backgroundColor);
+
+        }
 
         public void ChangeBackground(System.Windows.Media.Color color)
         {
             this.Background = new SolidColorBrush(color);   
         }
+
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+        }
+
 
 
     }

@@ -72,5 +72,9 @@ namespace CalendarUI
             }
           
         }
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);
+        }
     }
 }

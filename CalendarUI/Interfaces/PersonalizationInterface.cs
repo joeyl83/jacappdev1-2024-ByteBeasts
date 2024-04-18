@@ -13,7 +13,10 @@ namespace CalendarUI.Interfaces
         //void GetColor();
         void ChangeBackground(System.Windows.Media.Color color);
 
-        
+        void ChangeFontColor(System.Windows.Media.Color color);
+
+        void ChangeOutline(System.Windows.Media.Color color);
+
 
     }
 }

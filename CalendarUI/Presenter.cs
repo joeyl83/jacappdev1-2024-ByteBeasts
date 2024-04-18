@@ -84,9 +84,11 @@ namespace CalendarUI
 
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
-            personalizationView.ChangeBackground(color);
-            eventView.ChangeBackground(color);
-            //categoryView.ChangeBackground();
+            personalizationView?.ChangeBackground(color);
+            eventView?.ChangeBackground(color);
+            categoryView?.ChangeBackground(color);
+
+            // Add more views here :
         }
     }
 }
