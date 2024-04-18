@@ -27,9 +27,9 @@ namespace CalendarUI
 
             presenter = new Presenter(this);
 
-            // Create a new instance of the EventsWindow class
-            EventsWindow eventsWindow = new EventsWindow(presenter);
-            eventsWindow.Show();
+            //// Create a new instance of the EventsWindow class
+            //EventsWindow eventsWindow = new EventsWindow(presenter);
+            //eventsWindow.Show();
 
             // Create a new instance of the EventsWindow class
             PersonalizationWindow personalizationWindow = new PersonalizationWindow(presenter);

@@ -1,4 +1,5 @@
 ﻿using Calendar;
+using CalendarUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace CalendarUI
     /// <summary>
     /// Interaction logic for EventsWindow.xaml
     /// </summary>
-    public partial class EventsWindow : Window,EventViewInterface
+    public partial class EventsWindow : Window,EventViewInterface, PersonalizationInterface
     {
         private Presenter _presenter;
         public EventsWindow(Presenter presenter)
@@ -51,6 +52,11 @@ namespace CalendarUI
         private void addEventButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);
         }
     }
 }

@@ -10,8 +10,8 @@ namespace CalendarUI.Interfaces
     {
         // Window that allows user to change color of the app 
 
-        void GetColor();
-        void ChangeBackground();
+        //void GetColor();
+        void ChangeBackground(System.Windows.Media.Color color);
 
         
 

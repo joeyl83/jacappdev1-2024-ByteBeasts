@@ -20,6 +20,7 @@ using Haley.Utils;
 using Haley.Events;
 using Haley.MVVM;
 using Haley.Services;
+using System.Drawing;
 
 namespace CalendarUI
 {
@@ -38,13 +39,24 @@ namespace CalendarUI
 
         public void GetColor()
         {
-            _presenter.ProcessColor(colorPicker.SelectedColor);
+            //_presenter.ProcessColor(colorPicker.SelectedColor);
+
+
         }
 
-        public void ChangeColor()
+        private void btn_ChangeBackground(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            System.Windows.Media.Color backgroundColor = colorPicker.SelectedColor;
+            _presenter.ProcessBackgroundColor(backgroundColor);
+
         }
+
+
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);   
+        }
+
 
     }
 }
