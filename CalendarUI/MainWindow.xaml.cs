@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Calendar;
 
 namespace CalendarUI
 {
@@ -24,11 +25,16 @@ namespace CalendarUI
             InitializeComponent();
 
 
+            presenter = new Presenter(this);
+
             // Create a new instance of the EventsWindow class
-            EventsWindow eventsWindow = new EventsWindow();
+            EventsWindow eventsWindow = new EventsWindow(presenter);
             eventsWindow.Show();
 
-            presenter = new Presenter(this);
+            // Create a new instance of the EventsWindow class
+            PersonalizationWindow personalizationWindow = new PersonalizationWindow(presenter);
+            personalizationWindow.Show();
+
         }
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)

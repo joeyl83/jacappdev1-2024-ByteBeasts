@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calendar;
+using CalendarUI.Interfaces;
 
 namespace CalendarUI
 {
@@ -13,6 +14,7 @@ namespace CalendarUI
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
         private EventViewInterface eventView;
+        private PersonalizationInterface personalizationView;
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
@@ -73,6 +75,18 @@ namespace CalendarUI
         public void InitializeEventView(EventViewInterface view)
         {
             eventView = view;
+        }
+
+        public void InitializePersonalizationWindow(PersonalizationInterface view)
+        {
+            personalizationView = view;
+        }
+
+        public void ProcessBackgroundColor(System.Windows.Media.Color color)
+        {
+            personalizationView.ChangeBackground();
+            eventView.ChangeBackground();
+            categoryView.ChangeBackground();
         }
     }
 }
