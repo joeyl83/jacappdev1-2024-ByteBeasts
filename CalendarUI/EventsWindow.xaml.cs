@@ -70,6 +70,8 @@ namespace CalendarUI
             {
                 string[] array = CatComboBox.Text.Split(':');
                 int catId = Int32.Parse(array[1].Trim());
+                DateTime startDate = (DateTime)StartDate.SelectedDate;
+                startDate.TimeOfDay=
                 _presenter.ProcessAddEvent((DateTime)StartDate.SelectedDate, Double.Parse(Duration.Text), Details.Text, catId);
             }
           
