@@ -109,7 +109,7 @@ namespace CalendarUI
 
         private void cancelEventButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ClearEventDetails();
         }
     }
 }
