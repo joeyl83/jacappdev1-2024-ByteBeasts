@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject_Calendar", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarUI", "CalendarUI\CalendarUI.csproj", "{1F949564-BFAA-4041-AE85-C7918B950685}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresenterTest", "PresenterTest\PresenterTest.csproj", "{C967E299-4C51-4DE5-A264-F37942390C16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Release|x64.ActiveCfg = Release|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Release|x64.Build.0 = Release|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Debug|x64.Build.0 = Debug|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Release|x64.ActiveCfg = Release|Any CPU
+		{C967E299-4C51-4DE5-A264-F37942390C16}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
