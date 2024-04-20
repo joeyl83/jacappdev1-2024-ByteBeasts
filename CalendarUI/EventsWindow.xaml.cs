@@ -27,6 +27,7 @@ namespace CalendarUI
             _presenter = presenter;
             _presenter.InitializeEventView(this);
             _presenter.LoadCategories();
+            LoadTimes();
         }
 
         public void AddEvent()
@@ -35,12 +36,32 @@ namespace CalendarUI
             ClearEventDetails();
         }
 
+        public void LoadTimes()
+        {
+            for(int i = 0; i < 11; i++)
+            {
+                if (i == 0)
+                {
+                    StartTime.Items.Add($"12" + ":00AM");
+                }
+                StartTime.Items.Add($"{i+1}" + ":00AM");
+            }
+            for (int i = 0; i < 11; i++)
+            {
+                if (i == 0)
+                {
+                    StartTime.Items.Add($"12" + ":00PM");
+                }
+                StartTime.Items.Add($"{i + 1}" + ":00PM");
+            }
+        }
         public void ClearEventDetails()
         {
-            StartDate.SelectedDate = DateTime.MinValue;
+            StartDate.SelectedDate = null;
             Duration.Clear();
             Details.Clear();
-            CatComboBox.SelectedIndex = 0;
+            StartTime.SelectedIndex = -1;
+            CatComboBox.SelectedIndex = -1;
         }
 
         public void ShowError(string error)
@@ -70,9 +91,10 @@ namespace CalendarUI
             {
                 string[] array = CatComboBox.Text.Split(':');
                 int catId = Int32.Parse(array[1].Trim());
-                DateTime startDate = (DateTime)StartDate.SelectedDate;
-                startDate.TimeOfDay=
-                _presenter.ProcessAddEvent((DateTime)StartDate.SelectedDate, Double.Parse(Duration.Text), Details.Text, catId);
+                array = StartTime.Text.Split(":");
+                int hourStart = Int32.Parse(array[0].Trim());
+                DateTime dateTime = (DateTime)StartDate.SelectedDate;             
+                _presenter.ProcessAddEvent(dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
             }
           
         }
@@ -83,6 +105,11 @@ namespace CalendarUI
             {
                 CatComboBox.Items.Add(type);
             }
+        }
+
+        private void cancelEventButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
