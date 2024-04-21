@@ -117,6 +117,7 @@ namespace CalendarUI
             personalizationView?.ChangeBackground(color);
             eventView?.ChangeBackground(color);
             categoryView?.ChangeBackground(color);
+            homePageView?.ChangeBackground(color);
 
             // Add more views here :
         }
@@ -126,6 +127,7 @@ namespace CalendarUI
             personalizationView?.ChangeFontColor(color);
             eventView?.ChangeFontColor(color);
             categoryView?.ChangeFontColor(color);
+            homePageView?.ChangeFontColor(color);
 
             // Add more views here :
         }
@@ -135,8 +137,10 @@ namespace CalendarUI
             personalizationView?.ChangeBorderColor(color);
             eventView?.ChangeBorderColor(color);
             categoryView?.ChangeBorderColor(color);
+            homePageView?.ChangeBorderColor(color);
 
             // Add more views here :
         }
+
     }
 }

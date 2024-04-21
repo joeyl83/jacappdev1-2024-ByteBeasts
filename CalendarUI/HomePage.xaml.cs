@@ -36,6 +36,11 @@ namespace CalendarUI
             OpenAddCategoryWindow();
         }
 
+        private void PersonalizeBtnClick(object sender, RoutedEventArgs e)
+        {
+            OpenPersonalizationWindow();
+        }
+
         public void OpenAddCategoryWindow()
         {
             CategoriesWindow categories = new CategoriesWindow(presenter);
@@ -47,5 +52,62 @@ namespace CalendarUI
             EventsWindow events = new EventsWindow(presenter);
             events.Show();
         }
+
+        public void OpenPersonalizationWindow()
+        {
+            PersonalizationWindow personalization = new PersonalizationWindow(presenter);
+            personalization.Show();
+        }
+
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);
+        }
+
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+        }
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
+
+            foreach (var child in mainGrid.Children)
+            {
+                if (child is Button button)
+                {
+                    button.BorderBrush = new SolidColorBrush(color);
+                }
+
+                if (child is GroupBox groupBox)
+                {
+                    if (groupBox.Content is Button buttonInGroupBox)
+                    {
+                        buttonInGroupBox.BorderBrush = new SolidColorBrush(color);
+                    }
+                    else if (groupBox.Content is Panel panel)
+                    {
+                        foreach (var child2 in panel.Children)
+                        {
+                            if (child2 is Button button2)
+                            {
+                                button2.BorderBrush = new SolidColorBrush(color);
+                            }
+                        }
+                    }
+                    else if (groupBox.Content is Grid grid)
+                    {
+                        foreach (var child2 in grid.Children)
+                        {
+                            if (child2 is Button button2)
+                            {
+                                button2.BorderBrush = new SolidColorBrush(color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

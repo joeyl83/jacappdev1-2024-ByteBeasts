@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="EventsWindow" Height="600" Width="450" ResizeMode="NoResize">
     
-        <Grid x:Name="mainGrid" Margin="10">
+    <Grid x:Name="mainGrid" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
