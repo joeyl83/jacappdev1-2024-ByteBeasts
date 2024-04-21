@@ -11,5 +11,7 @@ namespace CalendarUI
         public void AddCategory();
 
         public void ShowError(string message);
+
+        public void LoadCategoryTypes(List<string> categoryTypes);
     }
 }
