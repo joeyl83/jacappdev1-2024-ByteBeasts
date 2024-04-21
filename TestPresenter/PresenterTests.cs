@@ -1,7 +1,8 @@
 ﻿using CalendarUI;
-using PresenterTest.MockViews;
+using TestPresenter.MockViews;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace PresenterTest
             Assert.True(view.calledChangeWindow);
         }
 
-        [Fact] 
+        [Fact]
         public void TestOpenExistingHomeCalendarChangesWindow()
         {
             CreateTestCalendarFile();
@@ -125,6 +126,6 @@ namespace PresenterTest
             MainWindowMockView view = new MainWindowMockView();
             Presenter p = new Presenter(view);
             p.NewHomeCalendar("testCalendar", "calendar.db");
-        } 
+        }
     }
 }

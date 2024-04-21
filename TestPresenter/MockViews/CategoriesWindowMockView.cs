@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PresenterTest.MockViews
+namespace TestPresenter.MockViews
 {
     public class CategoriesWindowMockView : CategoriesViewInterface
     {

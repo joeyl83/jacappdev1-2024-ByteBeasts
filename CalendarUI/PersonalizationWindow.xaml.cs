@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalendarUI.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +12,32 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Calendar;
+using Haley.Enums;
+using Haley.Models;
+using Haley.Abstractions;
+using Haley.Utils;
+using Haley.Events;
+using Haley.MVVM;
+using Haley.Services;
+using System.Drawing;
+using Haley.WPF.Controls;
+
+
 
 namespace CalendarUI
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for PersonalizationWindow.xaml
     /// </summary>
-    public partial class HomePage : Window, HomePageViewInterface
+    public partial class PersonalizationWindow : Window, PersonalizationInterface
     {
-        private readonly Presenter presenter;
-        public HomePage(Presenter presenter)
+        private Presenter _presenter;
+        public PersonalizationWindow(Presenter presenter)
         {
             InitializeComponent();
-            this.presenter = presenter;
-            presenter.InitializeHomePageView(this);
+            _presenter = presenter;
+            _presenter.InitializePersonalizationWindow(this);
 
             ChangeBackground(Presenter.BackgroundColor);
             ChangeFontColor(Presenter.FontColor);
@@ -32,36 +45,34 @@ namespace CalendarUI
             ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
-        public void AddEventBtnClick(object sender, RoutedEventArgs e)
+
+        private void btn_ChangeBackground(object sender, RoutedEventArgs e)
         {
-            OpenAddEventWindow();
-        }
-        public void AddCategoryBtnClick(object sender, RoutedEventArgs e)
-        {
-            OpenAddCategoryWindow();
+            System.Windows.Media.Color backgroundColor = colorPicker_Background.SelectedColor;
+            _presenter.ProcessBackgroundColor(backgroundColor);
+
         }
 
-        private void PersonalizeBtnClick(object sender, RoutedEventArgs e)
+        private void btn_ChangeFontColor(object sender, RoutedEventArgs e)
         {
-            OpenPersonalizationWindow();
+            System.Windows.Media.Color backgroundColor = colorPicker_Font.SelectedColor;
+            _presenter.ProcessFontColor(backgroundColor);
+
         }
 
-        public void OpenAddCategoryWindow()
+        private void btn_ChangeBorderColor(object sender, RoutedEventArgs e)
         {
-            CategoriesWindow categories = new CategoriesWindow(presenter);
-            categories.Show();
+            System.Windows.Media.Color backgroundColor = colorPicker_Border.SelectedColor;
+            _presenter.ProcessBorderColor(backgroundColor);
+
         }
 
-        public void OpenAddEventWindow()
+        private void btn_ChangeForegroundColor(object sender, RoutedEventArgs e)
         {
-            EventsWindow events = new EventsWindow(presenter);
-            events.Show();
-        }
+            System.Windows.Media.Color backgroundColor = colorPicker_Foreground.SelectedColor;
+            _presenter.ProcessForegroundColor(backgroundColor);
 
-        public void OpenPersonalizationWindow()
-        {
-            PersonalizationWindow personalization = new PersonalizationWindow(presenter);
-            personalization.Show();
+
         }
 
         public void ChangeBackground(System.Windows.Media.Color color)
@@ -71,18 +82,20 @@ namespace CalendarUI
 
         public void ChangeFontColor(System.Windows.Media.Color color)
         {
+            //For normal text
             this.Foreground = new SolidColorBrush(color);
 
-            foreach (var child in mainGrid.Children)
+            //For buttons
+            foreach (var child in mainPanel.Children)
             {
 
                 if (child is GroupBox groupBox)
                 {
                     groupBox.Foreground = new SolidColorBrush(color);
 
-                    if (groupBox.Content is Grid grid)
+                    if (groupBox.Content is Panel panel)
                     {
-                        foreach (var child2 in grid.Children)
+                        foreach (var child2 in panel.Children)
                         {
                             if (child2 is Button button2)
                             {
@@ -93,16 +106,18 @@ namespace CalendarUI
                 }
             }
         }
-
         public void ChangeBorderColor(System.Windows.Media.Color color)
         {
+            // for window border
             this.BorderBrush = new SolidColorBrush(color);
 
-            foreach (var child in mainGrid.Children)
+            // For buttons and groupboxes
+            foreach (var child in mainPanel.Children)
             {
                 if (child is Button button)
                 {
                     button.BorderBrush = new SolidColorBrush(color);
+
                 }
 
                 if (child is GroupBox groupBox)
@@ -134,20 +149,22 @@ namespace CalendarUI
                         }
                     }
                 }
+
+
             }
         }
 
         public void ChangeForegroundColor(System.Windows.Media.Color color)
         {
-            foreach (var child in mainGrid.Children)
+            foreach (var child in mainPanel.Children)
             {
                 if (child is GroupBox groupBox)
                 {
                     groupBox.Background = new SolidColorBrush(color);
 
-                    if (groupBox.Content is Grid grid)
+                    if (groupBox.Content is Panel panel)
                     {
-                        foreach (var child2 in grid.Children)
+                        foreach (var child2 in panel.Children)
                         {
                             if (child2 is Button button2)
                             {
@@ -158,6 +175,8 @@ namespace CalendarUI
                 }
             }
         }
+
+
 
     }
 }
