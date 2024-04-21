@@ -204,6 +204,9 @@ namespace CalendarUI
             OpenAddCategoryWindow();
         }
 
+        private void CatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
     }
 }

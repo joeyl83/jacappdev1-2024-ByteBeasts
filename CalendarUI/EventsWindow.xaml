@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="EventsWindow" Height="700" Width="450" ResizeMode="NoResize" Background="#FF17191E" BorderThickness="10" Foreground="White" FontFamily="MV Boli">
+        Title="EventsWindow" Height="750" Width="450" ResizeMode="NoResize" Background="#FF17191E" BorderThickness="10" Foreground="White" FontFamily="MV Boli">
 
-    <Grid x:Name="mainGrid" Margin="10">
+    <Grid x:Name="mainGrid" Margin="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -44,8 +44,8 @@
         <GroupBox x:Name="categoryGroupBox" Header="Category" Grid.Row="2" Background="#2e333b" Margin="5">
             <StackPanel Grid.Row="1">
                 <TextBlock VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" >Associated category:</TextBlock>
-                <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Width="160px" Height="25" ></ComboBox>
-                <Button Click="AddCategoryBtn" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99" VerticalAlignment="Center" Width="50" RenderTransformOrigin="1.284,0.67" Margin="1">New</Button>
+                <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Width="160px" Height="35" SelectionChanged="CatComboBox_SelectionChanged" ></ComboBox>
+                <Button Click="AddCategoryBtn" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99" VerticalAlignment="Center" Width="50" RenderTransformOrigin="1.284,0.67" Margin="1" FontSize="12">New</Button>
             </StackPanel>
         </GroupBox>
 
