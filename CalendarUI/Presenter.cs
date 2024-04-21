@@ -12,6 +12,8 @@ namespace CalendarUI
     {
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
+        private HomePageViewInterface homePageView;
+        private EventViewInterface eventView;
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
@@ -26,6 +28,7 @@ namespace CalendarUI
                 Directory.CreateDirectory(directory);
             }
             model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+            view.ChangeWindow();
         }
 
         public void OpenHomeCalendar(string filepath)
@@ -34,6 +37,7 @@ namespace CalendarUI
             if(extension == ".db")
             {
                 model = new HomeCalendar(filepath);
+                view.ChangeWindow();
             }
             else
             {
@@ -53,9 +57,51 @@ namespace CalendarUI
             }
            
         }
+        public void ProcessAddEvent(DateTime StartDateTime,double DurationInMinutes,string Details,int CatId)
+        {
+            try
+            {
+                model.events.Add(StartDateTime,CatId,DurationInMinutes, Details);
+                eventView.AddEvent();
+            }
+            catch(Exception ex)
+            {
+                eventView.ShowError(ex.Message);
+            }
+        }
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;
+        }
+        public void LoadCategoryTypes()
+        {
+            List<string> list=new List<string>();
+            int count = 0;
+            foreach (string categoryType in Enum.GetNames(typeof(Category.CategoryType)))
+            {
+                count++;
+                list.Add($"{categoryType}:{count}");
+            }
+            categoryView.LoadCategoryTypes(list);
+        }
+        public void LoadCategories()
+        {
+            List<string> list = new List<string>();
+            int count = 0;
+            foreach (Category category in model.categories.List())
+            {
+                count++;
+                list.Add($"{category.Description}:{count}");
+            }
+            eventView.LoadCategories(list);
+        }
+        public void InitializeEventView(EventViewInterface view)
+        {
+            eventView = view;
+        }
+        public void InitializeHomePageView(HomePageViewInterface view)
+        {
+            homePageView = view;
         }
     }
 }

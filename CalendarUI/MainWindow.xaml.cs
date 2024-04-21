@@ -21,8 +21,9 @@ namespace CalendarUI
         private readonly Presenter presenter;
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();          
             presenter = new Presenter(this);
+            
         }
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)
@@ -41,7 +42,7 @@ namespace CalendarUI
                 string filepath = openFileDialog.FileName;
                 OpenExistingCalendar(filepath);
             }
-            
+           
         }
 
         public void NewCalendar(string directory, string filename)
@@ -61,9 +62,10 @@ namespace CalendarUI
 
         public void ChangeWindow()
         {
-           CategoriesWindow categories = new CategoriesWindow(presenter);
-           categories.Show();
+            HomePage homePage = new HomePage(presenter);
+            homePage.Show();
            this.Close();
         }
+
     }
 }
