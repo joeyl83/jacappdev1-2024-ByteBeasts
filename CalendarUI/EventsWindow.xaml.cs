@@ -19,7 +19,7 @@ namespace CalendarUI
     /// <summary>
     /// Interaction logic for EventsWindow.xaml
     /// </summary>
-    public partial class EventsWindow : Window,EventViewInterface
+    public partial class EventsWindow : Window, EventViewInterface
     {
         private Presenter _presenter;
         public EventsWindow(Presenter presenter)
@@ -113,9 +113,24 @@ namespace CalendarUI
             ClearEventDetails();
         }
 
+        void SetEvent(Event theEvent)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ChangeBackground(System.Windows.Media.Color color)
         {
             this.Background = new SolidColorBrush(color);
         }
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+        }
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
+        }
+
+
     }
 }

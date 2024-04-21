@@ -21,6 +21,7 @@ using Haley.Events;
 using Haley.MVVM;
 using Haley.Services;
 using System.Drawing;
+using Haley.WPF.Controls;
 
 namespace CalendarUI
 {
@@ -46,15 +47,22 @@ namespace CalendarUI
 
         private void btn_ChangeBackground(object sender, RoutedEventArgs e)
         {
-            System.Windows.Media.Color backgroundColor = colorPicker.SelectedColor;
+            System.Windows.Media.Color backgroundColor = colorPicker_Background.SelectedColor;
             _presenter.ProcessBackgroundColor(backgroundColor);
 
         }
 
         private void btn_ChangeFontColor(object sender, RoutedEventArgs e)
         {
-            System.Windows.Media.Color backgroundColor = colorPicker.SelectedColor;
-            _presenter.ProcessBackgroundColor(backgroundColor);
+            System.Windows.Media.Color backgroundColor = colorPicker_Font.SelectedColor;
+            _presenter.ProcessFontColor(backgroundColor);
+
+        }
+
+        private void btn_ChangeBorderColor(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Media.Color backgroundColor = colorPicker_Border.SelectedColor;
+            _presenter.ProcessBorderColor(backgroundColor);
 
         }
 
@@ -66,6 +74,10 @@ namespace CalendarUI
         public void ChangeFontColor(System.Windows.Media.Color color)
         {
             this.Foreground = new SolidColorBrush(color);
+        }
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
         }
 
 

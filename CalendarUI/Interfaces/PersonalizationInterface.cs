@@ -15,7 +15,7 @@ namespace CalendarUI.Interfaces
 
         void ChangeFontColor(System.Windows.Media.Color color);
 
-        void ChangeOutline(System.Windows.Media.Color color);
+        void ChangeBorderColor(System.Windows.Media.Color color);
 
 
     }

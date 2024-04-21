@@ -74,5 +74,14 @@ namespace CalendarUI
         {
             this.Background = new SolidColorBrush(color);
         }
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+        }
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
+        }
+
     }
 }

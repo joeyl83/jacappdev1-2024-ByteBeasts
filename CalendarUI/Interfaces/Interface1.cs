@@ -14,9 +14,9 @@ namespace CalendarUI
         void AddEvent();
         void ClearEventDetails();
         void LoadCategories(List<string> categories);
-        void SetEvent(Event theEvent);
+        //void SetEvent(Event theEvent);
 
-        void ChangeBackground(System.Windows.Media.Color color);
+        //void ChangeBackground(System.Windows.Media.Color color);
 
     }
  

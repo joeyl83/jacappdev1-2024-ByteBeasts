@@ -120,5 +120,23 @@ namespace CalendarUI
 
             // Add more views here :
         }
+
+        public void ProcessFontColor(System.Windows.Media.Color color)
+        {
+            personalizationView?.ChangeFontColor(color);
+            eventView?.ChangeFontColor(color);
+            categoryView?.ChangeFontColor(color);
+
+            // Add more views here :
+        }
+
+        public void ProcessBorderColor(System.Windows.Media.Color color)
+        {
+            personalizationView?.ChangeFontColor(color);
+            eventView?.ChangeFontColor(color);
+            categoryView?.ChangeFontColor(color);
+
+            // Add more views here :
+        }
     }
 }
