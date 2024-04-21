@@ -24,14 +24,6 @@ namespace CalendarUI
         {
             presenter = new Presenter(this);
             InitializeComponent();
-
-            //// Create a new instance of the EventsWindow class
-            //EventsWindow eventsWindow = new EventsWindow(presenter);
-            //eventsWindow.Show();
-
-            //// Create a new instance of the EventsWindow class
-            //PersonalizationWindow personalizationWindow = new PersonalizationWindow(presenter);
-            //personalizationWindow.Show();
         }
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)

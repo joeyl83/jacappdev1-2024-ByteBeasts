@@ -24,6 +24,7 @@ using System.Drawing;
 using Haley.WPF.Controls;
 
 
+
 namespace CalendarUI
 {
     /// <summary>
@@ -37,14 +38,13 @@ namespace CalendarUI
             InitializeComponent();
             _presenter = presenter;
             _presenter.InitializePersonalizationWindow(this);
+
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
-        public void GetColor()
-        {
-            //_presenter.ProcessColor(colorPicker.SelectedColor);
-
-
-        }
 
         private void btn_ChangeBackground(object sender, RoutedEventArgs e)
         {
@@ -67,9 +67,17 @@ namespace CalendarUI
 
         }
 
+        private void btn_ChangeForegroundColor(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Media.Color backgroundColor = colorPicker_Foreground.SelectedColor;
+            _presenter.ProcessForegroundColor(backgroundColor);
+
+
+        }
+
         public void ChangeBackground(System.Windows.Media.Color color)
         {
-            this.Background = new SolidColorBrush(color);   
+            this.Background = new SolidColorBrush(color);
         }
 
         public void ChangeFontColor(System.Windows.Media.Color color)
@@ -85,10 +93,13 @@ namespace CalendarUI
                 if (child is Button button)
                 {
                     button.BorderBrush = new SolidColorBrush(color);
+
                 }
 
                 if (child is GroupBox groupBox)
                 {
+                    groupBox.BorderBrush = new SolidColorBrush(color);
+
                     if (groupBox.Content is Button buttonInGroupBox)
                     {
                         buttonInGroupBox.BorderBrush = new SolidColorBrush(color);
@@ -115,7 +126,18 @@ namespace CalendarUI
                     }
                 }
 
-                
+
+            }
+        }
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            foreach (var child in mainPanel.Children)
+            {
+                if (child is GroupBox groupBox)
+                {
+                    groupBox.Background = new SolidColorBrush(color);
+                }
             }
         }
 

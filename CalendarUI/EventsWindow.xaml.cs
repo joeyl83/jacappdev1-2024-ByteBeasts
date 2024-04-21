@@ -29,6 +29,11 @@ namespace CalendarUI
             _presenter.InitializeEventView(this);
             _presenter.LoadCategories();
             LoadTimes();
+
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
         public void AddEvent()
@@ -113,11 +118,6 @@ namespace CalendarUI
             ClearEventDetails();
         }
 
-        void SetEvent(Event theEvent)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ChangeBackground(System.Windows.Media.Color color)
         {
             this.Background = new SolidColorBrush(color);
@@ -164,6 +164,18 @@ namespace CalendarUI
                         }
                     }
                 }
+            }
+        }
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            foreach (var child in mainGrid.Children)
+            {
+                if (child is GroupBox groupBox)
+                {
+                    groupBox.Background = new SolidColorBrush(color);
+                }
+
+
             }
         }
 

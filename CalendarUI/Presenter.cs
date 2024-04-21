@@ -11,15 +11,23 @@ namespace CalendarUI
 {
     public class Presenter
     {
+        public static System.Windows.Media.Color BorderColor { get; set; }
+        public static System.Windows.Media.Color BackgroundColor { get; set; } 
+        public static System.Windows.Media.Color ForegroundColor { get; set; }
+        public static System.Windows.Media.Color FontColor { get; set; }
+
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
         private HomePageViewInterface homePageView;
         private EventViewInterface eventView;
         private PersonalizationInterface personalizationView;
+
+        
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
         {
+            defaultColors();
             view = v;
         }
 
@@ -114,6 +122,8 @@ namespace CalendarUI
 
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
+            BackgroundColor = color;
+
             personalizationView?.ChangeBackground(color);
             eventView?.ChangeBackground(color);
             categoryView?.ChangeBackground(color);
@@ -124,6 +134,7 @@ namespace CalendarUI
 
         public void ProcessFontColor(System.Windows.Media.Color color)
         {
+            FontColor = color;
             personalizationView?.ChangeFontColor(color);
             eventView?.ChangeFontColor(color);
             categoryView?.ChangeFontColor(color);
@@ -134,12 +145,32 @@ namespace CalendarUI
 
         public void ProcessBorderColor(System.Windows.Media.Color color)
         {
+            BorderColor = color;
             personalizationView?.ChangeBorderColor(color);
             eventView?.ChangeBorderColor(color);
             categoryView?.ChangeBorderColor(color);
             homePageView?.ChangeBorderColor(color);
 
             // Add more views here :
+        }
+
+        public void ProcessForegroundColor(System.Windows.Media.Color color)
+        {
+            ForegroundColor = color;
+            personalizationView?.ChangeForegroundColor(color);
+            eventView?.ChangeForegroundColor(color);
+            categoryView?.ChangeForegroundColor(color);
+            homePageView?.ChangeForegroundColor(color);
+
+            // Add more views here :
+        }
+
+        private void defaultColors()
+        {
+            BackgroundColor = System.Windows.Media.Color.FromRgb(23, 25, 30);
+            FontColor = System.Windows.Media.Color.FromRgb(255, 255, 255);
+            BorderColor = System.Windows.Media.Color.FromRgb(255, 255, 255);
+            ForegroundColor = System.Windows.Media.Color.FromRgb(46, 51, 59);
         }
 
     }
