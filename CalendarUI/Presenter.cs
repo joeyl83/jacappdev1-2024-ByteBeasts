@@ -132,9 +132,9 @@ namespace CalendarUI
 
         public void ProcessBorderColor(System.Windows.Media.Color color)
         {
-            personalizationView?.ChangeFontColor(color);
-            eventView?.ChangeFontColor(color);
-            categoryView?.ChangeFontColor(color);
+            personalizationView?.ChangeBorderColor(color);
+            eventView?.ChangeBorderColor(color);
+            categoryView?.ChangeBorderColor(color);
 
             // Add more views here :
         }

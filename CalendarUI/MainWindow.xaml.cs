@@ -22,12 +22,12 @@ namespace CalendarUI
         private readonly Presenter presenter;
         public MainWindow()
         {
-            InitializeComponent();
             presenter = new Presenter(this);
+            InitializeComponent();
 
-            // Create a new instance of the EventsWindow class
-            EventsWindow eventsWindow = new EventsWindow(presenter);
-            eventsWindow.Show();
+            //// Create a new instance of the EventsWindow class
+            //EventsWindow eventsWindow = new EventsWindow(presenter);
+            //eventsWindow.Show();
 
             // Create a new instance of the EventsWindow class
             PersonalizationWindow personalizationWindow = new PersonalizationWindow(presenter);
