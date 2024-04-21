@@ -13,6 +13,7 @@ namespace CalendarUI
     {
         private readonly ViewInterface view;
         private CategoriesViewInterface categoryView;
+        private HomePageViewInterface homePageView;
         private EventViewInterface eventView;
         private PersonalizationInterface personalizationView;
         // private EventsViewInterface categoryView;
@@ -29,6 +30,7 @@ namespace CalendarUI
                 Directory.CreateDirectory(directory);
             }
             model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+            view.ChangeWindow();
         }
 
         public void OpenHomeCalendar(string filepath)
@@ -37,6 +39,7 @@ namespace CalendarUI
             if(extension == ".db")
             {
                 model = new HomeCalendar(filepath);
+                view.ChangeWindow();
             }
             else
             {
@@ -72,9 +75,36 @@ namespace CalendarUI
         {
             categoryView = view;
         }
+        public void LoadCategoryTypes()
+        {
+            List<string> list=new List<string>();
+            int count = 0;
+            foreach (string categoryType in Enum.GetNames(typeof(Category.CategoryType)))
+            {
+                count++;
+                list.Add($"{categoryType}:{count}");
+            }
+            categoryView.LoadCategoryTypes(list);
+        }
+        public void LoadCategories()
+        {
+            List<string> list = new List<string>();
+            int count = 0;
+            foreach (Category category in model.categories.List())
+            {
+                count++;
+                list.Add($"{category.Description}:{count}");
+            }
+            eventView.LoadCategories(list);
+        }
         public void InitializeEventView(EventViewInterface view)
         {
             eventView = view;
+        }
+
+        public void InitializeHomePageView(HomePageViewInterface view)
+        {
+            homePageView = view;
         }
 
         public void InitializePersonalizationWindow(PersonalizationInterface view)

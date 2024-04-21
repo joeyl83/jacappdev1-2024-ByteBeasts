@@ -23,37 +23,47 @@
         </StackPanel>
 
         <GroupBox x:Name="dateGroupBox" Header="Date" Grid.Row="1" >
-            <StackPanel Grid.Row="1">
-                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Date for of occurence:</Label>
-                <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
-            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="15" Grid.Row="0">Date for of occurence:</Label>
+                <DatePicker Name="StartDate" Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+                <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="1">Start Time:</Label>
+                <ComboBox Name="StartTime" Grid.Column="1" Grid.Row="1" Width="150" FontSize="20"></ComboBox>
+            </Grid>
         </GroupBox>
 
 
         <GroupBox x:Name="categoryGroupBox" Header="Category" Grid.Row="2" >
             <StackPanel Grid.Row="1">
                 <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Associated category:</Label>
-                <ComboBox Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+                <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
             </StackPanel>
         </GroupBox>
 
         <GroupBox x:Name="durationGroupBox" Header="Duration" Grid.Row="3" >
             <StackPanel Grid.Row="1">
                 <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Event Duration:</Label>
-                <ComboBox Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+                <TextBox Name="Duration" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></TextBox>
             </StackPanel>
         </GroupBox>
 
         <GroupBox x:Name="detailsGroupBox" Header="Details" Grid.Row="4" >
             <StackPanel Grid.Row="1">
-                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Date for of occurence:</Label>
-                <DatePicker Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
+                <TextBox Name="Details" Height="70"></TextBox>
             </StackPanel>
         </GroupBox>
 
 
-        <Button x:Name="addEventButton" Grid.Row="5" Grid.RowSpan="20" Content="Add Event" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Width="200px" Click="addEventButton_Click"></Button>
-
+        <Button x:Name="addEventButton" Grid.Row="5" Grid.RowSpan="20" Content="Add Event" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Width="200px" Click="addEventButton_Click"></Button>
+        <Button x:Name="cancelEventButton" Grid.Row="5" Grid.RowSpan="20" Content="Cancel Event" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Width="200px" Click="cancelEventButton_Click"></Button>
+        <TextBlock Name="EventSuccess" Foreground="Green" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" FontSize="20" Visibility="Collapsed">Event Successfully Created!</TextBlock>
 
     </Grid>
 </Window>
