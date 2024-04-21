@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="HomePage" Height="450" Width="800">
-    <Grid>
+        Title="HomePage" Height="450" Width="800" Background="#FF17191E" Foreground="White" FontFamily="MV Boli" BorderThickness="10px">
+    <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -17,9 +17,23 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="65" HorizontalAlignment="Center" VerticalAlignment="Center">Home Calendar</Label>
-        <Button Grid.Row="1" Grid.Column="0" Width="120" Height="30" Click="AddEventBtnClick">Add Event</Button>
-        <Button Grid.Row="1" Grid.Column="1" Width="120" Height="30" Click="AddCategoryBtnClick">Add Category</Button>
+
+        <TextBlock Text="Home Calendar"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="65" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <GroupBox x:Name="groupBox1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Header="Options" Margin="10" Background="#2e333b">
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0" Width="150" Height="50" Click="AddEventBtnClick">Add Event</Button>
+                <Button Grid.Row="0" Grid.Column="1" Width="150" Height="50" Click="AddCategoryBtnClick">Add Category</Button>
+                <Button Grid.Row="0" Grid.Column="2" Width="150" Height="50" Click="PersonalizeBtnClick">Personalize 🎨</Button>
+            </Grid>
+
+        </GroupBox>
 
     </Grid>
 </Window>
