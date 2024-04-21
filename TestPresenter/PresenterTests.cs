@@ -118,7 +118,129 @@ namespace PresenterTest
             Assert.True(eventsView.calledLoadCategories);
         }
 
+        [Fact]
+        public void TestChangeBackgroundColor()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            CategoriesWindowMockView categoriesView = new CategoriesWindowMockView();
+            EventsWindowMockView eventsView = new EventsWindowMockView();
+            HomePageMockView homePageView = new HomePageMockView();
+            PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
+            Presenter p = new Presenter(view);
 
+            p.NewHomeCalendar("calendars", "myCalendar.db");
+            p.InitializeCategoryView(categoriesView);
+            p.InitializeEventView(eventsView);
+            p.InitializeHomePageView(homePageView);
+            p.InitializePersonalizationWindow(personalizationView);
+
+            view.calledChangeBackgroundColor = false;
+            categoriesView.calledChangeBackgroundColor = false;
+            eventsView.calledChangeBackgroundColor = false;
+            homePageView.calledChangeBackgroundColor = false;
+            personalizationView.calledChangeBackgroundColor = false;
+
+            p.ProcessBackgroundColor(new System.Windows.Media.Color());
+
+            Assert.True(view.calledChangeBackgroundColor);
+            Assert.True(categoriesView.calledChangeBackgroundColor);
+            Assert.True(eventsView.calledChangeBackgroundColor);
+            Assert.True(homePageView.calledChangeBackgroundColor);
+            Assert.True(personalizationView.calledChangeBackgroundColor);
+        }
+
+        [Fact]
+        public void TestChangeFontColor()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            CategoriesWindowMockView categoriesView = new CategoriesWindowMockView();
+            EventsWindowMockView eventsView = new EventsWindowMockView();
+            HomePageMockView homePageView = new HomePageMockView();
+            PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
+            Presenter p = new Presenter(view);
+
+            p.NewHomeCalendar("calendars", "myCalendar.db");
+            p.InitializeCategoryView(categoriesView);
+            p.InitializeEventView(eventsView);
+            p.InitializeHomePageView(homePageView);
+            p.InitializePersonalizationWindow(personalizationView);
+
+            view.calledChangeFontColor = false;
+            categoriesView.calledChangeFontColor = false;
+            eventsView.calledChangeFontColor = false;
+            homePageView.calledChangeFontColor = false;
+            personalizationView.calledChangeFontColor = false;
+
+            p.ProcessFontColor(new System.Windows.Media.Color());
+
+            Assert.True(view.calledChangeFontColor);
+            Assert.True(categoriesView.calledChangeFontColor);
+            Assert.True(eventsView.calledChangeFontColor);
+            Assert.True(homePageView.calledChangeFontColor);
+            Assert.True(personalizationView.calledChangeFontColor);
+        }
+
+        [Fact]
+        public void TestChangeBorderColor()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            CategoriesWindowMockView categoriesView = new CategoriesWindowMockView();
+            EventsWindowMockView eventsView = new EventsWindowMockView();
+            HomePageMockView homePageView = new HomePageMockView();
+            PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
+            Presenter p = new Presenter(view);
+
+            p.NewHomeCalendar("calendars", "myCalendar.db");
+            p.InitializeCategoryView(categoriesView);
+            p.InitializeEventView(eventsView);
+            p.InitializeHomePageView(homePageView);
+            p.InitializePersonalizationWindow(personalizationView);
+
+            view.calledChangeBorderColor = false;
+            categoriesView.calledChangeBorderColor = false;
+            eventsView.calledChangeBorderColor = false;
+            homePageView.calledChangeBorderColor = false;
+            personalizationView.calledChangeBorderColor = false;
+
+            p.ProcessBorderColor(new System.Windows.Media.Color());
+
+            Assert.True(view.calledChangeBorderColor);
+            Assert.True(categoriesView.calledChangeBorderColor);
+            Assert.True(eventsView.calledChangeBorderColor);
+            Assert.True(homePageView.calledChangeBorderColor);
+            Assert.True(personalizationView.calledChangeBorderColor);
+        }
+
+        [Fact]
+        public void TestChangeForegroundColor()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            CategoriesWindowMockView categoriesView = new CategoriesWindowMockView();
+            EventsWindowMockView eventsView = new EventsWindowMockView();
+            HomePageMockView homePageView = new HomePageMockView();
+            PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
+            Presenter p = new Presenter(view);
+
+            p.NewHomeCalendar("calendars", "myCalendar.db");
+            p.InitializeCategoryView(categoriesView);
+            p.InitializeEventView(eventsView);
+            p.InitializeHomePageView(homePageView);
+            p.InitializePersonalizationWindow(personalizationView);
+
+            view.calledChangeForegroundColor = false;
+            categoriesView.calledChangeForegroundColor = false;
+            eventsView.calledChangeForegroundColor = false;
+            homePageView.calledChangeForegroundColor = false;
+            personalizationView.calledChangeForegroundColor = false;
+
+            p.ProcessForegroundColor(new System.Windows.Media.Color());
+
+            Assert.True(view.calledChangeForegroundColor);
+            Assert.True(categoriesView.calledChangeForegroundColor);
+            Assert.True(eventsView.calledChangeForegroundColor);
+            Assert.True(homePageView.calledChangeForegroundColor);
+            Assert.True(personalizationView.calledChangeForegroundColor);
+        }
 
 
         private void CreateTestCalendarFile()

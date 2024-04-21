@@ -14,6 +14,10 @@ namespace TestPresenter.MockViews
         public bool calledClearEventDetails;
         public bool calledLoadCategories;
         public bool calledShowError;
+        public bool calledChangeBackgroundColor;
+        public bool calledChangeFontColor;
+        public bool calledChangeBorderColor;
+        public bool calledChangeForegroundColor;
         public void AddEvent()
         {
             calledAddEvent = true;
@@ -32,6 +36,25 @@ namespace TestPresenter.MockViews
         public void ShowError(string error)
         {
             calledShowError = true;
+        }
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            calledChangeBackgroundColor = true;
+        }
+
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            calledChangeFontColor = true;
+        }
+
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            calledChangeBorderColor = true;
+        }
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            calledChangeForegroundColor = true;
         }
     }
 }

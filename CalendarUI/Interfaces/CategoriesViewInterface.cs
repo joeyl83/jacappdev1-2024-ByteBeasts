@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calendar;
-using CalendarUI.Interfaces;
 
-namespace CalendarUI
+namespace CalendarUI.Interfaces
 {
-    public interface CategoriesViewInterface: PersonalizationInterface
+    public interface CategoriesViewInterface : PersonalizationInterface
     {
         public void AddCategory();
 
