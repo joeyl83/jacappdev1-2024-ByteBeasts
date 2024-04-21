@@ -11,6 +11,7 @@ namespace PresenterTest.MockViews
     {
         public bool calledAddCategory;
         public bool calledShowError;
+        public bool calledLoadCategoryTypes;
         public void AddCategory()
         {
             calledAddCategory = true;
@@ -19,6 +20,11 @@ namespace PresenterTest.MockViews
         public void ShowError(string message)
         {
             calledShowError = true;
+        }
+
+        public void LoadCategoryTypes(List<string> categoryTypes)
+        {
+            calledLoadCategoryTypes = true;
         }
     }
 }
