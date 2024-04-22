@@ -18,6 +18,7 @@ namespace TestPresenter.MockViews
         public bool calledChangeFontColor;
         public bool calledChangeBorderColor;
         public bool calledChangeForegroundColor;
+        public bool calledOpenAddCategoryWindow;
         public void AddEvent()
         {
             calledAddEvent = true;
@@ -55,6 +56,11 @@ namespace TestPresenter.MockViews
         public void ChangeForegroundColor(System.Windows.Media.Color color)
         {
             calledChangeForegroundColor = true;
+        }
+
+        public void OpenAddCategoryWindow()
+        {
+            calledOpenAddCategoryWindow = true;
         }
     }
 }
