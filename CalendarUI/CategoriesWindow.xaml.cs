@@ -82,6 +82,24 @@ namespace CalendarUI
         public void ChangeFontColor(System.Windows.Media.Color color)
         {
             this.Foreground = new SolidColorBrush(color);
+
+            foreach (var child in InputGrid.Children)
+            {
+
+                if (child is Panel panel)
+                {
+
+                    foreach (var child2 in panel.Children)
+                    {
+                        if (child2 is Button button)
+                        {
+                            button.Foreground = new SolidColorBrush(color);
+                        }   
+                    }
+                    
+                }
+            }
+
         }
         public void ChangeBorderColor(System.Windows.Media.Color color)
         {
@@ -111,16 +129,21 @@ namespace CalendarUI
                             {
                                 button2.BorderBrush = new SolidColorBrush(color);
                             }
+                            if (child2 is TextBox textBox)
+                            {
+                                textBox.BorderBrush = new SolidColorBrush(color);
+                            }
                         }
                     }
-                    else if (groupBox.Content is Grid grid)
+                }
+
+                if (child is Panel panel2)
+                {
+                    foreach (var child2 in panel2.Children)
                     {
-                        foreach (var child2 in grid.Children)
+                        if (child2 is Button button3)
                         {
-                            if (child2 is Button button2)
-                            {
-                                button2.BorderBrush = new SolidColorBrush(color);
-                            }
+                            button3.BorderBrush = new SolidColorBrush(color);
                         }
                     }
                 }
@@ -136,8 +159,19 @@ namespace CalendarUI
                 if (child is GroupBox groupBox)
                 {
                     groupBox.Background = new SolidColorBrush(color);
+
                 }
 
+                if (child is Panel panel)
+                {
+                    foreach (var child2 in panel.Children)
+                    {
+                        if (child2 is Button button)
+                        {
+                            button.Background = new SolidColorBrush(color);
+                        }
+                    }
+                }
 
             }
         }

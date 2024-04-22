@@ -125,6 +125,14 @@ namespace CalendarUI
         public void ChangeFontColor(System.Windows.Media.Color color)
         {
             this.Foreground = new SolidColorBrush(color);
+
+            foreach (var child in mainGrid.Children)
+            {
+                if (child is Button button)
+                {
+                    button.Foreground = new SolidColorBrush(color);
+                }
+            }
         }
         public void ChangeBorderColor(System.Windows.Media.Color color)
         {
@@ -139,10 +147,13 @@ namespace CalendarUI
 
                 if (child is GroupBox groupBox)
                 {
+                    groupBox.BorderBrush = new SolidColorBrush(color);
+
                     if (groupBox.Content is Button buttonInGroupBox)
                     {
                         buttonInGroupBox.BorderBrush = new SolidColorBrush(color);
                     }
+
                     else if (groupBox.Content is Panel panel)
                     {
                         foreach (var child2 in panel.Children)
@@ -151,15 +162,9 @@ namespace CalendarUI
                             {
                                 button2.BorderBrush = new SolidColorBrush(color);
                             }
-                        }
-                    }
-                    else if (groupBox.Content is Grid grid)
-                    {
-                        foreach (var child2 in grid.Children)
-                        {
-                            if (child2 is Button button2)
+                            if (child2 is TextBox textBox)
                             {
-                                button2.BorderBrush = new SolidColorBrush(color);
+                                textBox.BorderBrush = new SolidColorBrush(color);
                             }
                         }
                     }
@@ -173,9 +178,17 @@ namespace CalendarUI
                 if (child is GroupBox groupBox)
                 {
                     groupBox.Background = new SolidColorBrush(color);
+
+                    if (groupBox.Content is Button buttonInGroupBox)
+                    {
+                        buttonInGroupBox.Background = new SolidColorBrush(color);
+                    }
                 }
 
-
+                if (child is Button button)
+                {
+                    button.Background = new SolidColorBrush(color);
+                }
             }
         }
 

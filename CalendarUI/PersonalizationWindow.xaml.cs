@@ -82,12 +82,36 @@ namespace CalendarUI
 
         public void ChangeFontColor(System.Windows.Media.Color color)
         {
+            //For normal text
             this.Foreground = new SolidColorBrush(color);
+
+            //For buttons
+            foreach (var child in mainPanel.Children)
+            {
+
+                if (child is GroupBox groupBox)
+                {
+                    groupBox.Foreground = new SolidColorBrush(color);
+
+                    if (groupBox.Content is Panel panel)
+                    {
+                        foreach (var child2 in panel.Children)
+                        {
+                            if (child2 is Button button2)
+                            {
+                                button2.Foreground = new SolidColorBrush(color);
+                            }
+                        }
+                    }
+                }
+            }
         }
         public void ChangeBorderColor(System.Windows.Media.Color color)
         {
+            // for window border
             this.BorderBrush = new SolidColorBrush(color);
 
+            // For buttons and groupboxes
             foreach (var child in mainPanel.Children)
             {
                 if (child is Button button)
@@ -137,6 +161,17 @@ namespace CalendarUI
                 if (child is GroupBox groupBox)
                 {
                     groupBox.Background = new SolidColorBrush(color);
+
+                    if (groupBox.Content is Panel panel)
+                    {
+                        foreach (var child2 in panel.Children)
+                        {
+                            if (child2 is Button button2)
+                            {
+                                button2.Background = new SolidColorBrush(color);
+                            }
+                        }
+                    }
                 }
             }
         }

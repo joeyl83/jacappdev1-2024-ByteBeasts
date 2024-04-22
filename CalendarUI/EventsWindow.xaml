@@ -44,7 +44,7 @@
         <GroupBox x:Name="categoryGroupBox" Header="Category" Grid.Row="2" Background="#2e333b" Margin="5">
             <StackPanel Grid.Row="1">
                 <TextBlock VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" >Associated category:</TextBlock>
-                <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
+                <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px" ></ComboBox>
             </StackPanel>
         </GroupBox>
 

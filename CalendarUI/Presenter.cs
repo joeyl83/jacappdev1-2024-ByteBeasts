@@ -123,7 +123,7 @@ namespace CalendarUI
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
             BackgroundColor = color;
-
+            view.ChangeBackground(color);
             personalizationView?.ChangeBackground(color);
             eventView?.ChangeBackground(color);
             categoryView?.ChangeBackground(color);
@@ -135,6 +135,7 @@ namespace CalendarUI
         public void ProcessFontColor(System.Windows.Media.Color color)
         {
             FontColor = color;
+            view.ChangeFontColor(color);
             personalizationView?.ChangeFontColor(color);
             eventView?.ChangeFontColor(color);
             categoryView?.ChangeFontColor(color);
@@ -146,6 +147,7 @@ namespace CalendarUI
         public void ProcessBorderColor(System.Windows.Media.Color color)
         {
             BorderColor = color;
+            view.ChangeBorderColor(color);
             personalizationView?.ChangeBorderColor(color);
             eventView?.ChangeBorderColor(color);
             categoryView?.ChangeBorderColor(color);
@@ -157,6 +159,7 @@ namespace CalendarUI
         public void ProcessForegroundColor(System.Windows.Media.Color color)
         {
             ForegroundColor = color;
+            view.ChangeForegroundColor(color);
             personalizationView?.ChangeForegroundColor(color);
             eventView?.ChangeForegroundColor(color);
             categoryView?.ChangeForegroundColor(color);

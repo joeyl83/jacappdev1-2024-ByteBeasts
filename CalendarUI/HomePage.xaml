@@ -28,9 +28,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Grid.Column="0" Width="120" Height="30" Click="AddEventBtnClick">Add Event</Button>
-                <Button Grid.Row="0" Grid.Column="1" Width="120" Height="30" Click="AddCategoryBtnClick">Add Category</Button>
-                <Button Grid.Row="0" Grid.Column="2" Width="120" Height="30" Click="PersonalizeBtnClick">Personalize 🎨</Button>
+                <Button Grid.Row="0" Grid.Column="0" Width="150" Height="50" Click="AddEventBtnClick">Add Event</Button>
+                <Button Grid.Row="0" Grid.Column="1" Width="150" Height="50" Click="AddCategoryBtnClick">Add Category</Button>
+                <Button Grid.Row="0" Grid.Column="2" Width="150" Height="50" Click="PersonalizeBtnClick">Personalize 🎨</Button>
             </Grid>
 
         </GroupBox>
