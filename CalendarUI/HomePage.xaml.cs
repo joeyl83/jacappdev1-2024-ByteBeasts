@@ -46,6 +46,11 @@ namespace CalendarUI
             OpenPersonalizationWindow();
         }
 
+        private void CloseBtnClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
         public void OpenAddCategoryWindow()
         {
             CategoriesWindow categories = new CategoriesWindow(presenter);
