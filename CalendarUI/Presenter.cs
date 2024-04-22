@@ -22,6 +22,12 @@ namespace CalendarUI
         private EventViewInterface eventView;
         private PersonalizationInterface personalizationView;
 
+        //details of the last added event:
+        private DateTime lastStartDate;
+        private double lastDuration;
+        private string lastDetails;
+        private int lastCatId;
+
         
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
@@ -71,8 +77,23 @@ namespace CalendarUI
         {
             try
             {
-                model.events.Add(StartDateTime,CatId,DurationInMinutes, Details);
-                eventView.AddEvent();
+                if(StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
+                {
+                    eventView.ShowError("Warning: the event that you are trying to add is identical as the previous one added.");
+                    lastStartDate = new DateTime();
+                    lastDuration = 0;
+                    lastDetails = "";
+                    lastCatId = 0;
+                }
+                else
+                {
+                    model.events.Add(StartDateTime, CatId, DurationInMinutes, Details);
+                    eventView.AddEvent();
+                    lastStartDate = StartDateTime;
+                    lastDuration = DurationInMinutes;
+                    lastDetails = Details;
+                    lastCatId = CatId;
+                }
             }
             catch(Exception ex)
             {
