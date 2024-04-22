@@ -18,8 +18,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="30" Margin="0" Foreground="White">Add Event</Label>
-            <Label VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="20" Foreground="White">Please input the following:</Label>
+            <TextBlock VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="30" Margin="0" >Add Event</TextBlock>
+            <TextBlock VerticalAlignment="Center" Grid.Row="0"  HorizontalAlignment="Center" FontSize="20" >Please input the following:</TextBlock>
         </StackPanel>
 
         <GroupBox x:Name="dateGroupBox" Header="Date" Grid.Row="1" Background="#2e333b" Margin="5">
@@ -33,9 +33,9 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="15" Grid.Row="0" Foreground="White">Date for of occurence:</Label>
+                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="15" Grid.Row="0">Date for of occurence:</TextBlock>
                 <DatePicker Name="StartDate" Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20"></DatePicker>
-                <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="1" Foreground="White">Start Time:</Label>
+                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="1" >Start Time:</TextBlock>
                 <ComboBox Name="StartTime" Grid.Column="1" Grid.Row="1" Width="150" FontSize="20"></ComboBox>
             </Grid>
         </GroupBox>
@@ -43,14 +43,14 @@
 
         <GroupBox x:Name="categoryGroupBox" Header="Category" Grid.Row="2" Background="#2e333b" Margin="5">
             <StackPanel Grid.Row="1">
-                <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" Foreground="White">Associated category:</Label>
+                <TextBlock VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" >Associated category:</TextBlock>
                 <ComboBox Name="CatComboBox" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></ComboBox>
             </StackPanel>
         </GroupBox>
 
         <GroupBox x:Name="durationGroupBox" Header="Duration" Grid.Row="3" Background="#2e333b" Margin="5">
             <StackPanel Grid.Row="1">
-                <Label VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" Foreground="White">Event Duration:</Label>
+                <TextBlock VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15">Event Duration:</TextBlock>
                 <TextBox Name="Duration" Grid.Row="0" Grid.ColumnSpan="10" Grid.ZIndex="99"   VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="20" Width="200px"></TextBox>
             </StackPanel>
         </GroupBox>

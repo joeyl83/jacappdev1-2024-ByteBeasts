@@ -17,11 +17,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="65" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Home Calendar</TextBlock>
+
+        <TextBlock Text="Home Calendar"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="65" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <GroupBox x:Name="groupBox1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Header="Options" Margin="10" Background="#2e333b">
-        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>

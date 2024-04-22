@@ -124,8 +124,6 @@ namespace CalendarUI
                 {
                     groupBox.Background = new SolidColorBrush(color);
                 }
-
-
             }
         }
 
