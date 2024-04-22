@@ -31,6 +31,7 @@
                 <Button Grid.Row="0" Grid.Column="0" Width="150" Height="50" Click="AddEventBtnClick">Add Event</Button>
                 <Button Grid.Row="0" Grid.Column="1" Width="150" Height="50" Click="AddCategoryBtnClick">Add Category</Button>
                 <Button Grid.Row="0" Grid.Column="2" Width="150" Height="50" Click="PersonalizeBtnClick">Personalize 🎨</Button>
+                <Button Grid.Row="0" Grid.Column="2" Width="65" Height="20" Click="CloseBtnClick" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">Close</Button>
             </Grid>
 
         </GroupBox>

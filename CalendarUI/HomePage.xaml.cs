@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CalendarUI.Interfaces;
 
 namespace CalendarUI
 {
@@ -44,6 +45,11 @@ namespace CalendarUI
         private void PersonalizeBtnClick(object sender, RoutedEventArgs e)
         {
             OpenPersonalizationWindow();
+        }
+
+        private void CloseBtnClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
         }
 
         public void OpenAddCategoryWindow()
