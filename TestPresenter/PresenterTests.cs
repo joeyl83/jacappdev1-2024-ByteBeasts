@@ -89,6 +89,23 @@ namespace PresenterTest
         }
 
         [Fact]
+        public void TestAddDuplicateEvent()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            EventsWindowMockView eventsView = new EventsWindowMockView();
+            Presenter p = new Presenter(view);
+            p.NewHomeCalendar("calendars", "myCalendar.db");
+            p.InitializeEventView(eventsView);
+            eventsView.calledShowError = false;
+            DateTime date = DateTime.Now;
+
+            p.ProcessAddEvent(date, 30, "This is a test event.", 1);
+            p.ProcessAddEvent(date, 30, "This is a test event.", 1);
+
+            Assert.True(eventsView.calledShowError);
+        }
+
+        [Fact]
         public void TestLoadCategoryTypesInCategoryView()
         {
             MainWindowMockView view = new MainWindowMockView();
