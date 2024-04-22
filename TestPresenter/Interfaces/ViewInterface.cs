@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CalendarUI.Interfaces;
 
-namespace CalendarUI
+namespace CalendarUI.Interfaces
 {
-    public interface ViewInterface: PersonalizationInterface
+    public interface ViewInterface : PersonalizationInterface
     {
         void NewCalendar(string directory, string filename);
         void OpenExistingCalendar(string filepath);
