@@ -107,6 +107,7 @@ namespace CalendarUI
 
         public void LoadCategories(List<string> categories)
         {
+            CatComboBox.Items.Clear();
             foreach (string type in categories)
             {
                 CatComboBox.Items.Add(type);
@@ -192,6 +193,20 @@ namespace CalendarUI
             }
         }
 
+        public void OpenAddCategoryWindow()
+        {
+            CategoriesWindow categories = new CategoriesWindow(_presenter);
+            categories.Show();
+        }
 
+        public void AddCategoryBtn(object sender, RoutedEventArgs e)
+        {
+            OpenAddCategoryWindow();
+        }
+
+        private void CatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
