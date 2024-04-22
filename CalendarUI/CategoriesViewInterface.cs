@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Calendar;
+using CalendarUI.Interfaces;
 
 namespace CalendarUI
 {
-    public interface CategoriesViewInterface
+    public interface CategoriesViewInterface: PersonalizationInterface
     {
         public void AddCategory();
 

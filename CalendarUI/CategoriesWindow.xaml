@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="CategoriesWindow" Height="450" Width="800">
+        Title="CategoriesWindow" Height="450" Width="400"  Background="#FF17191E" BorderThickness="10" Foreground="White" FontFamily="MV Boli" >
     <Grid Name="InputGrid">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -14,11 +14,25 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40">Add Category</TextBlock>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Center">Category Name:</TextBlock>
-        <TextBox Name="CategoryName" Grid.Row="1" Width="100" Height="30"></TextBox>
-        <TextBlock Grid.Row="2" HorizontalAlignment="Center">Category Type:</TextBlock>
-        <ComboBox Name="CategoryType" Grid.Row="2" Width="100" Height="30"></ComboBox>
-        <Button Grid.Row="3" Width="100" Height="30" VerticalAlignment="Top" Click="Btn_AddCategory">Create</Button>
-        <TextBlock Name="Success" Foreground="Green" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">Category successfuly created</TextBlock>
+
+        <GroupBox x:Name="catNameGroupBox" Header="Name" Grid.Row="1" Background="#2e333b" Margin="10">
+            <StackPanel>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center">Category Name:</TextBlock>
+                <TextBox Name="CategoryName" Grid.Row="1" Width="100" Height="30"></TextBox>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox x:Name="catTypeGroupBox" Header="Date" Grid.Row="2" Background="#2e333b" Margin="10">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center">Category Type:</TextBlock>
+                <ComboBox Name="CategoryType" Width="100" Height="30"></ComboBox>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" >
+            <Button  Width="100" Height="30" HorizontalAlignment="Center" Click="Btn_AddCategory">Create</Button>
+            <TextBlock Name="Success" Foreground="Green" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">Category successfuly created</TextBlock>
+        </StackPanel>
+        
     </Grid>
 </Window>

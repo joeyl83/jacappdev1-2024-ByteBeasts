@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Calendar;
 
 namespace CalendarUI
 {
@@ -21,9 +22,13 @@ namespace CalendarUI
         private readonly Presenter presenter;
         public MainWindow()
         {
-            InitializeComponent();          
             presenter = new Presenter(this);
-            
+            InitializeComponent();
+
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)
@@ -42,7 +47,7 @@ namespace CalendarUI
                 string filepath = openFileDialog.FileName;
                 OpenExistingCalendar(filepath);
             }
-           
+
         }
 
         public void NewCalendar(string directory, string filename)
@@ -64,8 +69,42 @@ namespace CalendarUI
         {
             HomePage homePage = new HomePage(presenter);
             homePage.Show();
-           this.Close();
+            this.Close();
         }
 
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);
+        }
+
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+
+            foreach (var child in mainGrid.Children)
+            {
+
+                if (child is Button button2)
+                {
+                    button2.Foreground = new SolidColorBrush(color);
+                }
+            }
+        }
+
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
+        }
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            foreach (var child in mainGrid.Children)
+            {
+                if (child is Button button2)
+                {
+                    button2.Background = new SolidColorBrush(color);
+                }
+            }
+        }
     }
 }

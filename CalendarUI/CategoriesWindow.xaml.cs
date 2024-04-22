@@ -26,6 +26,11 @@ namespace CalendarUI
             _presenter = presenter;
             _presenter.InitializeCategoryView(this);
             _presenter.LoadCategoryTypes();
+
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
         public void LoadCategoryTypes(List<string> categoryTypes)
@@ -70,5 +75,106 @@ namespace CalendarUI
             }
           
         }
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);
+        }
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+
+            foreach (var child in InputGrid.Children)
+            {
+
+                if (child is Panel panel)
+                {
+
+                    foreach (var child2 in panel.Children)
+                    {
+                        if (child2 is Button button)
+                        {
+                            button.Foreground = new SolidColorBrush(color);
+                        }   
+                    }
+                    
+                }
+            }
+
+        }
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
+
+            foreach (var child in InputGrid.Children)
+            {
+                if (child is Button button)
+                {
+                    button.BorderBrush = new SolidColorBrush(color);
+
+                }
+
+                if (child is GroupBox groupBox)
+                {
+                    groupBox.BorderBrush = new SolidColorBrush(color);
+
+                    if (groupBox.Content is Button buttonInGroupBox)
+                    {
+                        buttonInGroupBox.BorderBrush = new SolidColorBrush(color);
+                    }
+                    else if (groupBox.Content is Panel panel)
+                    {
+                        foreach (var child2 in panel.Children)
+                        {
+                            if (child2 is Button button2)
+                            {
+                                button2.BorderBrush = new SolidColorBrush(color);
+                            }
+                            if (child2 is TextBox textBox)
+                            {
+                                textBox.BorderBrush = new SolidColorBrush(color);
+                            }
+                        }
+                    }
+                }
+
+                if (child is Panel panel2)
+                {
+                    foreach (var child2 in panel2.Children)
+                    {
+                        if (child2 is Button button3)
+                        {
+                            button3.BorderBrush = new SolidColorBrush(color);
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            foreach (var child in InputGrid.Children)
+            {
+                if (child is GroupBox groupBox)
+                {
+                    groupBox.Background = new SolidColorBrush(color);
+
+                }
+
+                if (child is Panel panel)
+                {
+                    foreach (var child2 in panel.Children)
+                    {
+                        if (child2 is Button button)
+                        {
+                            button.Background = new SolidColorBrush(color);
+                        }
+                    }
+                }
+
+            }
+        }
+
     }
 }
