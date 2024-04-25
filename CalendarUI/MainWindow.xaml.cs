@@ -68,8 +68,9 @@ namespace CalendarUI
 
         public void ChangeWindow()
         {
-            HomePage homePage = new HomePage(presenter);
-            homePage.Show();
+            //Remove this later.
+            CalendarGridBoxWindow gridWindow = new CalendarGridBoxWindow(presenter);
+            gridWindow.Show();
             this.Close();
         }
 

@@ -21,6 +21,7 @@ namespace CalendarUI
         private HomePageViewInterface homePageView;
         private EventViewInterface eventView;
         private PersonalizationInterface personalizationView;
+        private GridViewInterface gridView;
 
         //details of the last added event:
         private DateTime lastStartDate;
@@ -140,7 +141,10 @@ namespace CalendarUI
         {
             personalizationView = view;
         }
-
+        public void InitializeGridBoxView(GridViewInterface view)
+        {
+            gridView = view;
+        }
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
             BackgroundColor = color;
@@ -197,5 +201,10 @@ namespace CalendarUI
             ForegroundColor = System.Windows.Media.Color.FromRgb(46, 51, 59);
         }
 
+        public void GetCalendarItems()
+        {
+            List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
+            gridView.LoadCalendarItems(items);        
+        }
     }
 }

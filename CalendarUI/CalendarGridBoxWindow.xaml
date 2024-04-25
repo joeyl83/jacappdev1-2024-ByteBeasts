@@ -34,12 +34,12 @@
                     <CheckBox Margin="5">By Category</CheckBox>
                 </StackPanel>
             </GroupBox>
-            <Button Grid.Row="3" Height="25" Margin="10">Add Event</Button>
+            <Button Grid.Row="3" Height="25" Margin="10" Click="Btn_AddCategoryAndEvent">Add Event</Button>
         </Grid>
 
        
-        <DataGrid x:Name="GridCalendarItems" Height="350" Grid.Column="1" >
-
+        <DataGrid x:Name="GridCalendarItems" Height="350" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
+            
         </DataGrid>
     </Grid>
 </Window>
