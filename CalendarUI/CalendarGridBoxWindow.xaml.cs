@@ -48,9 +48,10 @@ namespace CalendarUI
 
         public void LoadCalendarItems(List<CalendarItem> calendarItems)
         {
-            GridCalendarItems.Columns.Clear();
-            AddColumn("Start Date", "StartDateTime");
-            AddColumn("Start Time","StartTime");
+   
+                GridCalendarItems.Columns.Clear();
+            AddColumn("Start Date", "StartDateTime StringFormat=0:H:mm:ss");
+            AddColumn("Start Time","StartDateTime StringFormat=0:yyyy/MM/dd");
             AddColumn("Category","Category");
             AddColumn("Description","ShortDescription");
             AddColumn("Duration","DurationInMinutes");
