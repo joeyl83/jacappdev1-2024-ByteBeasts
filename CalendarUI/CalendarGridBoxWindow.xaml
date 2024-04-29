@@ -24,8 +24,8 @@
                 <StackPanel>
                     <DatePicker Height="30" Margin="10"></DatePicker>
                     <DatePicker Height="30" Margin="10"></DatePicker>
-                    <CheckBox>Filter By Category?</CheckBox>
-                    <ComboBox></ComboBox>
+                    <CheckBox Name="FilterByACategory" Click="ChkBox_FilterByACategory">Filter By Category?</CheckBox>
+                    <ComboBox Name="CategoryComboBox"></ComboBox>
                 </StackPanel>
             </GroupBox>
             <GroupBox x:Name="SummaryBox" Header="Summary" Height="80" Grid.Row="2">

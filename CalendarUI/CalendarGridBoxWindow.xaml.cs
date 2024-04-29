@@ -29,6 +29,7 @@ namespace CalendarUI
             _presenter = presenter;
             _presenter.InitializeGridBoxView(this);
             _presenter.GetCalendarItems();
+            _presenter.LoadCategories(2);
         }
 
         public void LoadByACategory(List<CalendarItemsByCategory> itemsByCategory)
@@ -101,6 +102,14 @@ namespace CalendarUI
         {
             throw new NotImplementedException();
         }
+        public void LoadCategories(List<string> categories)
+        {
+            CategoryComboBox.Items.Clear();
+            foreach(string type in categories)
+            {
+                CategoryComboBox.Items.Add(type);
+            }
+        }
 
         private void Btn_AddCategoryAndEvent(object sender, RoutedEventArgs e)
         {
@@ -134,6 +143,18 @@ namespace CalendarUI
             if (ByCategoryCheckBox.IsChecked == true)
             {
                 _presenter.GroupByCategory();
+            }
+            else
+            {
+                _presenter.GetCalendarItems();
+            }
+        }
+
+        private void ChkBox_FilterByACategory(object sender, RoutedEventArgs e)
+        {
+            if (FilterByACategory.IsChecked == true)
+            {
+                _presenter.FilterByACategory();
             }
             else
             {

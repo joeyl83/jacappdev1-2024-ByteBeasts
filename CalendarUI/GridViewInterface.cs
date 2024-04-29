@@ -21,5 +21,7 @@ namespace CalendarUI
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems);
 
         public void LoadDates();
+
+        public void LoadCategories(List<string> categories);
     }
 }

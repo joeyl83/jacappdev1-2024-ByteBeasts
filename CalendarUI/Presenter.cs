@@ -116,7 +116,7 @@ namespace CalendarUI
             }
             categoryView.LoadCategoryTypes(list);
         }
-        public void LoadCategories()
+        public void LoadCategories(int check)
         {
             List<string> list = new List<string>();
             int count = 0;
@@ -125,7 +125,15 @@ namespace CalendarUI
                 count++;
                 list.Add($"{category.Description}:{count}");
             }
-            eventView.LoadCategories(list);
+            if (check == 1)
+            {
+                eventView.LoadCategories(list);
+            }
+            else if (check == 2)
+            {
+                gridView.LoadCategories(list);
+            }
+           
         }
         public void InitializeEventView(EventViewInterface view)
         {
@@ -217,6 +225,11 @@ namespace CalendarUI
             gridView.LoadByMonthAndCategory(items);
         }
         public void GroupByCategory()
+        {
+            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
+            gridView.GroupByCategories(items);
+        }
+        public void FilterByACategory()
         {
             List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
             gridView.GroupByCategories(items);
