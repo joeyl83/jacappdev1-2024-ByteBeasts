@@ -42,8 +42,8 @@
             </StackPanel>
         </Grid>
 
-       
-        <DataGrid x:Name="GridCalendarItems" Height="400" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
+
+        <DataGrid x:Name="GridCalendarItems" Height="400" Grid.Column="1" AutoGenerateColumns="False" MouseDoubleClick="DataGrid_MouseDoubleClick" IsReadOnly="True">
             
         </DataGrid>
     </Grid>

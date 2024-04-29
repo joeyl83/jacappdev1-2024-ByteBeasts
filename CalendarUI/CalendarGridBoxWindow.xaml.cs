@@ -90,7 +90,7 @@ namespace CalendarUI
         private void Btn_AddCategoryAndEvent(object sender, RoutedEventArgs e)
         {
             HomePage homePage = new HomePage(_presenter);
-            homePage.Show();
+            homePage.ShowDialog();
         }
 
         private void Btn_AddEvent(object sender, RoutedEventArgs e)
@@ -112,19 +112,30 @@ namespace CalendarUI
         public void OpenCategoryWindow()
         {
             CategoriesWindow categories = new CategoriesWindow(_presenter);
-            categories.Show();
+            categories.ShowDialog();
         }
 
         public void OpenEventWindow()
         {
             EventsWindow events = new EventsWindow(_presenter);
-            events.Show();
+            events.ShowDialog();
         }
 
         public void OpenPersonalizationWindow()
         {
             PersonalizationWindow personalization = new PersonalizationWindow(_presenter);
-            personalization.Show();
+            personalization.ShowDialog();
+        }
+
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Get the selected event
+            var selectedEvent = (Event)GridCalendarItems.SelectedItem;
+
+            // Open the EventsWindow with the selected event
+            var eventsWindow = new EventsWindow(selectedEvent);
+            eventsWindow.ShowDialog();
         }
     }
 }
