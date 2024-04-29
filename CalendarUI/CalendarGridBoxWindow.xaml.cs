@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,10 +49,20 @@ namespace CalendarUI
 
         public void LoadCalendarItems(List<CalendarItem> calendarItems)
         {
-            GridCalendarItems.ItemsSource = null;
+   
             GridCalendarItems.Columns.Clear();
-            AddColumn("Start Date", "StartDateTime StringFormat=0:H:mm:ss");
-            AddColumn("Start Time","StartDateTime StringFormat=0:yyyy/MM/dd");
+            DataGridTextColumn column = new DataGridTextColumn();
+            column.Header = "Start Date";
+            column.Binding = new Binding("StartDateTime");
+            column.Binding.StringFormat = "MM/dd/yy";
+            GridCalendarItems.Columns.Add(column);
+
+            column = new DataGridTextColumn();
+            column.Header = "Start Time";
+            column.Binding = new Binding("StartDateTime");
+            column.Binding.StringFormat = "0:H:mm:ss";
+            GridCalendarItems.Columns.Add(column);
+
             AddColumn("Category","Category");
             AddColumn("Description","ShortDescription");
             AddColumn("Duration","DurationInMinutes");
