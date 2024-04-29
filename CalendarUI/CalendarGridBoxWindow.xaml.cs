@@ -48,8 +48,8 @@ namespace CalendarUI
 
         public void LoadCalendarItems(List<CalendarItem> calendarItems)
         {
-   
-                GridCalendarItems.Columns.Clear();
+            GridCalendarItems.ItemsSource = null;
+            GridCalendarItems.Columns.Clear();
             AddColumn("Start Date", "StartDateTime StringFormat=0:H:mm:ss");
             AddColumn("Start Time","StartDateTime StringFormat=0:yyyy/MM/dd");
             AddColumn("Category","Category");
@@ -57,6 +57,14 @@ namespace CalendarUI
             AddColumn("Duration","DurationInMinutes");
             AddColumn("Busy Time","BusyTime");
             GridCalendarItems.ItemsSource= calendarItems;
+        }
+
+        public void ModifiedFiltersEvent(object sender, RoutedEventArgs e)
+        {
+            DateTime startDate = StartDateElement.DisplayDate;
+            DateTime endDate = EndDateElement.DisplayDate;
+
+
         }
         public void AddColumn(string header,string property)
         {

@@ -22,8 +22,8 @@
             <TextBlock FontSize="20">Display Options</TextBlock>
             <GroupBox x:Name="FilterBox" Header="Filter" Grid.Row="1">
                 <StackPanel>
-                    <DatePicker Height="30" Margin="10"></DatePicker>
-                    <DatePicker Height="30" Margin="10"></DatePicker>
+                    <DatePicker Name="StartDateElement" Height="30" Margin="10" SelectedDateChanged="ModifiedFiltersEvent"></DatePicker>
+                    <DatePicker Name="EndDateElement" Height="30" Margin="10" SelectedDateChanged="ModifiedFiltersEvent"></DatePicker>
                     <CheckBox>Filter By Category?</CheckBox>
                     <ComboBox></ComboBox>
                 </StackPanel>

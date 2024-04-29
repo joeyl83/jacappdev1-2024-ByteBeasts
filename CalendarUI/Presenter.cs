@@ -206,5 +206,11 @@ namespace CalendarUI
             List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
             gridView.LoadCalendarItems(items);        
         }
+
+        public void ProcessFilters(DateTime startDate, DateTime endDate)
+        {
+            List<CalendarItem> items = model.GetCalendarItems(startDate, endDate, false, 1);
+            gridView.LoadCalendarItems(items);
+        }
     }
 }
