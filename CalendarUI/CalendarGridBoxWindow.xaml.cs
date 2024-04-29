@@ -39,12 +39,26 @@ namespace CalendarUI
 
         public void LoadByMonth(List<CalendarItemsByMonth> itemsByMonth)
         {
-            throw new NotImplementedException();
+            GridCalendarItems.Columns.Clear();
+            AddColumn("Month", "Month");
+            AddColumn("Busy Time", "TotalBusyTime");
+            GridCalendarItems.ItemsSource=itemsByMonth;
         }
 
-        public void LoadByMonthAndCategory()
+        public void LoadByMonthAndCategory(List<Dictionary<string, object>> items)
         {
-            throw new NotImplementedException();
+            GridCalendarItems.Columns.Clear();
+            AddColumn("Month", "Month");
+            AddColumn("Total Busy Time", "TotalBusyTime");
+            for(int i = 0; i < items.Count; i++) 
+            { 
+                for(int j=0; j < items[i].Count; j++)
+                {
+                   
+                }
+            }
+            AddColumn("Category", "Category");            
+            GridCalendarItems.ItemsSource = items;
         }
 
         public void LoadCalendarItems(List<CalendarItem> calendarItems)
@@ -76,9 +90,11 @@ namespace CalendarUI
             column.Binding = new Binding(property);
             GridCalendarItems.Columns.Add(column);
         }
-        public void LoadCategories()
+        public void GroupByCategories(List<CalendarItemsByCategory> itemsByCategory)
         {
-            throw new NotImplementedException();
+            GridCalendarItems.Columns.Clear();
+            AddColumn("Category","Category");
+            AddColumn("Total Busy Time","BusyTime");
         }
 
         public void LoadDates()
@@ -90,6 +106,39 @@ namespace CalendarUI
         {
             HomePage homePage = new HomePage(_presenter);
             homePage.Show();
+        }
+
+        private void ChkBox_FilterByMonth(object sender, RoutedEventArgs e)
+        {
+            if(MonthCheckBox.IsChecked == true && ByCategoryCheckBox.IsChecked == true) 
+            {
+                _presenter.GetCalendarItemsByMonthAndCategory();
+            }
+            if(MonthCheckBox.IsChecked == true)
+            {
+                _presenter.GetCalendarItemsByMonth();
+            }
+            else
+            {
+                _presenter.GetCalendarItems();
+            }
+            
+        }
+
+        private void ChkBox_FilterByCategory(object sender, RoutedEventArgs e)
+        {
+            if (MonthCheckBox.IsChecked == true && ByCategoryCheckBox.IsChecked == true)
+            {
+                _presenter.GetCalendarItemsByMonthAndCategory();
+            }
+            if (ByCategoryCheckBox.IsChecked == true)
+            {
+                _presenter.GroupByCategory();
+            }
+            else
+            {
+                _presenter.GetCalendarItems();
+            }
         }
     }
 }
