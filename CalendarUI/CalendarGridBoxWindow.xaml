@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="CalendarGridBoxWindow" Height="450" Width="800">
+        Title="CalendarGridBoxWindow" Height="500" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"></ColumnDefinition>
@@ -17,7 +17,7 @@
                 <RowDefinition Height="45"></RowDefinition>
                 <RowDefinition Height="170"></RowDefinition>
                 <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock FontSize="20">Display Options</TextBlock>
             <GroupBox x:Name="FilterBox" Header="Filter" Grid.Row="1">
@@ -34,11 +34,16 @@
                     <CheckBox Margin="5">By Category</CheckBox>
                 </StackPanel>
             </GroupBox>
-            <Button Grid.Row="3" Height="25" Margin="10" Click="Btn_AddCategoryAndEvent">Add Event</Button>
+
+            <StackPanel Grid.Row="3" Orientation="Vertical">
+                <Button  Height="25" Margin="10 10 10 0"  Click="Btn_AddEvent">Add Event</Button>
+                <Button  Height="25" Margin="10 10 10 0"   Click="Btn_AddCategory">Add Category</Button>
+                <Button  Height="25" Margin="10 10 10 0"  Click="Btn_Personalize">Personalize 🎨</Button>
+            </StackPanel>
         </Grid>
 
        
-        <DataGrid x:Name="GridCalendarItems" Height="350" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="GridCalendarItems" Height="400" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
             
         </DataGrid>
     </Grid>

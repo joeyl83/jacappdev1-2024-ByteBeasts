@@ -1,4 +1,5 @@
 ﻿using Calendar;
+using CalendarUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -20,7 +21,7 @@ namespace CalendarUI
     /// <summary>
     /// Interaction logic for CalendarGridBoxWindow.xaml
     /// </summary>
-    public partial class CalendarGridBoxWindow : Window,GridViewInterface
+    public partial class CalendarGridBoxWindow : Window, GridViewInterface
     {
         private Presenter _presenter;
         public CalendarGridBoxWindow(Presenter presenter)
@@ -90,6 +91,40 @@ namespace CalendarUI
         {
             HomePage homePage = new HomePage(_presenter);
             homePage.Show();
+        }
+
+        private void Btn_AddEvent(object sender, RoutedEventArgs e)
+        {
+            OpenEventWindow();
+        }
+
+        private void Btn_AddCategory(object sender, RoutedEventArgs e)
+        {
+            OpenCategoryWindow();
+        }
+
+        private void Btn_Personalize(object sender, RoutedEventArgs e)
+        {
+            OpenPersonalizationWindow();
+        }
+
+
+        public void OpenCategoryWindow()
+        {
+            CategoriesWindow categories = new CategoriesWindow(_presenter);
+            categories.Show();
+        }
+
+        public void OpenEventWindow()
+        {
+            EventsWindow events = new EventsWindow(_presenter);
+            events.Show();
+        }
+
+        public void OpenPersonalizationWindow()
+        {
+            PersonalizationWindow personalization = new PersonalizationWindow(_presenter);
+            personalization.Show();
         }
     }
 }
