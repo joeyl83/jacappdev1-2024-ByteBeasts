@@ -22,6 +22,7 @@ namespace CalendarUI
     public partial class EventsWindow : Window, EventViewInterface
     {
         private Presenter _presenter;
+        private Event _event;
         public EventsWindow(Presenter presenter)
         {
             InitializeComponent();
@@ -34,6 +35,16 @@ namespace CalendarUI
             ChangeFontColor(Presenter.FontColor);
             ChangeBorderColor(Presenter.BorderColor);
             ChangeForegroundColor(Presenter.ForegroundColor);
+        }
+
+        public EventsWindow(Presenter presenter, Event selectedEvent)
+        {
+            InitializeComponent();
+
+            _event = selectedEvent;
+
+            var date = selectedEvent.StartDateTime;
+
         }
 
         public void AddEvent()
@@ -208,5 +219,7 @@ namespace CalendarUI
         {
 
         }
+
+        private void EventOption()
     }
 }

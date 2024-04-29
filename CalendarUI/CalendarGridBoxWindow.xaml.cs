@@ -134,7 +134,7 @@ namespace CalendarUI
             var selectedEvent = (Event)GridCalendarItems.SelectedItem;
 
             // Open the EventsWindow with the selected event
-            var eventsWindow = new EventsWindow(selectedEvent);
+            var eventsWindow = new EventsWindow(_presenter, selectedEvent);
             eventsWindow.ShowDialog();
         }
     }
