@@ -10,13 +10,13 @@ namespace CalendarUI
 {
     public interface GridViewInterface
     {
-        public void LoadCategories();
+        public void GroupByCategories(List<CalendarItemsByCategory> itemsByCategory);
 
         public void LoadByACategory(List<CalendarItemsByCategory> itemsByCategory);
 
         public void LoadByMonth(List<CalendarItemsByMonth> itemsByMonth);
 
-        public void LoadByMonthAndCategory();
+        public void LoadByMonthAndCategory(List<Dictionary<string, object>> items);
 
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems);
 
