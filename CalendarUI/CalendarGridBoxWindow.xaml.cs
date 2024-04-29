@@ -49,7 +49,7 @@ namespace CalendarUI
 
         public void LoadCalendarItems(List<CalendarItem> calendarItems)
         {
-   
+            GridCalendarItems.ItemsSource = null;
             GridCalendarItems.Columns.Clear();
             DataGridTextColumn column = new DataGridTextColumn();
             column.Header = "Start Date";
@@ -72,10 +72,10 @@ namespace CalendarUI
 
         public void ModifiedFiltersEvent(object sender, RoutedEventArgs e)
         {
-            DateTime startDate = StartDateElement.DisplayDate;
-            DateTime endDate = EndDateElement.DisplayDate;
+            DateTime? startDate = StartDateElement.SelectedDate;
+            DateTime? endDate = EndDateElement.SelectedDate;
 
-
+            _presenter.ProcessFilters(startDate, endDate);
         }
         public void AddColumn(string header,string property)
         {
