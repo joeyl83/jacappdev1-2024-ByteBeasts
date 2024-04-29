@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -34,7 +35,10 @@ namespace CalendarUI
 
         public void LoadByACategory(List<CalendarItemsByCategory> itemsByCategory)
         {
-            throw new NotImplementedException();
+            GridCalendarItems.Columns.Clear();
+            AddColumn("Category", "Category");
+            AddColumn("Total Busy Time", "TotalBusyTime");
+            GridCalendarItems.ItemsSource = itemsByCategory;
         }
 
 
@@ -62,7 +66,7 @@ namespace CalendarUI
             GridCalendarItems.ItemsSource = items;
         }
 
-        public void LoadCalendarItems(List<CalendarItem> calendarItems)
+        public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems)
         {
    
             GridCalendarItems.Columns.Clear();
@@ -95,7 +99,8 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Category","Category");
-            AddColumn("Total Busy Time","BusyTime");
+            AddColumn("Total Busy Time","TotalBusyTime");
+            GridCalendarItems.ItemsSource = itemsByCategory;
         }
 
         public void LoadDates()
@@ -154,7 +159,9 @@ namespace CalendarUI
         {
             if (FilterByACategory.IsChecked == true)
             {
-                _presenter.FilterByACategory();
+                string[] array = CategoryComboBox.Text.Split(':');
+                int catId = Int32.Parse(array[1].Trim());
+                _presenter.FilterByACategory(catId);
             }
             else
             {

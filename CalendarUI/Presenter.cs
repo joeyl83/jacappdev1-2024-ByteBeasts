@@ -229,10 +229,10 @@ namespace CalendarUI
             List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
             gridView.GroupByCategories(items);
         }
-        public void FilterByACategory()
+        public void FilterByACategory(int categoryId)
         {
-            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
-            gridView.GroupByCategories(items);
+            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, true, categoryId));
+            gridView.LoadByACategory(items);
         }
     }
 }
