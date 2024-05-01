@@ -221,5 +221,29 @@ namespace CalendarUI
             List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
             gridView.GroupByCategories(items);
         }
+        public void ProcessFilters(DateTime? startDate, DateTime? endDate, bool groupByMonth, bool groupByCategory)
+        {
+            if(!groupByMonth && !groupByCategory)
+            {
+                List<CalendarItem> items = model.GetCalendarItems(startDate, endDate, false, 1);
+                gridView.LoadCalendarItems(items);
+            }
+            else if(groupByMonth && groupByCategory)
+            {
+                List<Dictionary<string, object>> itemDictionary = model.GetCalendarDictionaryByCategoryAndMonth(startDate, endDate, false, 1);
+                gridView.LoadByMonthAndCategory(itemDictionary);
+            }
+            else if (groupByMonth)
+            {
+                List<CalendarItemsByMonth> itemsByMonth = model.GetCalendarItemsByMonth(startDate, endDate, false, 1);
+                gridView.LoadByMonth(itemsByMonth);
+            }
+            else if (groupByCategory)
+            {
+                List<CalendarItemsByCategory> itemsByCategory = model.GetCalendarItemsByCategory(startDate, endDate, false, 1);
+                gridView.GroupByCategories(itemsByCategory);
+            }
+            
+        }
     }
 }

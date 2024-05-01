@@ -88,8 +88,19 @@ namespace CalendarUI
         {
             DateTime? startDate = StartDateElement.SelectedDate;
             DateTime? endDate = EndDateElement.SelectedDate;
+            bool groupByMonth = false;
+            bool groupByCategory = false;
 
-            _presenter.ProcessFilters(startDate, endDate);
+            if (MonthCheckBox.IsChecked == true)
+            {
+                groupByMonth = true;
+            }
+
+            if(ByCategoryCheckBox.IsChecked == true)
+            {
+                groupByCategory = true;
+            }
+            _presenter.ProcessFilters(startDate, endDate, groupByMonth, groupByCategory);
         }
         public void AddColumn(string header,string property)
         {
@@ -102,7 +113,8 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Category","Category");
-            AddColumn("Total Busy Time","BusyTime");
+            AddColumn("Busy Time","TotalBusyTime");
+            GridCalendarItems.ItemsSource = itemsByCategory;
         }
 
         public void LoadDates()
@@ -114,39 +126,6 @@ namespace CalendarUI
         {
             HomePage homePage = new HomePage(_presenter);
             homePage.Show();
-        }
-
-        private void ChkBox_FilterByMonth(object sender, RoutedEventArgs e)
-        {
-            if(MonthCheckBox.IsChecked == true && ByCategoryCheckBox.IsChecked == true) 
-            {
-                _presenter.GetCalendarItemsByMonthAndCategory();
-            }
-            if(MonthCheckBox.IsChecked == true)
-            {
-                _presenter.GetCalendarItemsByMonth();
-            }
-            else
-            {
-                _presenter.GetCalendarItems();
-            }
-            
-        }
-
-        private void ChkBox_FilterByCategory(object sender, RoutedEventArgs e)
-        {
-            if (MonthCheckBox.IsChecked == true && ByCategoryCheckBox.IsChecked == true)
-            {
-                _presenter.GetCalendarItemsByMonthAndCategory();
-            }
-            if (ByCategoryCheckBox.IsChecked == true)
-            {
-                _presenter.GroupByCategory();
-            }
-            else
-            {
-                _presenter.GetCalendarItems();
-            }
         }
     }
 }

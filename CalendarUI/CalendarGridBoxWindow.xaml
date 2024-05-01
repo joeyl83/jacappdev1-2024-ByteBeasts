@@ -30,8 +30,8 @@
             </GroupBox>
             <GroupBox x:Name="SummaryBox" Header="Summary" Height="80" Grid.Row="2">
                 <StackPanel>
-                    <CheckBox Name="MonthCheckBox" Margin="5" Click="ChkBox_FilterByMonth">By Month</CheckBox>
-                    <CheckBox Name="ByCategoryCheckBox" Click="ChkBox_FilterByCategory" Margin="5">By Category</CheckBox>
+                    <CheckBox Name="MonthCheckBox" Margin="5" Click="ModifiedFiltersEvent">By Month</CheckBox>
+                    <CheckBox Name="ByCategoryCheckBox" Click="ModifiedFiltersEvent" Margin="5">By Category</CheckBox>
                 </StackPanel>
             </GroupBox>
             <Button Grid.Row="3" Height="25" Margin="10" Click="Btn_AddCategoryAndEvent">Add Event</Button>
