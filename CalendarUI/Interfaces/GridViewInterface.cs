@@ -22,10 +22,10 @@ namespace CalendarUI.Interfaces
 
         // Added by Lucas
         void OpenEventWindow();
-        void OpenCategoryWindow()
-        void OpenPersonalizationWindow()
-        
-        public void LoadDates();
+        void OpenCategoryWindow();
+        void OpenPersonalizationWindow();
+
+        public void LoadCategories(List<Category> categories);
 
     }
 }

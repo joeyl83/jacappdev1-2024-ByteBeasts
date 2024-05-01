@@ -32,7 +32,7 @@ namespace CalendarUI
             InitializeComponent();
             _presenter = presenter;
             _presenter.InitializeEventView(this);
-            _presenter.LoadCategories();
+            _presenter.LoadCategories(1);
             LoadTimes();
 
             ChangeBackground(Presenter.BackgroundColor);
