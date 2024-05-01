@@ -116,11 +116,6 @@ namespace CalendarUI
             AddColumn("Total Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
         }
-
-        public void LoadDates()
-        {
-            throw new NotImplementedException();
-        }
         public void LoadCategories(List<string> categories)
         {
             CategoryComboBox.Items.Clear();
