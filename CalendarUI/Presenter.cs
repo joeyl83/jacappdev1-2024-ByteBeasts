@@ -206,21 +206,6 @@ namespace CalendarUI
             List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
             gridView.LoadCalendarItems(items);        
         }
-        public void GetCalendarItemsByMonth()
-        {
-            List<CalendarItemsByMonth> items = new List<CalendarItemsByMonth>(model.GetCalendarItemsByMonth(null, null, false, 1));
-            gridView.LoadByMonth(items);
-        }
-        public void GetCalendarItemsByMonthAndCategory()
-        {
-            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>(model.GetCalendarDictionaryByCategoryAndMonth(null, null, false, 1));
-            gridView.LoadByMonthAndCategory(items);
-        }
-        public void GroupByCategory()
-        {
-            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
-            gridView.GroupByCategories(items);
-        }
         public void ProcessFilters(DateTime? startDate, DateTime? endDate, bool groupByMonth, bool groupByCategory)
         {
             if(!groupByMonth && !groupByCategory)
@@ -244,6 +229,11 @@ namespace CalendarUI
                 gridView.GroupByCategories(itemsByCategory);
             }
             
+        }
+
+        public List<Category> GetCategoriesList()
+        {
+            return model.categories.List();
         }
     }
 }

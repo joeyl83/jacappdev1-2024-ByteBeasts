@@ -48,16 +48,24 @@ namespace CalendarUI
         public void LoadByMonthAndCategory(List<Dictionary<string, object>> items)
         {
             GridCalendarItems.Columns.Clear();
-            AddColumn("Month", "Month");
-            AddColumn("Total Busy Time", "TotalBusyTime");
-            for(int i = 0; i < items.Count; i++) 
-            { 
-                for(int j=0; j < items[i].Count; j++)
-                {
-                   
-                }
+            AddColumn("Month", "[Month]");
+            //for(int i = 0; i < items.Count; i++) 
+            //{
+            //    foreach (string key in items[i].Keys)
+            //    {
+            //        if (key != "TotalBusyTime" && items[i][key] is not List<CalendarItem> && key != "Month" && !IsKeyInGrid(key))
+            //        {
+            //            AddColumn($"{key}", $"[{key}]");
+            //        }
+            //    }
+            //}
+
+            List<Category> categoryList = _presenter.GetCategoriesList();
+            foreach(Category c in categoryList)
+            {
+                AddColumn($"{c.Description}", $"[{c.Description}]");
             }
-            AddColumn("Category", "Category");            
+            AddColumn("Total Busy Time", "[TotalBusyTime]");
             GridCalendarItems.ItemsSource = items;
         }
 
@@ -126,6 +134,18 @@ namespace CalendarUI
         {
             HomePage homePage = new HomePage(_presenter);
             homePage.Show();
+        }
+
+        private bool IsKeyInGrid(string key)
+        {
+            for(int i = 0; i < GridCalendarItems.Columns.Count; i++)
+            {
+                if (GridCalendarItems.Columns[i].Header.ToString() == key)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
