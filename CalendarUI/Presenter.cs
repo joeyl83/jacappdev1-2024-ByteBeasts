@@ -117,21 +117,14 @@ namespace CalendarUI
             categoryView.LoadCategoryTypes(list);
         }
         public void LoadCategories(int check)
-        {
-            List<string> list = new List<string>();
-            int count = 0;
-            foreach (Category category in model.categories.List())
-            {
-                count++;
-                list.Add($"{category.Description}:{count}");
-            }
+        {        
             if (check == 1)
             {
-                eventView.LoadCategories(list);
+                eventView.LoadCategories(model.categories.List());
             }
             else if (check == 2)
             {
-                gridView.LoadCategories(list);
+                gridView.LoadCategories(model.categories.List());
             }
            
         }

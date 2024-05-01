@@ -116,13 +116,11 @@ namespace CalendarUI
             AddColumn("Total Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
         }
-        public void LoadCategories(List<string> categories)
+        public void LoadCategories(List<Category> categories)
         {
             CategoryComboBox.Items.Clear();
-            foreach(string type in categories)
-            {
-                CategoryComboBox.Items.Add(type);
-            }
+            CategoryComboBox.DisplayMemberPath = "Description";
+            CategoryComboBox.ItemsSource= categories;
         }
 
         private void Btn_AddCategoryAndEvent(object sender, RoutedEventArgs e)
@@ -166,11 +164,10 @@ namespace CalendarUI
 
         private void ChkBox_FilterByACategory(object sender, RoutedEventArgs e)
         {
-            if (FilterByACategory.IsChecked == true && CategoryComboBox.Text != "")
+            if (FilterByACategory.IsChecked == true && CategoryComboBox.SelectedItem != null)
             {
-                string[] array = CategoryComboBox.Text.Split(':');
-                int catId = Int32.Parse(array[1].Trim());
-                _presenter.FilterByACategory(catId);
+                Category category = CategoryComboBox.SelectedItem as Category;
+                _presenter.FilterByACategory(category.Id);
             }
             else
             {
