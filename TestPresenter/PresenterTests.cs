@@ -258,13 +258,88 @@ namespace PresenterTest
             Assert.True(homePageView.calledChangeForegroundColor);
             Assert.True(personalizationView.calledChangeForegroundColor);
         }
+        [Fact]
 
+        public void TestGridViewGroupByCategories()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
 
+            p.GroupByCategory();
+
+            Assert.True(gridBoxView.calledGroupByCategories);
+        }
+        [Fact]
+
+        public void TestGridViewLoadByACategory()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+            int catId = 1;
+
+            p.FilterByACategory(catId);
+
+            Assert.True(gridBoxView.calledLoadByACategory);
+        }
+        [Fact]
+        public void TestGridViewLoadByMonth()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+
+            p.GetCalendarItemsByMonth();
+
+            Assert.True(gridBoxView.calledLoadByMonth);
+        }
+        [Fact]
+        public void TestGridViewLoadByMonthAndCategory()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+
+            p.GetCalendarItemsByMonthAndCategory();
+
+            Assert.True(gridBoxView.calledLoadByMonthAndCategory);
+        }
+        [Fact]
+        public void TestGridViewLoadCalendarItems()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+
+            p.GetCalendarItems();
+
+            Assert.True(gridBoxView.calledLoadCalendarItems);
+        }
+        [Fact]
+        public void TestGridViewLoadCategories()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+
+            p.LoadCategories(2);
+
+            Assert.True(gridBoxView.calledLoadCategories);
+        }
         private void CreateTestCalendarFile()
         {
             MainWindowMockView view = new MainWindowMockView();
             Presenter p = new Presenter(view);
             p.NewHomeCalendar("testCalendar", "calendar.db");
         }
+
+
     }
 }
