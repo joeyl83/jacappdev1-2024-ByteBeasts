@@ -116,16 +116,17 @@ namespace CalendarUI
             }
             categoryView.LoadCategoryTypes(list);
         }
-        public void LoadCategories()
-        {
-            List<string> list = new List<string>();
-            int count = 0;
-            foreach (Category category in model.categories.List())
+        public void LoadCategories(int check)
+        {        
+            if (check == 1)
             {
-                count++;
-                list.Add($"{category.Description}:{count}");
+                eventView.LoadCategories(model.categories.List());
             }
-            eventView.LoadCategories(list);
+            else if (check == 2)
+            {
+                gridView.LoadCategories(model.categories.List());
+            }
+           
         }
         public void InitializeEventView(EventViewInterface view)
         {
@@ -205,6 +206,26 @@ namespace CalendarUI
         {
             List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
             gridView.LoadCalendarItems(items);        
+        }
+        public void GetCalendarItemsByMonth()
+        {
+            List<CalendarItemsByMonth> items = new List<CalendarItemsByMonth>(model.GetCalendarItemsByMonth(null, null, false, 1));
+            gridView.LoadByMonth(items);
+        }
+        public void GetCalendarItemsByMonthAndCategory()
+        {
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>(model.GetCalendarDictionaryByCategoryAndMonth(null, null, false, 1));
+            gridView.LoadByMonthAndCategory(items);
+        }
+        public void GroupByCategory()
+        {
+            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
+            gridView.GroupByCategories(items);
+        }
+        public void FilterByACategory(int categoryId)
+        {
+            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, true, categoryId));
+            gridView.LoadByACategory(items);
         }
     }
 }

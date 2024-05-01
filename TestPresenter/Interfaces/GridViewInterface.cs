@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 
-namespace CalendarUI.Interfaces
+namespace CalendarUI
 {
     public interface GridViewInterface
     {
@@ -20,12 +20,6 @@ namespace CalendarUI.Interfaces
 
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems);
 
-        // Added by Lucas
-        void OpenEventWindow();
-        void OpenCategoryWindow()
-        void OpenPersonalizationWindow()
-        
-        public void LoadDates();
-
+        public void LoadCategories(List<string> categories);
     }
 }

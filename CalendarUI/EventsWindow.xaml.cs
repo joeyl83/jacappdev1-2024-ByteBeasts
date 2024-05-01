@@ -17,7 +17,7 @@ namespace CalendarUI
             InitializeComponent();
             _presenter = presenter;
             _presenter.InitializeEventView(this);
-            _presenter.LoadCategories();
+            _presenter.LoadCategories(1);
             LoadTimes();
 
             ChangeBackground(Presenter.BackgroundColor);
@@ -105,23 +105,20 @@ namespace CalendarUI
             }
             else
             {
-                string[] array = CatComboBox.Text.Split(':');
-                int catId = Int32.Parse(array[1].Trim());
-                array = StartTime.Text.Split(":");
+                Category category = CatComboBox.SelectedItem as Category;
+                string[] array = StartTime.Text.Split(":");
                 int hourStart = Int32.Parse(array[0].Trim());
-                DateTime dateTime = (DateTime)StartDate.SelectedDate;
-                _presenter.ProcessAddEvent(dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
+                DateTime dateTime = (DateTime)StartDate.SelectedDate;             
+                _presenter.ProcessAddEvent(dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, category.Id);
             }
 
         }
 
-        public void LoadCategories(List<string> categories)
+        public void LoadCategories(List<Category> categories)
         {
             CatComboBox.Items.Clear();
-            foreach (string type in categories)
-            {
-                CatComboBox.Items.Add(type);
-            }
+            CatComboBox.DisplayMemberPath = "Description";
+            CatComboBox.ItemsSource = categories;
         }
 
         private void cancelEventButton_Click(object sender, RoutedEventArgs e)

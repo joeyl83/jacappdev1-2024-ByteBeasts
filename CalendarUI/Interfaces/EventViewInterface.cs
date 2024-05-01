@@ -16,7 +16,7 @@ namespace CalendarUI
         //void UpdateEvent()
 
         void ClearEventDetails();
-        void LoadCategories(List<string> categories);
+        void LoadCategories(List<Category> categories);
     }
  
 }
