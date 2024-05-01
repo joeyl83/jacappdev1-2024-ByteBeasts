@@ -36,9 +36,23 @@ namespace CalendarUI
         public void LoadByACategory(List<CalendarItemsByCategory> itemsByCategory)
         {
             GridCalendarItems.Columns.Clear();
+            DataGridTextColumn column = new DataGridTextColumn();
+            column.Header = "Start Date";
+            column.Binding = new Binding("StartDateTime");
+            column.Binding.StringFormat = "MM/dd/yy";
+            GridCalendarItems.Columns.Add(column);
+
+            column = new DataGridTextColumn();
+            column.Header = "Start Time";
+            column.Binding = new Binding("StartDateTime");
+            column.Binding.StringFormat = "0:H:mm:ss";
+            GridCalendarItems.Columns.Add(column);
+
             AddColumn("Category", "Category");
-            AddColumn("Total Busy Time", "TotalBusyTime");
-            GridCalendarItems.ItemsSource = itemsByCategory;
+            AddColumn("Description", "ShortDescription");
+            AddColumn("Duration", "DurationInMinutes");
+            AddColumn("Busy Time", "BusyTime");
+            GridCalendarItems.ItemsSource = itemsByCategory[0].Items;
         }
 
 
@@ -157,7 +171,7 @@ namespace CalendarUI
 
         private void ChkBox_FilterByACategory(object sender, RoutedEventArgs e)
         {
-            if (FilterByACategory.IsChecked == true)
+            if (FilterByACategory.IsChecked == true && CategoryComboBox.Text != "")
             {
                 string[] array = CategoryComboBox.Text.Split(':');
                 int catId = Int32.Parse(array[1].Trim());
