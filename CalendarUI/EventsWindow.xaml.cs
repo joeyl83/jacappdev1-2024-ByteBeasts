@@ -1,18 +1,7 @@
 ﻿using Calendar;
-using CalendarUI.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CalendarUI
 {
@@ -22,7 +11,7 @@ namespace CalendarUI
     public partial class EventsWindow : Window, EventViewInterface
     {
         private Presenter _presenter;
-        private Event _event;
+        private CalendarItem _calendarItem;
         public EventsWindow(Presenter presenter)
         {
             InitializeComponent();
@@ -35,16 +24,26 @@ namespace CalendarUI
             ChangeFontColor(Presenter.FontColor);
             ChangeBorderColor(Presenter.BorderColor);
             ChangeForegroundColor(Presenter.ForegroundColor);
+            AddEventConfirm.Visibility = Visibility.Visible;
         }
 
-        public EventsWindow(Presenter presenter, Event selectedEvent)
+        public EventsWindow(Presenter presenter, CalendarItem selectedEvent)
         {
             InitializeComponent();
+            _presenter = presenter;
+            _presenter.InitializeEventView(this);
+            _presenter.LoadCategories();
+            LoadTimes();
 
-            _event = selectedEvent;
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
+            EditEventConfirm.Visibility = Visibility.Visible;
 
-            var date = selectedEvent.StartDateTime;
+            _calendarItem = selectedEvent;
 
+            EventOption();
         }
 
         public void AddEvent()
@@ -55,13 +54,13 @@ namespace CalendarUI
 
         public void LoadTimes()
         {
-            for(int i = 0; i < 11; i++)
+            for (int i = 0; i < 11; i++)
             {
                 if (i == 0)
                 {
                     StartTime.Items.Add($"12" + ":00AM");
                 }
-                StartTime.Items.Add($"{i+1}" + ":00AM");
+                StartTime.Items.Add($"{i + 1}" + ":00AM");
             }
             for (int i = 0; i < 11; i++)
             {
@@ -88,7 +87,7 @@ namespace CalendarUI
 
         private void addEventButton_Click(object sender, RoutedEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(StartDate.Text))
+            if (string.IsNullOrWhiteSpace(StartDate.Text))
             {
                 ShowError("Fields empty.");
             }
@@ -110,10 +109,10 @@ namespace CalendarUI
                 int catId = Int32.Parse(array[1].Trim());
                 array = StartTime.Text.Split(":");
                 int hourStart = Int32.Parse(array[0].Trim());
-                DateTime dateTime = (DateTime)StartDate.SelectedDate;             
+                DateTime dateTime = (DateTime)StartDate.SelectedDate;
                 _presenter.ProcessAddEvent(dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
             }
-          
+
         }
 
         public void LoadCategories(List<string> categories)
@@ -221,5 +220,54 @@ namespace CalendarUI
         }
 
         private void EventOption()
+        {
+            if (_calendarItem != null)
+            {
+                StartDate.SelectedDate = _calendarItem.StartDateTime;
+                Duration.Text = _calendarItem.DurationInMinutes.ToString();
+                Details.Text = _calendarItem.ShortDescription;
+
+                // Set StartTime to a string that matches one of the items you added in LoadTimes
+                StartTime.SelectedItem = _calendarItem.StartDateTime.ToString("h:mm tt");
+
+                // Set CatComboBox to a string that matches one of the items you added in LoadCategories
+                CatComboBox.SelectedItem = _calendarItem.Category.ToString();
+            }
+        }
+
+        private string[] SplitDateTime()
+        {
+            string[] array = StartTime.Text.Split(":");
+            int hourStart = Int32.Parse(array[0].Trim());
+            DateTime dateTime = (DateTime)StartDate.SelectedDate;
+            //dateTime.AddHours(hourStart);
+
+            string[] times = { dateTime.ToString(), hourStart.ToString() };
+            return times;
+        }
+
+        private void EditEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+            //if (_event != null)
+            //{
+            //    string[] array = CatComboBox.Text.Split(':');
+            //    int catId = Int32.Parse(array[1].Trim());
+            //    array = StartTime.Text.Split(":");
+            //    int hourStart = Int32.Parse(array[0].Trim());
+            //    DateTime dateTime = (DateTime)StartDate.SelectedDate;
+            //    _presenter.ProcessUpdateEvent(_event, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
+            //}
+        }
     }
+
+    //public void UpdateEvent()
+    //{
+
+    //    //EventSuccess.Visibility = Visibility.Visible;
+    //    //ClearEventDetails();
+    //}
+
+
+
 }

@@ -12,6 +12,9 @@ namespace CalendarUI
     {
         void ShowError(string error);
         void AddEvent();
+
+        //void UpdateEvent()
+
         void ClearEventDetails();
         void LoadCategories(List<string> categories);
     }

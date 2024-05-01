@@ -131,7 +131,7 @@ namespace CalendarUI
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // Get the selected event
-            var selectedEvent = (Event)GridCalendarItems.SelectedItem;
+            var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
 
             // Open the EventsWindow with the selected event
             var eventsWindow = new EventsWindow(_presenter, selectedEvent);
