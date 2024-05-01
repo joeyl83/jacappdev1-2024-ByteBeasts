@@ -12,7 +12,7 @@ namespace CalendarUI
     public class Presenter
     {
         public static System.Windows.Media.Color BorderColor { get; set; }
-        public static System.Windows.Media.Color BackgroundColor { get; set; }
+        public static System.Windows.Media.Color BackgroundColor { get; set; } 
         public static System.Windows.Media.Color ForegroundColor { get; set; }
         public static System.Windows.Media.Color FontColor { get; set; }
 
@@ -21,6 +21,7 @@ namespace CalendarUI
         private HomePageViewInterface homePageView;
         private EventViewInterface eventView;
         private PersonalizationInterface personalizationView;
+        private GridViewInterface gridView;
 
         //details of the last added event:
         private DateTime lastStartDate;
@@ -28,7 +29,7 @@ namespace CalendarUI
         private string lastDetails;
         private int lastCatId;
 
-
+        
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
         public Presenter(ViewInterface v)
@@ -39,7 +40,7 @@ namespace CalendarUI
 
         public void NewHomeCalendar(string directory, string fileName)
         {
-            if (!Directory.Exists(directory))
+            if(!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
@@ -50,7 +51,7 @@ namespace CalendarUI
         public void OpenHomeCalendar(string filepath)
         {
             string extension = Path.GetExtension(filepath);
-            if (extension == ".db")
+            if(extension == ".db")
             {
                 model = new HomeCalendar(filepath);
                 view.ChangeWindow();
@@ -71,13 +72,13 @@ namespace CalendarUI
             {
                 categoryView.ShowError(ex.Message);
             }
-
+           
         }
-        public void ProcessAddEvent(DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
+        public void ProcessAddEvent(DateTime StartDateTime,double DurationInMinutes,string Details,int CatId)
         {
             try
             {
-                if (StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
+                if(StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
                 {
                     eventView.ShowError("Warning: the event that you are trying to add is identical as the previous one added.");
                     lastStartDate = new DateTime();
@@ -95,7 +96,7 @@ namespace CalendarUI
                     lastCatId = CatId;
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 eventView.ShowError(ex.Message);
             }
@@ -106,7 +107,7 @@ namespace CalendarUI
         }
         public void LoadCategoryTypes()
         {
-            List<string> list = new List<string>();
+            List<string> list=new List<string>();
             int count = 0;
             foreach (string categoryType in Enum.GetNames(typeof(Category.CategoryType)))
             {
@@ -115,7 +116,7 @@ namespace CalendarUI
             }
             categoryView.LoadCategoryTypes(list);
         }
-        public void LoadCategories()
+        public void LoadCategories(int check)
         {
             List<string> list = new List<string>();
             int count = 0;
@@ -124,7 +125,15 @@ namespace CalendarUI
                 count++;
                 list.Add($"{category.Description}:{count}");
             }
-            eventView.LoadCategories(list);
+            if (check == 1)
+            {
+                eventView.LoadCategories(list);
+            }
+            else if (check == 2)
+            {
+                gridView.LoadCategories(list);
+            }
+           
         }
         public void InitializeEventView(EventViewInterface view)
         {
@@ -140,7 +149,10 @@ namespace CalendarUI
         {
             personalizationView = view;
         }
-
+        public void InitializeGridBoxView(GridViewInterface view)
+        {
+            gridView = view;
+        }
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
             BackgroundColor = color;
@@ -197,5 +209,30 @@ namespace CalendarUI
             ForegroundColor = System.Windows.Media.Color.FromRgb(46, 51, 59);
         }
 
+        public void GetCalendarItems()
+        {
+            List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
+            gridView.LoadCalendarItems(items);        
+        }
+        public void GetCalendarItemsByMonth()
+        {
+            List<CalendarItemsByMonth> items = new List<CalendarItemsByMonth>(model.GetCalendarItemsByMonth(null, null, false, 1));
+            gridView.LoadByMonth(items);
+        }
+        public void GetCalendarItemsByMonthAndCategory()
+        {
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>(model.GetCalendarDictionaryByCategoryAndMonth(null, null, false, 1));
+            gridView.LoadByMonthAndCategory(items);
+        }
+        public void GroupByCategory()
+        {
+            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, false, 1));
+            gridView.GroupByCategories(items);
+        }
+        public void FilterByACategory(int categoryId)
+        {
+            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, true, categoryId));
+            gridView.LoadByACategory(items);
+        }
     }
 }

@@ -130,7 +130,7 @@ namespace PresenterTest
             p.InitializeEventView(eventsView);
             eventsView.calledLoadCategories = false;
 
-            p.LoadCategories();
+            p.LoadCategories(1);
 
             Assert.True(eventsView.calledLoadCategories);
         }
