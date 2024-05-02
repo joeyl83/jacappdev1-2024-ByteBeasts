@@ -49,16 +49,6 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Month", "[Month]");
-            //for(int i = 0; i < items.Count; i++) 
-            //{
-            //    foreach (string key in items[i].Keys)
-            //    {
-            //        if (key != "TotalBusyTime" && items[i][key] is not List<CalendarItem> && key != "Month" && !IsKeyInGrid(key))
-            //        {
-            //            AddColumn($"{key}", $"[{key}]");
-            //        }
-            //    }
-            //}
 
             List<Category> categoryList = _presenter.GetCategoriesList();
             foreach(Category c in categoryList)
