@@ -22,24 +22,24 @@
             <TextBlock FontSize="20">Display Options</TextBlock>
             <GroupBox x:Name="FilterBox" Header="Filter" Grid.Row="1">
                 <StackPanel>
-                    <DatePicker Height="30" Margin="10"></DatePicker>
-                    <DatePicker Height="30" Margin="10"></DatePicker>
-                    <CheckBox>Filter By Category?</CheckBox>
-                    <ComboBox></ComboBox>
+                    <DatePicker Name="StartDateElement" Height="30" Margin="10" SelectedDateChanged="ModifiedFiltersEvent"></DatePicker>
+                    <DatePicker Name="EndDateElement" Height="30" Margin="10" SelectedDateChanged="ModifiedFiltersEvent"></DatePicker>
+                    <CheckBox Name="FilterByACategory" Click="ModifiedFiltersEvent">Filter By Category?</CheckBox>
+                    <ComboBox Name="CategoryComboBox" SelectionChanged="ModifiedFiltersEvent"></ComboBox>
                 </StackPanel>
             </GroupBox>
             <GroupBox x:Name="SummaryBox" Header="Summary" Height="80" Grid.Row="2">
                 <StackPanel>
-                    <CheckBox Margin="5">By Month</CheckBox>
-                    <CheckBox Margin="5">By Category</CheckBox>
+                    <CheckBox Name="MonthCheckBox" Margin="5" Click="ModifiedFiltersEvent">By Month</CheckBox>
+                    <CheckBox Name="ByCategoryCheckBox" Click="ModifiedFiltersEvent" Margin="5">By Category</CheckBox>
                 </StackPanel>
             </GroupBox>
-            <Button Grid.Row="3" Height="25" Margin="10">Add Event</Button>
+            <Button Grid.Row="3" Height="25" Margin="10" Click="Btn_AddCategoryAndEvent">Add Event</Button>
         </Grid>
 
        
-        <DataGrid x:Name="GridCalendarItems" Height="350" Grid.Column="1" >
-
+        <DataGrid x:Name="GridCalendarItems" Height="350" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
+            
         </DataGrid>
     </Grid>
 </Window>

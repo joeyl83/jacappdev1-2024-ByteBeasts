@@ -21,6 +21,7 @@ namespace CalendarUI
         private HomePageViewInterface homePageView;
         private EventViewInterface eventView;
         private PersonalizationInterface personalizationView;
+        private GridViewInterface gridView;
 
         //details of the last added event:
         private DateTime lastStartDate;
@@ -115,16 +116,17 @@ namespace CalendarUI
             }
             categoryView.LoadCategoryTypes(list);
         }
-        public void LoadCategories()
-        {
-            List<string> list = new List<string>();
-            int count = 0;
-            foreach (Category category in model.categories.List())
+        public void LoadCategories(int check)
+        {        
+            if (check == 1)
             {
-                count++;
-                list.Add($"{category.Description}:{count}");
+                eventView.LoadCategories(model.categories.List());
             }
-            eventView.LoadCategories(list);
+            else if (check == 2)
+            {
+                gridView.LoadCategories(model.categories.List());
+            }
+           
         }
         public void InitializeEventView(EventViewInterface view)
         {
@@ -140,7 +142,10 @@ namespace CalendarUI
         {
             personalizationView = view;
         }
-
+        public void InitializeGridBoxView(GridViewInterface view)
+        {
+            gridView = view;
+        }
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
             BackgroundColor = color;
@@ -197,5 +202,61 @@ namespace CalendarUI
             ForegroundColor = System.Windows.Media.Color.FromRgb(46, 51, 59);
         }
 
+        public void GetCalendarItems()
+        {
+            List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
+            gridView.LoadCalendarItems(items);        
+        }
+        public void ProcessFilters(DateTime? startDate, DateTime? endDate, bool? groupByMonthSelection, bool? groupByCategorySelection, object selectedCategory, bool? filterFlagSelection = false)
+        {
+            bool groupByMonth = false;
+            bool groupByCategory = false;
+            int categoryId = 1;
+            bool filterFlag = false;
+
+            if (filterFlagSelection == true && selectedCategory != null)
+            {
+                filterFlag = true;
+                Category category = selectedCategory as Category;
+                categoryId = category.Id;
+            }
+
+            if (groupByMonthSelection == true)
+            {
+                groupByMonth = true;
+            }
+
+            if (groupByCategorySelection == true)
+            {
+                groupByCategory = true;
+            }
+
+            if (!groupByMonth && !groupByCategory)
+            {
+                List<CalendarItem> items = model.GetCalendarItems(startDate, endDate, filterFlag, categoryId);
+                gridView.LoadCalendarItems(items);
+            }
+            else if(groupByMonth && groupByCategory)
+            {
+                List<Dictionary<string, object>> itemDictionary = model.GetCalendarDictionaryByCategoryAndMonth(startDate, endDate, filterFlag, categoryId);
+                gridView.LoadByMonthAndCategory(itemDictionary);
+            }
+            else if (groupByMonth)
+            {
+                List<CalendarItemsByMonth> itemsByMonth = model.GetCalendarItemsByMonth(startDate, endDate, filterFlag, categoryId);
+                gridView.LoadByMonth(itemsByMonth);
+            }
+            else if (groupByCategory)
+            {
+                List<CalendarItemsByCategory> itemsByCategory = model.GetCalendarItemsByCategory(startDate, endDate, filterFlag, categoryId);
+                gridView.GroupByCategories(itemsByCategory);
+            }
+            
+        }
+
+        public List<Category> GetCategoriesList()
+        {
+            return model.categories.List();
+        }
     }
 }

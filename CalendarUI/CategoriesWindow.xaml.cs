@@ -73,7 +73,7 @@ namespace CalendarUI
                 Category.CategoryType type = (Category.CategoryType)typenumber;
                 Success.Visibility = Visibility.Collapsed;
                 _presenter.ProcessAddCategory(CategoryName.Text, type);
-                _presenter.LoadCategories();
+                _presenter.LoadCategories(1);
             }
           
         }
