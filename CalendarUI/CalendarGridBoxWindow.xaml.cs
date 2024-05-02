@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -29,11 +30,29 @@ namespace CalendarUI
             _presenter = presenter;
             _presenter.InitializeGridBoxView(this);
             _presenter.GetCalendarItems();
+            _presenter.LoadCategories(2);
         }
 
         public void LoadByACategory(List<CalendarItemsByCategory> itemsByCategory)
         {
-            throw new NotImplementedException();
+            GridCalendarItems.Columns.Clear();
+            DataGridTextColumn column = new DataGridTextColumn();
+            column.Header = "Start Date";
+            column.Binding = new Binding("StartDateTime");
+            column.Binding.StringFormat = "MM/dd/yy";
+            GridCalendarItems.Columns.Add(column);
+
+            column = new DataGridTextColumn();
+            column.Header = "Start Time";
+            column.Binding = new Binding("StartDateTime");
+            column.Binding.StringFormat = "0:H:mm:ss";
+            GridCalendarItems.Columns.Add(column);
+
+            AddColumn("Category", "Category");
+            AddColumn("Description", "ShortDescription");
+            AddColumn("Duration", "DurationInMinutes");
+            AddColumn("Busy Time", "BusyTime");
+            GridCalendarItems.ItemsSource = itemsByCategory[0].Items;
         }
 
 
@@ -59,7 +78,7 @@ namespace CalendarUI
             GridCalendarItems.ItemsSource = items;
         }
 
-        public void LoadCalendarItems(List<CalendarItem> calendarItems)
+        public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems)
         {
             GridCalendarItems.ItemsSource = null;
             GridCalendarItems.Columns.Clear();
@@ -114,10 +133,11 @@ namespace CalendarUI
             AddColumn("Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
         }
-
-        public void LoadDates()
+        public void LoadCategories(List<Category> categories)
         {
-            throw new NotImplementedException();
+            CategoryComboBox.Items.Clear();
+            CategoryComboBox.DisplayMemberPath = "Description";
+            CategoryComboBox.ItemsSource= categories;
         }
 
         private void Btn_AddCategoryAndEvent(object sender, RoutedEventArgs e)
@@ -136,6 +156,19 @@ namespace CalendarUI
                 }
             }
             return false;
+        }
+
+        private void ChkBox_FilterByACategory(object sender, RoutedEventArgs e)
+        {
+            if (FilterByACategory.IsChecked == true && CategoryComboBox.SelectedItem != null)
+            {
+                Category category = CategoryComboBox.SelectedItem as Category;
+                _presenter.FilterByACategory(category.Id);
+            }
+            else
+            {
+                _presenter.GetCalendarItems();
+            }
         }
     }
 }
