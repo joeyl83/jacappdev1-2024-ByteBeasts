@@ -41,7 +41,7 @@ namespace TestPresenter.MockViews
             calledLoadCalendarItems = true;
         }
 
-        public void LoadCategories(List<string> categories)
+        public void LoadCategories(List<Category> categories)
         {
             calledLoadCategories = true;
         }

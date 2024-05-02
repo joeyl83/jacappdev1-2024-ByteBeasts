@@ -20,6 +20,6 @@ namespace CalendarUI
 
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems);
 
-        public void LoadCategories(List<string> categories);
+        public void LoadCategories(List<Category> categories);
     }
 }
