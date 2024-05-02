@@ -267,7 +267,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
 
-            p.GroupByCategory();
+            p.ProcessFilters(null,null,false,true,1);
 
             Assert.True(gridBoxView.calledGroupByCategories);
         }
@@ -281,7 +281,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             int catId = 1;
 
-            p.FilterByACategory(catId);
+            p.ProcessFilters(null,null,false,false,catId,true);
 
             Assert.True(gridBoxView.calledLoadByACategory);
         }
@@ -293,7 +293,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
 
-            p.GetCalendarItemsByMonth();
+            p.ProcessFilters(null, null, true, false, 1);
 
             Assert.True(gridBoxView.calledLoadByMonth);
         }
@@ -305,7 +305,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
 
-            p.GetCalendarItemsByMonthAndCategory();
+            p.ProcessFilters(null,null,true,true,1);
 
             Assert.True(gridBoxView.calledLoadByMonthAndCategory);
         }
