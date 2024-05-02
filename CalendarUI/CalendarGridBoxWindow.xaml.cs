@@ -105,19 +105,8 @@ namespace CalendarUI
         {
             DateTime? startDate = StartDateElement.SelectedDate;
             DateTime? endDate = EndDateElement.SelectedDate;
-            bool groupByMonth = false;
-            bool groupByCategory = false;
-
-            if (MonthCheckBox.IsChecked == true)
-            {
-                groupByMonth = true;
-            }
-
-            if(ByCategoryCheckBox.IsChecked == true)
-            {
-                groupByCategory = true;
-            }
-            _presenter.ProcessFilters(startDate, endDate, groupByMonth, groupByCategory);
+            
+            _presenter.ProcessFilters(startDate, endDate, MonthCheckBox.IsChecked, ByCategoryCheckBox.IsChecked, CategoryComboBox.SelectedItem, FilterByACategory.IsChecked);
         }
         public void AddColumn(string header,string property)
         {
@@ -144,31 +133,6 @@ namespace CalendarUI
         {
             HomePage homePage = new HomePage(_presenter);
             homePage.Show();
-        }
-
-        private bool IsKeyInGrid(string key)
-        {
-            for(int i = 0; i < GridCalendarItems.Columns.Count; i++)
-            {
-                if (GridCalendarItems.Columns[i].Header.ToString() == key)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void ChkBox_FilterByACategory(object sender, RoutedEventArgs e)
-        {
-            if (FilterByACategory.IsChecked == true && CategoryComboBox.SelectedItem != null)
-            {
-                Category category = CategoryComboBox.SelectedItem as Category;
-                _presenter.FilterByACategory(category.Id);
-            }
-            else
-            {
-                _presenter.GetCalendarItems();
-            }
         }
     }
 }

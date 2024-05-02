@@ -207,26 +207,48 @@ namespace CalendarUI
             List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
             gridView.LoadCalendarItems(items);        
         }
-        public void ProcessFilters(DateTime? startDate, DateTime? endDate, bool groupByMonth, bool groupByCategory)
+        public void ProcessFilters(DateTime? startDate, DateTime? endDate, bool? groupByMonthSelection, bool? groupByCategorySelection, object selectedCategory, bool? filterFlagSelection = false)
         {
-            if(!groupByMonth && !groupByCategory)
+            bool groupByMonth = false;
+            bool groupByCategory = false;
+            int categoryId = 1;
+            bool filterFlag = false;
+
+            if (filterFlagSelection == true && selectedCategory != null)
             {
-                List<CalendarItem> items = model.GetCalendarItems(startDate, endDate, false, 1);
+                filterFlag = true;
+                Category category = selectedCategory as Category;
+                categoryId = category.Id;
+            }
+
+            if (groupByMonthSelection == true)
+            {
+                groupByMonth = true;
+            }
+
+            if (groupByCategorySelection == true)
+            {
+                groupByCategory = true;
+            }
+
+            if (!groupByMonth && !groupByCategory)
+            {
+                List<CalendarItem> items = model.GetCalendarItems(startDate, endDate, filterFlag, categoryId);
                 gridView.LoadCalendarItems(items);
             }
             else if(groupByMonth && groupByCategory)
             {
-                List<Dictionary<string, object>> itemDictionary = model.GetCalendarDictionaryByCategoryAndMonth(startDate, endDate, false, 1);
+                List<Dictionary<string, object>> itemDictionary = model.GetCalendarDictionaryByCategoryAndMonth(startDate, endDate, filterFlag, categoryId);
                 gridView.LoadByMonthAndCategory(itemDictionary);
             }
             else if (groupByMonth)
             {
-                List<CalendarItemsByMonth> itemsByMonth = model.GetCalendarItemsByMonth(startDate, endDate, false, 1);
+                List<CalendarItemsByMonth> itemsByMonth = model.GetCalendarItemsByMonth(startDate, endDate, filterFlag, categoryId);
                 gridView.LoadByMonth(itemsByMonth);
             }
             else if (groupByCategory)
             {
-                List<CalendarItemsByCategory> itemsByCategory = model.GetCalendarItemsByCategory(startDate, endDate, false, 1);
+                List<CalendarItemsByCategory> itemsByCategory = model.GetCalendarItemsByCategory(startDate, endDate, filterFlag, categoryId);
                 gridView.GroupByCategories(itemsByCategory);
             }
             
@@ -235,11 +257,6 @@ namespace CalendarUI
         public List<Category> GetCategoriesList()
         {
             return model.categories.List();
-        }
-        public void FilterByACategory(int categoryId)
-        {
-            List<CalendarItemsByCategory> items = new List<CalendarItemsByCategory>(model.GetCalendarItemsByCategory(null, null, true, categoryId));
-            gridView.LoadByACategory(items);
         }
     }
 }
