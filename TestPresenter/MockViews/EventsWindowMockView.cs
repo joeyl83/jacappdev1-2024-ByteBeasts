@@ -29,7 +29,7 @@ namespace TestPresenter.MockViews
             calledClearEventDetails = true;
         }
 
-        public void LoadCategories(List<string> categories)
+        public void LoadCategories(List<Calendar.Category> categories)
         {
             calledLoadCategories = true;
         }
