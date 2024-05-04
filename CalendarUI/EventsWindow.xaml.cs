@@ -246,8 +246,6 @@ namespace CalendarUI
                     int catId = category.Id;
                     _presenter.ProcessEditEvent(_calendarItem.EventID, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
                 }
-                
-                //_presenter.ProcessEditEvent(_calendarItem.EventID, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
             }
         }
 

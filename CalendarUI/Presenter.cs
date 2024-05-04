@@ -100,6 +100,8 @@ namespace CalendarUI
             {
                 eventView.ShowError(ex.Message);
             }
+
+            gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
         }
 
         public void ProcessEditEvent(int eventID, DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
@@ -128,6 +130,8 @@ namespace CalendarUI
             {
                 eventView.ShowError(ex.Message);
             }
+
+            gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
         }
 
 

@@ -179,7 +179,11 @@ namespace CalendarUI
 
             // Open the EventsWindow with the selected event
             var eventsWindow = new EventsWindow(_presenter, selectedEvent);
-            eventsWindow.ShowDialog();
+            if (eventsWindow.ShowDialog() == true)
+            {
+                // Refresh the DataGrid
+                _presenter.GetCalendarItems();
+            }
         }
     }
 }
