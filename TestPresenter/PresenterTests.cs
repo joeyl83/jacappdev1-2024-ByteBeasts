@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Calendar;
 
 namespace PresenterTest
 {
@@ -265,6 +266,7 @@ namespace PresenterTest
             MainWindowMockView view = new MainWindowMockView();
             GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
+            p.OpenHomeCalendar("./testDBInput.db");
             p.InitializeGridBoxView(gridBoxView);
 
             p.ProcessFilters(null,null,false,true,1);
@@ -279,11 +281,12 @@ namespace PresenterTest
             GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
-            int catId = 1;
+            p.OpenHomeCalendar("./testDBInput.db");
+            Category cat = new Category(1, "placeholder", Category.CategoryType.Event);
 
-            p.ProcessFilters(null,null,false,false,catId,true);
+            p.ProcessFilters(null,null,false,false,cat,true);
 
-            Assert.True(gridBoxView.calledLoadByACategory);
+            Assert.True(gridBoxView.calledLoadCalendarItems);
         }
         [Fact]
         public void TestGridViewLoadByMonth()
@@ -292,6 +295,7 @@ namespace PresenterTest
             GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
+            p.OpenHomeCalendar("./testDBInput.db");
 
             p.ProcessFilters(null, null, true, false, 1);
 
@@ -304,6 +308,7 @@ namespace PresenterTest
             GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
+            p.OpenHomeCalendar("./testDBInput.db");
 
             p.ProcessFilters(null,null,true,true,1);
 
@@ -316,6 +321,7 @@ namespace PresenterTest
             GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
+            p.OpenHomeCalendar("./testDBInput.db");
 
             p.GetCalendarItems();
 
@@ -328,6 +334,7 @@ namespace PresenterTest
             GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
+            p.OpenHomeCalendar("./testDBInput.db");
 
             p.LoadCategories(2);
 
