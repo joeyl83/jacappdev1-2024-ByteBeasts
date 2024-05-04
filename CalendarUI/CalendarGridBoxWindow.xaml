@@ -22,16 +22,16 @@
             <TextBlock FontSize="20">Display Options</TextBlock>
             <GroupBox x:Name="FilterBox" Header="Filter" Grid.Row="1">
                 <StackPanel>
-                    <DatePicker Height="30" Margin="10"></DatePicker>
-                    <DatePicker Height="30" Margin="10"></DatePicker>
-                    <CheckBox Name="FilterByACategory" Click="ChkBox_FilterByACategory">Filter By Category?</CheckBox>
-                    <ComboBox Name="CategoryComboBox"></ComboBox>
+                    <DatePicker Name="StartDateElement" Height="30" Margin="10" SelectedDateChanged="ModifiedFiltersEvent"></DatePicker>
+                    <DatePicker Name="EndDateElement" Height="30" Margin="10" SelectedDateChanged="ModifiedFiltersEvent"></DatePicker>
+                    <CheckBox Name="FilterByACategory" Click="ModifiedFiltersEvent">Filter By Category?</CheckBox>
+                    <ComboBox Name="CategoryComboBox" SelectionChanged="ModifiedFiltersEvent"></ComboBox>
                 </StackPanel>
             </GroupBox>
             <GroupBox x:Name="SummaryBox" Header="Summary" Height="80" Grid.Row="2">
                 <StackPanel>
-                    <CheckBox Name="MonthCheckBox" Margin="5" Click="ChkBox_FilterByMonth">By Month</CheckBox>
-                    <CheckBox Name="ByCategoryCheckBox" Click="ChkBox_FilterByCategory" Margin="5">By Category</CheckBox>
+                    <CheckBox Name="MonthCheckBox" Margin="5" Click="ModifiedFiltersEvent">By Month</CheckBox>
+                    <CheckBox Name="ByCategoryCheckBox" Click="ModifiedFiltersEvent" Margin="5">By Category</CheckBox>
                 </StackPanel>
             </GroupBox>
 

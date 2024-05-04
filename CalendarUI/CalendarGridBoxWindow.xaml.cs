@@ -69,22 +69,20 @@ namespace CalendarUI
         public void LoadByMonthAndCategory(List<Dictionary<string, object>> items)
         {
             GridCalendarItems.Columns.Clear();
-            AddColumn("Month", "Month");
-            AddColumn("Total Busy Time", "TotalBusyTime");
-            for(int i = 0; i < items.Count; i++) 
-            { 
-                for(int j=0; j < items[i].Count; j++)
-                {
-                   
-                }
+            AddColumn("Month", "[Month]");
+
+            List<Category> categoryList = _presenter.GetCategoriesList();
+            foreach(Category c in categoryList)
+            {
+                AddColumn($"{c.Description}", $"[{c.Description}]");
             }
-            AddColumn("Category", "Category");            
+            AddColumn("Total Busy Time", "[TotalBusyTime]");
             GridCalendarItems.ItemsSource = items;
         }
 
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems)
         {
-   
+            GridCalendarItems.ItemsSource = null;
             GridCalendarItems.Columns.Clear();
             DataGridTextColumn column = new DataGridTextColumn();
             column.Header = "Start Date";
@@ -104,6 +102,14 @@ namespace CalendarUI
             AddColumn("Busy Time","BusyTime");
             GridCalendarItems.ItemsSource= calendarItems;
         }
+
+        public void ModifiedFiltersEvent(object sender, RoutedEventArgs e)
+        {
+            DateTime? startDate = StartDateElement.SelectedDate;
+            DateTime? endDate = EndDateElement.SelectedDate;
+            
+            _presenter.ProcessFilters(startDate, endDate, MonthCheckBox.IsChecked, ByCategoryCheckBox.IsChecked, CategoryComboBox.SelectedItem, FilterByACategory.IsChecked);
+        }
         public void AddColumn(string header,string property)
         {
             DataGridTextColumn column = new DataGridTextColumn();
@@ -115,7 +121,7 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Category","Category");
-            AddColumn("Total Busy Time","TotalBusyTime");
+            AddColumn("Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
         }
         public void LoadCategories(List<Category> categories)
@@ -174,52 +180,6 @@ namespace CalendarUI
             // Open the EventsWindow with the selected event
             var eventsWindow = new EventsWindow(_presenter, selectedEvent);
             eventsWindow.ShowDialog();
-        }
-
-        private void ChkBox_FilterByMonth(object sender, RoutedEventArgs e)
-        {
-            if(MonthCheckBox.IsChecked == true && ByCategoryCheckBox.IsChecked == true) 
-            {
-                _presenter.GetCalendarItemsByMonthAndCategory();
-            }
-            if(MonthCheckBox.IsChecked == true)
-            {
-                _presenter.GetCalendarItemsByMonth();
-            }
-            else
-            {
-                _presenter.GetCalendarItems();
-            }
-            
-        }
-
-        private void ChkBox_FilterByCategory(object sender, RoutedEventArgs e)
-        {
-            if (MonthCheckBox.IsChecked == true && ByCategoryCheckBox.IsChecked == true)
-            {
-                _presenter.GetCalendarItemsByMonthAndCategory();
-            }
-            if (ByCategoryCheckBox.IsChecked == true)
-            {
-                _presenter.GroupByCategory();
-            }
-            else
-            {
-                _presenter.GetCalendarItems();
-            }
-        }
-
-        private void ChkBox_FilterByACategory(object sender, RoutedEventArgs e)
-        {
-            if (FilterByACategory.IsChecked == true && CategoryComboBox.SelectedItem != null)
-            {
-                Category category = CategoryComboBox.SelectedItem as Category;
-                _presenter.FilterByACategory(category.Id);
-            }
-            else
-            {
-                _presenter.GetCalendarItems();
-            }
         }
     }
 }
