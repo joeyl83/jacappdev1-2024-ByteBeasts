@@ -101,6 +101,36 @@ namespace CalendarUI
                 eventView.ShowError(ex.Message);
             }
         }
+
+        public void ProcessEditEvent(int eventID, DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
+        {
+            try
+            {
+                if (StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
+                {
+                    eventView.ShowError("Warning: the event that you are trying to add is identical as the previous one added.");
+                    lastStartDate = new DateTime();
+                    lastDuration = 0;
+                    lastDetails = "";
+                    lastCatId = 0;
+                }
+                else
+                {
+                    model.events.UpdateProperties(eventID, StartDateTime, CatId, DurationInMinutes, Details);
+                    eventView.AddEvent();
+                    lastStartDate = StartDateTime;
+                    lastDuration = DurationInMinutes;
+                    lastDetails = Details;
+                    lastCatId = CatId;
+                }
+            }
+            catch (Exception ex)
+            {
+                eventView.ShowError(ex.Message);
+            }
+        }
+
+
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;

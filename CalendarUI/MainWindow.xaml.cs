@@ -26,10 +26,7 @@ namespace CalendarUI
             presenter = new Presenter(this);
             InitializeComponent();
 
-            ChangeBackground(Presenter.BackgroundColor);
-            ChangeFontColor(Presenter.FontColor);
-            ChangeBorderColor(Presenter.BorderColor);
-            ChangeForegroundColor(Presenter.ForegroundColor);
+            LoadPersonalization();
         }
 
         public void NewCalendarBtnClick(object sender, RoutedEventArgs e)
@@ -107,6 +104,14 @@ namespace CalendarUI
                     button2.Background = new SolidColorBrush(color);
                 }
             }
+        }
+
+        public void LoadPersonalization()
+        {
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
     }
 }

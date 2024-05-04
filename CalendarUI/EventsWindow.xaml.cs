@@ -20,10 +20,7 @@ namespace CalendarUI
             _presenter.LoadCategories(1);
             LoadTimes();
 
-            ChangeBackground(Presenter.BackgroundColor);
-            ChangeFontColor(Presenter.FontColor);
-            ChangeBorderColor(Presenter.BorderColor);
-            ChangeForegroundColor(Presenter.ForegroundColor);
+            LoadPersonalization();
             AddEventConfirm.Visibility = Visibility.Visible;
         }
 
@@ -35,15 +32,12 @@ namespace CalendarUI
             _presenter.LoadCategories(1);
             LoadTimes();
 
-            ChangeBackground(Presenter.BackgroundColor);
-            ChangeFontColor(Presenter.FontColor);
-            ChangeBorderColor(Presenter.BorderColor);
-            ChangeForegroundColor(Presenter.ForegroundColor);
+            LoadPersonalization();
             EditEventConfirm.Visibility = Visibility.Visible;
 
             _calendarItem = selectedEvent;
 
-            EventOption();
+            PrefillEventData();
         }
 
         public void AddEvent()
@@ -54,21 +48,11 @@ namespace CalendarUI
 
         public void LoadTimes()
         {
-            for (int i = 0; i < 11; i++)
+
+           //Loop to add all hours from 1 - 24 (french time)
+           for (int i = 0; i < 24; i++)
             {
-                if (i == 0)
-                {
-                    StartTime.Items.Add($"12" + ":00AM");
-                }
-                StartTime.Items.Add($"{i + 1}" + ":00AM");
-            }
-            for (int i = 0; i < 11; i++)
-            {
-                if (i == 0)
-                {
-                    StartTime.Items.Add($"12" + ":00PM");
-                }
-                StartTime.Items.Add($"{i + 1}" + ":00PM");
+                StartTime.Items.Add($"{i}" + ":00 ");
             }
         }
         public void ClearEventDetails()
@@ -216,46 +200,66 @@ namespace CalendarUI
 
         }
 
-        private void EventOption()
+        private void PrefillEventData()
         {
             if (_calendarItem != null)
             {
                 StartDate.SelectedDate = _calendarItem.StartDateTime;
                 Duration.Text = _calendarItem.DurationInMinutes.ToString();
                 Details.Text = _calendarItem.ShortDescription;
+                CatComboBox.SelectedIndex = (_calendarItem.CategoryID) - 1;
 
-                // Set StartTime to a string that matches one of the items you added in LoadTimes
-                StartTime.SelectedItem = _calendarItem.StartDateTime.ToString("h:mm tt");
+                int startTime = _calendarItem.StartDateTime.Hour;
+                StartTime.SelectedIndex = startTime;
 
-                // Set CatComboBox to a string that matches one of the items you added in LoadCategories
-                CatComboBox.SelectedItem = _calendarItem.Category.ToString();
+
             }
         }
 
-        private string[] SplitDateTime()
-        {
-            string[] array = StartTime.Text.Split(":");
-            int hourStart = Int32.Parse(array[0].Trim());
-            DateTime dateTime = (DateTime)StartDate.SelectedDate;
-            //dateTime.AddHours(hourStart);
-
-            string[] times = { dateTime.ToString(), hourStart.ToString() };
-            return times;
-        }
 
         private void EditEventButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-            //if (_event != null)
-            //{
-            //    string[] array = CatComboBox.Text.Split(':');
-            //    int catId = Int32.Parse(array[1].Trim());
-            //    array = StartTime.Text.Split(":");
-            //    int hourStart = Int32.Parse(array[0].Trim());
-            //    DateTime dateTime = (DateTime)StartDate.SelectedDate;
-            //    _presenter.ProcessUpdateEvent(_event, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
-            //}
+            if (_calendarItem != null)
+            {
+                if (string.IsNullOrWhiteSpace(StartDate.Text))
+                {
+                    ShowError("Fields empty.");
+                }
+                else if (string.IsNullOrWhiteSpace(CatComboBox.Text))
+                {
+                    ShowError("Fields empty.");
+                }
+                else if (string.IsNullOrWhiteSpace(Duration.Text))
+                {
+                    ShowError("Fields empty.");
+                }
+                else if (string.IsNullOrWhiteSpace(Details.Text))
+                {
+                    ShowError("Fields empty.");
+                }
+                else
+                {
+                    Category category = CatComboBox.SelectedItem as Category;
+                    string[] array = StartTime.Text.Split(":");
+                    int hourStart = Int32.Parse(array[0].Trim());
+                    DateTime dateTime = (DateTime)StartDate.SelectedDate;
+                    int catId = category.Id;
+                    _presenter.ProcessEditEvent(_calendarItem.EventID, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
+                }
+                
+                //_presenter.ProcessEditEvent(_calendarItem.EventID, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
+            }
         }
+
+
+        public void LoadPersonalization()
+        {
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
+        }
+
     }
 
     //public void UpdateEvent()

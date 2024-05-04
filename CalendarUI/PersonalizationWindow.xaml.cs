@@ -39,10 +39,7 @@ namespace CalendarUI
             _presenter = presenter;
             _presenter.InitializePersonalizationWindow(this);
 
-            ChangeBackground(Presenter.BackgroundColor);
-            ChangeFontColor(Presenter.FontColor);
-            ChangeBorderColor(Presenter.BorderColor);
-            ChangeForegroundColor(Presenter.ForegroundColor);
+            LoadPersonalization();
         }
 
 
@@ -174,6 +171,14 @@ namespace CalendarUI
                     }
                 }
             }
+        }
+
+        public void LoadPersonalization()
+        {
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
 

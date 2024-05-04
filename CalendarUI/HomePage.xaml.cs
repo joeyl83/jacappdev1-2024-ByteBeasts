@@ -26,11 +26,8 @@ namespace CalendarUI
             InitializeComponent();
             this.presenter = presenter;
             presenter.InitializeHomePageView(this);
-
-            ChangeBackground(Presenter.BackgroundColor);
-            ChangeFontColor(Presenter.FontColor);
-            ChangeBorderColor(Presenter.BorderColor);
-            ChangeForegroundColor(Presenter.ForegroundColor);
+            
+            LoadPersonalization();
         }
 
         public void AddEventBtnClick(object sender, RoutedEventArgs e)
@@ -163,6 +160,14 @@ namespace CalendarUI
                     }
                 }
             }
+        }
+
+        public void LoadPersonalization()
+        {
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
     }

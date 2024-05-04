@@ -28,10 +28,7 @@ namespace CalendarUI
             _presenter.InitializeCategoryView(this);
             _presenter.LoadCategoryTypes();
 
-            ChangeBackground(Presenter.BackgroundColor);
-            ChangeFontColor(Presenter.FontColor);
-            ChangeBorderColor(Presenter.BorderColor);
-            ChangeForegroundColor(Presenter.ForegroundColor);
+            LoadPersonalization();
         }
 
         public void LoadCategoryTypes(List<string> categoryTypes)
@@ -176,6 +173,14 @@ namespace CalendarUI
                 }
 
             }
+        }
+
+        public void LoadPersonalization()
+        {
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
     }
