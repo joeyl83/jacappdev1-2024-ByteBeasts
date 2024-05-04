@@ -43,8 +43,16 @@
         </Grid>
 
 
-        <DataGrid x:Name="GridCalendarItems" Height="400" Grid.Column="1" AutoGenerateColumns="False" MouseDoubleClick="DataGrid_MouseDoubleClick" IsReadOnly="True">
-            
-        </DataGrid>
+            <DataGrid x:Name="GridCalendarItems" Height="400" Grid.Column="1" AutoGenerateColumns="False" MouseDoubleClick="Modify_Click" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <!-- Define your DataGrid columns here -->
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Modify" Click="Modify_Click"/>
+                        <MenuItem Header="Delete" Click="Delete_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+         </DataGrid>
     </Grid>
 </Window>

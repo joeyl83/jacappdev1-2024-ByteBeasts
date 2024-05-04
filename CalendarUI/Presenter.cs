@@ -134,6 +134,20 @@ namespace CalendarUI
             gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
         }
 
+        public void ProcessDeleteEvent(int eventID)
+        {
+            try
+            {
+                model.events.Delete(eventID);
+            }
+            catch (Exception ex)
+            {
+                eventView.ShowError(ex.Message);
+            }
+
+            gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
+        }
+
 
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
@@ -292,5 +306,6 @@ namespace CalendarUI
         {
             return model.categories.List();
         }
+
     }
 }

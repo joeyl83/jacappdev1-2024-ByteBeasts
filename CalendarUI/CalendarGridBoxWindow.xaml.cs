@@ -172,18 +172,24 @@ namespace CalendarUI
         }
 
 
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Modify_Click(object sender, RoutedEventArgs e)
         {
             // Get the selected event
             var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
 
             // Open the EventsWindow with the selected event
             var eventsWindow = new EventsWindow(_presenter, selectedEvent);
-            if (eventsWindow.ShowDialog() == true)
-            {
-                // Refresh the DataGrid
-                _presenter.GetCalendarItems();
-            }
+            eventsWindow.ShowDialog();
+ 
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the selected event
+            var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
+
+            // Delete the selected event
+            _presenter.ProcessDeleteEvent(selectedEvent.EventID);
         }
     }
 }
