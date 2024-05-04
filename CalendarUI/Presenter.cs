@@ -9,6 +9,9 @@ using CalendarUI.Interfaces;
 
 namespace CalendarUI
 {
+    /// <summary>
+    /// The presenter layer of the calendar app. Manages the logic to decide what should be called in the view.
+    /// </summary>
     public class Presenter
     {
         public static System.Windows.Media.Color BorderColor { get; set; }
@@ -31,12 +34,22 @@ namespace CalendarUI
         
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
+
+        /// <summary>
+        /// Initializes the presenter instance with the first view that it needs to manage.
+        /// </summary>
+        /// <param name="v">The object that inherits the view interface, representing the view that needs to be managed.</param>
         public Presenter(ViewInterface v)
         {
             defaultColors();
             view = v;
         }
 
+        /// <summary>
+        /// Creates a new homecalendar in the specified directory and with the specified name. Used to create the model for MVP.
+        /// </summary>
+        /// <param name="directory">The name of the directory where the file will be saved in.</param>
+        /// <param name="fileName">The name of the file where the homecalendar is saved.</param>
         public void NewHomeCalendar(string directory, string fileName)
         {
             if(!Directory.Exists(directory))
@@ -47,6 +60,10 @@ namespace CalendarUI
             view.ChangeWindow();
         }
 
+        /// <summary>
+        /// Opens an existing homecalendar that will be used as the model. An error is shown in the file is invalid.
+        /// </summary>
+        /// <param name="filepath">The filepath of the homecalendar file.</param>
         public void OpenHomeCalendar(string filepath)
         {
             string extension = Path.GetExtension(filepath);
@@ -60,6 +77,12 @@ namespace CalendarUI
                 view.ShowError("Invalid file");
             }
         }
+
+        /// <summary>
+        /// Adds a category with the provided information to the model and updates the view accordingly.
+        /// </summary>
+        /// <param name="categoryName">The name of the category that is being added.</param>
+        /// <param name="type">The type of the category that is being added.</param>
         public void ProcessAddCategory(string categoryName, Category.CategoryType type)
         {
             try
@@ -73,6 +96,14 @@ namespace CalendarUI
             }
            
         }
+
+        /// <summary>
+        /// Adds an event with the provided information to the model and updates the view accordingly.
+        /// </summary>
+        /// <param name="StartDateTime">The start date of the event.</param>
+        /// <param name="DurationInMinutes">The duration in minutes of the event.</param>
+        /// <param name="Details">The details explaining more information of the event.</param>
+        /// <param name="CatId">The category ID of the event.</param>
         public void ProcessAddEvent(DateTime StartDateTime,double DurationInMinutes,string Details,int CatId)
         {
             try
@@ -100,10 +131,19 @@ namespace CalendarUI
                 eventView.ShowError(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Sets the category view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The category view that the presenter will manage.</param>
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;
         }
+
+        /// <summary>
+        /// Loads the category types from the category type enum into the view for the user to see.
+        /// </summary>
         public void LoadCategoryTypes()
         {
             List<string> list=new List<string>();
@@ -115,6 +155,10 @@ namespace CalendarUI
             }
             categoryView.LoadCategoryTypes(list);
         }
+
+        /// <summary>
+        /// Loads all categories that exist in the homecalendar into the view for the user to see.
+        /// </summary>
         public void LoadCategories()
         {
             List<string> list = new List<string>();
@@ -126,21 +170,38 @@ namespace CalendarUI
             }
             eventView.LoadCategories(list);
         }
+
+        /// <summary>
+        /// Sets the event view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The event view that the presenter will manage.</param>
         public void InitializeEventView(EventViewInterface view)
         {
             eventView = view;
         }
 
+        /// <summary>
+        /// Sets the home page view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The home page view that the presenter will manage.</param>
         public void InitializeHomePageView(HomePageViewInterface view)
         {
             homePageView = view;
         }
 
+        /// <summary>
+        /// Sets the personalization view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The personalization view that the presenter will manage.</param>
         public void InitializePersonalizationWindow(PersonalizationInterface view)
         {
             personalizationView = view;
         }
 
+        /// <summary>
+        /// Processes a new background color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the background will be updated to.</param>
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
             BackgroundColor = color;
@@ -153,6 +214,10 @@ namespace CalendarUI
             // Add more views here :
         }
 
+        /// <summary>
+        /// Processes a new font color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the font will be updated to in the views.</param>
         public void ProcessFontColor(System.Windows.Media.Color color)
         {
             FontColor = color;
@@ -165,6 +230,10 @@ namespace CalendarUI
             // Add more views here :
         }
 
+        /// <summary>
+        /// Processes a new border color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the borders will be updated to.</param>
         public void ProcessBorderColor(System.Windows.Media.Color color)
         {
             BorderColor = color;
@@ -177,6 +246,10 @@ namespace CalendarUI
             // Add more views here :
         }
 
+        /// <summary>
+        /// Processes a new foreground color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the foreground will be updated to.</param>
         public void ProcessForegroundColor(System.Windows.Media.Color color)
         {
             ForegroundColor = color;
