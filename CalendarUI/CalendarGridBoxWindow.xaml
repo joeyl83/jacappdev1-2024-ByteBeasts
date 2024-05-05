@@ -55,6 +55,8 @@
                 <ContextMenu>
                     <MenuItem Header="Modify" Click="Modify_Click"/>
                     <MenuItem Header="Delete" Click="Delete_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Cancel"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

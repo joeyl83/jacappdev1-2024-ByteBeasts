@@ -3,6 +3,7 @@ using CalendarUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
@@ -175,22 +176,40 @@ namespace CalendarUI
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
-            // Get the selected event
-            var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
+            try
+            {
 
-            // Open the EventsWindow with the selected event
-            var eventsWindow = new EventsWindow(_presenter, selectedEvent);
-            eventsWindow.ShowDialog();
+                // Get the selected event
+                var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
+
+                // Open the EventsWindow with the selected event
+                var eventsWindow = new EventsWindow(_presenter, selectedEvent);
+                eventsWindow.ShowDialog();
+            }
+            catch
+            {
+                //display error message
+                MessageBox.Show("Cannot perform this action.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
  
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            // Get the selected event
-            var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
+            try
+            {
+                // Get the selected event
+                var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
 
-            // Delete the selected event
-            _presenter.ProcessDeleteEvent(selectedEvent.EventID);
+                // Delete the selected event
+                _presenter.ProcessDeleteEvent(selectedEvent.EventID);
+            }
+            catch
+            {
+                //display error message
+                MessageBox.Show("Cannot perform this action.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void ChangeBackground(System.Windows.Media.Color color)
@@ -321,5 +340,6 @@ namespace CalendarUI
             ChangeBorderColor(Presenter.BorderColor);
             ChangeForegroundColor(Presenter.ForegroundColor);
         }
+
     }
 }
