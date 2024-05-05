@@ -281,6 +281,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.OpenHomeCalendar("./testDBInput.db");
             p.InitializeGridBoxView(gridBoxView);
+            gridBoxView.calledGroupByCategories = false;
 
             p.ProcessFilters(null,null,false,true,1);
 
@@ -296,6 +297,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
             Category cat = new Category(1, "placeholder", Category.CategoryType.Event);
+            gridBoxView.calledLoadCalendarItems = false;
 
             p.ProcessFilters(null,null,false,false,cat,true);
 
@@ -309,6 +311,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadByMonth = false;
 
             p.ProcessFilters(null, null, true, false, 1);
 
@@ -322,6 +325,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadByMonthAndCategory = false;
 
             p.ProcessFilters(null,null,true,true,1);
 
@@ -335,6 +339,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadCalendarItems = false;
 
             p.GetCalendarItems();
 
@@ -369,6 +374,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             p.InitializeEventView(eventView);
             p.OpenHomeCalendar("./testDBInput.db");
+            eventView.calledAddEvent = false;
 
             p.ProcessEditEvent(1,DateTime.Now,10,"placeholder",2);
 
@@ -384,6 +390,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             p.InitializeEventView(eventView);
             p.OpenHomeCalendar("./testDBInput.db");
+            eventView.calledShowError = false;
 
             p.ProcessEditEvent(1, DateTime.Now, 10, "placeholder", 2);
             p.ProcessEditEvent(1, DateTime.Now, 10, "placeholder", 2);
@@ -399,6 +406,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             p.InitializeEventView(eventView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadCalendarItems = false;
 
             p.ProcessDeleteEvent(1);
 
@@ -414,7 +422,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             p.InitializeEventView(eventView);
             p.OpenHomeCalendar("./testDBInput.db");
-
+            eventView.calledShowError = false;
             p.ProcessDeleteEvent(-2);
 
             Assert.True(eventView.calledShowError);
