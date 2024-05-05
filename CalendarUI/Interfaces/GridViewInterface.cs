@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 
-namespace CalendarUI
+namespace CalendarUI.Interfaces
 {
-    public interface GridViewInterface
+    public interface GridViewInterface : PersonalizationInterface
     {
         public void GroupByCategories(List<CalendarItemsByCategory> itemsByCategory);
 
@@ -20,6 +20,12 @@ namespace CalendarUI
 
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems);
 
+        // Added by Lucas
+        void OpenEventWindow();
+        void OpenCategoryWindow();
+        void OpenPersonalizationWindow();
+
         public void LoadCategories(List<Category> categories);
+
     }
 }

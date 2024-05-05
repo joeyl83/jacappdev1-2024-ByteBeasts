@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using CalendarUI;
 using CalendarUI.Interfaces;
 
-namespace CalendarUI.Interfaces
+namespace CalendarUI
 {
-    public interface HomePageViewInterface : PersonalizationInterface
+    public interface HomePageViewInterface: PersonalizationInterface
     {
-        void OpenEventWindow();
-        void OpenCategoryWindow();
+        void OpenAddEventWindow();
+        void OpenAddCategoryWindow();
         void OpenPersonalizationWindow();
     }
 }

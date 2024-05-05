@@ -62,9 +62,13 @@
             </StackPanel>
         </GroupBox>
 
-
-        <Button x:Name="addEventButton" Grid.Row="5" Grid.RowSpan="20" Content="Add Event" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Width="200px" Click="addEventButton_Click" ></Button>
-        <Button x:Name="cancelEventButton" Grid.Row="5" Grid.RowSpan="20" Content="Cancel Event" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Width="200px" Click="cancelEventButton_Click"></Button>
+        <StackPanel Name="AddEventConfirm"  Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+            <Button x:Name="addEventButton" Content="Add Event" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Width="200px" Click="addEventButton_Click" ></Button>
+            <Button x:Name="cancelEventButton" Content="Cancel Event" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Width="200px" Click="cancelEventButton_Click"></Button>
+        </StackPanel>
+        <StackPanel Name="EditEventConfirm"  Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+            <Button x:Name="EditEventButton" Content="Edit Event" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Width="200px" Click="EditEventButton_Click" ></Button>
+        </StackPanel>
         <TextBlock Name="EventSuccess" Foreground="Green" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" FontSize="20" Visibility="Collapsed">Event Successfully Created!</TextBlock>
 
     </Grid>
