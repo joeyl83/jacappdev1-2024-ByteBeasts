@@ -202,6 +202,7 @@ namespace CalendarUI
             eventView?.ChangeBackground(color);
             categoryView?.ChangeBackground(color);
             homePageView?.ChangeBackground(color);
+            gridView?.ChangeBackground(color);
 
             // Add more views here :
         }
@@ -214,6 +215,7 @@ namespace CalendarUI
             eventView?.ChangeFontColor(color);
             categoryView?.ChangeFontColor(color);
             homePageView?.ChangeFontColor(color);
+            gridView?.ChangeFontColor(color);
 
             // Add more views here :
         }
@@ -226,6 +228,7 @@ namespace CalendarUI
             eventView?.ChangeBorderColor(color);
             categoryView?.ChangeBorderColor(color);
             homePageView?.ChangeBorderColor(color);
+            gridView?.ChangeBorderColor(color);
 
             // Add more views here :
         }
@@ -238,6 +241,7 @@ namespace CalendarUI
             eventView?.ChangeForegroundColor(color);
             categoryView?.ChangeForegroundColor(color);
             homePageView?.ChangeForegroundColor(color);
+            gridView?.ChangeForegroundColor(color);
 
             // Add more views here :
         }

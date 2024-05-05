@@ -8,7 +8,7 @@ using System.Windows.Controls.Primitives;
 
 namespace CalendarUI.Interfaces
 {
-    public interface GridViewInterface
+    public interface GridViewInterface : PersonalizationInterface
     {
         public void GroupByCategories(List<CalendarItemsByCategory> itemsByCategory);
 

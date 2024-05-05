@@ -33,6 +33,7 @@ namespace CalendarUI
             _presenter.InitializeGridBoxView(this);
             _presenter.GetCalendarItems();
             _presenter.LoadCategories(2);
+            LoadPersonalization();
         }
 
         public void LoadByACategory(List<CalendarItemsByCategory> itemsByCategory)
@@ -190,6 +191,135 @@ namespace CalendarUI
 
             // Delete the selected event
             _presenter.ProcessDeleteEvent(selectedEvent.EventID);
+        }
+
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            this.Background = new SolidColorBrush(color);
+        }
+
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            this.Foreground = new SolidColorBrush(color);
+
+            foreach (var child in mainGrid.Children)
+            {
+
+                if (child is Grid grid1)
+                {
+                    foreach (var child2 in grid1.Children)
+                    {
+                        if (child2 is GroupBox groupBox)
+                        {
+                            groupBox.Foreground = new SolidColorBrush(color);
+
+                            if (groupBox.Content is Panel panel1)
+                            {
+                                foreach (var child3 in panel1.Children)
+                                {
+                                    if (child3 is CheckBox check)
+                                    {
+                                        check.Foreground = new SolidColorBrush(color);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (child2 is Panel panel2)
+                        {
+                            foreach (var child3 in panel2.Children)
+                            {
+                                if (child3 is Button button)
+                                {
+                                    button.Foreground = new SolidColorBrush(color);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (child is DataGrid dataGrid)
+                {
+                    Style cellStyle = new Style(typeof(DataGridCell));
+                    cellStyle.Setters.Add(new Setter(DataGridCell.ForegroundProperty, new SolidColorBrush(color)));
+                    GridCalendarItems.CellStyle = cellStyle;
+                }
+            }
+        }
+
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            this.BorderBrush = new SolidColorBrush(color);
+
+            foreach (var child in mainGrid.Children)
+            {
+
+                if (child is Grid grid1)
+                {
+                    foreach (var child2 in grid1.Children)
+                    {
+                        if (child2 is GroupBox groupBox)
+                        {
+                            groupBox.BorderBrush = new SolidColorBrush(color);
+                        }
+
+                        if (child2 is Panel panel)
+                        {
+                            foreach (var child3 in panel.Children)
+                            {
+                                if (child3 is Button button)
+                                {
+                                    button.BorderBrush = new SolidColorBrush(color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            foreach (var child in mainGrid.Children)
+            {
+                if (child is Grid grid1)
+                {
+                    foreach (var child2 in grid1.Children)
+                    {
+                        if (child2 is GroupBox groupBox)
+                        {
+                            groupBox.Background = new SolidColorBrush(color);
+                        }
+
+                        if (child2 is Panel panel)
+                        {
+                            foreach (var child3 in panel.Children)
+                            {
+                                if (child3 is Button button)
+                                {
+                                    button.Background = new SolidColorBrush(color);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (child is DataGrid dataGrid)
+                {
+                    dataGrid.Background = new SolidColorBrush(color);
+                    Style rowStyle = new Style(typeof(DataGridRow));
+                    rowStyle.Setters.Add(new Setter(DataGridRow.BackgroundProperty, new SolidColorBrush(color)));
+                    GridCalendarItems.RowStyle = rowStyle;
+                }
+            }
+        }
+
+        public void LoadPersonalization()
+        {
+            ChangeBackground(Presenter.BackgroundColor);
+            ChangeFontColor(Presenter.FontColor);
+            ChangeBorderColor(Presenter.BorderColor);
+            ChangeForegroundColor(Presenter.ForegroundColor);
         }
     }
 }
