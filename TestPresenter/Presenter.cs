@@ -100,7 +100,55 @@ namespace CalendarUI
             {
                 eventView.ShowError(ex.Message);
             }
+
+            gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
         }
+
+        public void ProcessEditEvent(int eventID, DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
+        {
+            try
+            {
+                if (StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
+                {
+                    eventView.ShowError("Warning: the event that you are trying to add is identical as the previous one added.");
+                    lastStartDate = new DateTime();
+                    lastDuration = 0;
+                    lastDetails = "";
+                    lastCatId = 0;
+                }
+                else
+                {
+                    model.events.UpdateProperties(eventID, StartDateTime, CatId, DurationInMinutes, Details);
+                    eventView.AddEvent();
+                    lastStartDate = StartDateTime;
+                    lastDuration = DurationInMinutes;
+                    lastDetails = Details;
+                    lastCatId = CatId;
+                }
+            }
+            catch (Exception ex)
+            {
+                eventView.ShowError(ex.Message);
+            }
+
+            gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
+        }
+
+        public void ProcessDeleteEvent(int eventID)
+        {
+            try
+            {
+                model.events.Delete(eventID);
+            }
+            catch (Exception ex)
+            {
+                eventView.ShowError(ex.Message);
+            }
+
+            gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
+        }
+
+
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;
@@ -154,6 +202,7 @@ namespace CalendarUI
             eventView?.ChangeBackground(color);
             categoryView?.ChangeBackground(color);
             homePageView?.ChangeBackground(color);
+            gridView?.ChangeBackground(color);
 
             // Add more views here :
         }
@@ -166,6 +215,7 @@ namespace CalendarUI
             eventView?.ChangeFontColor(color);
             categoryView?.ChangeFontColor(color);
             homePageView?.ChangeFontColor(color);
+            gridView?.ChangeFontColor(color);
 
             // Add more views here :
         }
@@ -178,6 +228,7 @@ namespace CalendarUI
             eventView?.ChangeBorderColor(color);
             categoryView?.ChangeBorderColor(color);
             homePageView?.ChangeBorderColor(color);
+            gridView?.ChangeBorderColor(color);
 
             // Add more views here :
         }
@@ -190,6 +241,7 @@ namespace CalendarUI
             eventView?.ChangeForegroundColor(color);
             categoryView?.ChangeForegroundColor(color);
             homePageView?.ChangeForegroundColor(color);
+            gridView?.ChangeForegroundColor(color);
 
             // Add more views here :
         }
@@ -258,5 +310,6 @@ namespace CalendarUI
         {
             return model.categories.List();
         }
+
     }
 }

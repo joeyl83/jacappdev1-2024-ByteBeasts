@@ -21,5 +21,19 @@ namespace CalendarUI
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems);
 
         public void LoadCategories(List<Category> categories);
+
+        public void ChangeBackground(System.Windows.Media.Color color);
+
+        public void ChangeForeground(System.Windows.Media.Color color);
+
+        public void ChangeBackgroundColor(System.Windows.Media.Color color);
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color);
+
+        public void ChangeFontColor(System.Windows.Media.Color color);
+
+        public void ChangeBorderColor(System.Windows.Media.Color color);
+
+       
     }
 }

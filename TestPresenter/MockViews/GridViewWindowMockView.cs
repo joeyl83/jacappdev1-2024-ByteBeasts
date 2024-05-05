@@ -16,6 +16,42 @@ namespace TestPresenter.MockViews
         public bool calledLoadByMonthAndCategory;
         public bool calledLoadCalendarItems;
         public bool calledLoadCategories;
+        public bool calledChangeBackground;
+        public bool calledChangeBackgroundColor;
+        public bool calledChangeForeground;
+        public bool calledChangeBorderColor;
+        public bool calledChangeFontColor;
+        public bool calledChangeForegroundColor;
+        public void ChangeBackground(System.Windows.Media.Color color)
+        {
+            calledChangeBackgroundColor = true;
+        }
+
+        public void ChangeBackgroundColor(System.Windows.Media.Color color)
+        {
+            calledChangeBackgroundColor = true;
+        }
+
+        public void ChangeBorderColor(System.Windows.Media.Color color)
+        {
+            calledChangeBorderColor = true;
+        }
+
+        public void ChangeFontColor(System.Windows.Media.Color color)
+        {
+            calledChangeFontColor=true;
+        }
+
+        public void ChangeForeground(System.Windows.Media.Color color)
+        {
+           calledChangeForeground = true;
+        }
+
+        public void ChangeForegroundColor(System.Windows.Media.Color color)
+        {
+            calledChangeForegroundColor = true; 
+        }
+
         public void GroupByCategories(List<CalendarItemsByCategory> itemsByCategory)
         {
            calledGroupByCategories = true;
