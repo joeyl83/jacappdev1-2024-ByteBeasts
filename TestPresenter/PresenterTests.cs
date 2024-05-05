@@ -78,10 +78,12 @@ namespace PresenterTest
         public void TestAddEvent()
         {
             MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             EventsWindowMockView eventsView = new EventsWindowMockView();
             Presenter p = new Presenter(view);
             p.NewHomeCalendar("calendars", "myCalendar.db");
             p.InitializeEventView(eventsView);
+            p.InitializeGridBoxView(gridBoxView);
             eventsView.calledAddEvent = false;
 
             p.ProcessAddEvent(DateTime.Now, 30, "This is a test event.", 1);
@@ -93,10 +95,12 @@ namespace PresenterTest
         public void TestAddDuplicateEvent()
         {
             MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             EventsWindowMockView eventsView = new EventsWindowMockView();
             Presenter p = new Presenter(view);
             p.NewHomeCalendar("calendars", "myCalendar.db");
             p.InitializeEventView(eventsView);
+            p.InitializeGridBoxView(gridBoxView);
             eventsView.calledShowError = false;
             DateTime date = DateTime.Now;
 
@@ -143,6 +147,7 @@ namespace PresenterTest
             CategoriesWindowMockView categoriesView = new CategoriesWindowMockView();
             EventsWindowMockView eventsView = new EventsWindowMockView();
             HomePageMockView homePageView = new HomePageMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
             Presenter p = new Presenter(view);
 
@@ -151,13 +156,13 @@ namespace PresenterTest
             p.InitializeEventView(eventsView);
             p.InitializeHomePageView(homePageView);
             p.InitializePersonalizationWindow(personalizationView);
-
+            p.InitializeGridBoxView(gridBoxView);
             view.calledChangeBackgroundColor = false;
             categoriesView.calledChangeBackgroundColor = false;
             eventsView.calledChangeBackgroundColor = false;
             homePageView.calledChangeBackgroundColor = false;
             personalizationView.calledChangeBackgroundColor = false;
-
+            gridBoxView.calledChangeBackgroundColor = false;
             p.ProcessBackgroundColor(new System.Windows.Media.Color());
 
             Assert.True(view.calledChangeBackgroundColor);
@@ -165,6 +170,7 @@ namespace PresenterTest
             Assert.True(eventsView.calledChangeBackgroundColor);
             Assert.True(homePageView.calledChangeBackgroundColor);
             Assert.True(personalizationView.calledChangeBackgroundColor);
+            Assert.True(gridBoxView.calledChangeBackgroundColor);
         }
 
         [Fact]
@@ -174,6 +180,7 @@ namespace PresenterTest
             CategoriesWindowMockView categoriesView = new CategoriesWindowMockView();
             EventsWindowMockView eventsView = new EventsWindowMockView();
             HomePageMockView homePageView = new HomePageMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
             Presenter p = new Presenter(view);
 
@@ -182,15 +189,16 @@ namespace PresenterTest
             p.InitializeEventView(eventsView);
             p.InitializeHomePageView(homePageView);
             p.InitializePersonalizationWindow(personalizationView);
-
+            p.InitializeGridBoxView(gridBoxView);
             view.calledChangeFontColor = false;
             categoriesView.calledChangeFontColor = false;
             eventsView.calledChangeFontColor = false;
             homePageView.calledChangeFontColor = false;
             personalizationView.calledChangeFontColor = false;
-
+            gridBoxView.calledChangeFontColor = false;
             p.ProcessFontColor(new System.Windows.Media.Color());
 
+            Assert.True(gridBoxView.calledChangeFontColor);
             Assert.True(view.calledChangeFontColor);
             Assert.True(categoriesView.calledChangeFontColor);
             Assert.True(eventsView.calledChangeFontColor);
@@ -206,6 +214,7 @@ namespace PresenterTest
             EventsWindowMockView eventsView = new EventsWindowMockView();
             HomePageMockView homePageView = new HomePageMockView();
             PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
 
             p.NewHomeCalendar("calendars", "myCalendar.db");
@@ -213,13 +222,14 @@ namespace PresenterTest
             p.InitializeEventView(eventsView);
             p.InitializeHomePageView(homePageView);
             p.InitializePersonalizationWindow(personalizationView);
+            p.InitializeGridBoxView(gridBoxView);
 
             view.calledChangeBorderColor = false;
             categoriesView.calledChangeBorderColor = false;
             eventsView.calledChangeBorderColor = false;
             homePageView.calledChangeBorderColor = false;
             personalizationView.calledChangeBorderColor = false;
-
+            gridBoxView.calledChangeBorderColor = false;
             p.ProcessBorderColor(new System.Windows.Media.Color());
 
             Assert.True(view.calledChangeBorderColor);
@@ -227,6 +237,7 @@ namespace PresenterTest
             Assert.True(eventsView.calledChangeBorderColor);
             Assert.True(homePageView.calledChangeBorderColor);
             Assert.True(personalizationView.calledChangeBorderColor);
+            Assert.True(gridBoxView.calledChangeBorderColor);
         }
 
         [Fact]
@@ -237,6 +248,7 @@ namespace PresenterTest
             EventsWindowMockView eventsView = new EventsWindowMockView();
             HomePageMockView homePageView = new HomePageMockView();
             PersonalizationWindowMockView personalizationView = new PersonalizationWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
             Presenter p = new Presenter(view);
 
             p.NewHomeCalendar("calendars", "myCalendar.db");
@@ -244,13 +256,13 @@ namespace PresenterTest
             p.InitializeEventView(eventsView);
             p.InitializeHomePageView(homePageView);
             p.InitializePersonalizationWindow(personalizationView);
-
+            p.InitializeGridBoxView(gridBoxView);   
             view.calledChangeForegroundColor = false;
             categoriesView.calledChangeForegroundColor = false;
             eventsView.calledChangeForegroundColor = false;
             homePageView.calledChangeForegroundColor = false;
             personalizationView.calledChangeForegroundColor = false;
-
+            gridBoxView.calledChangeForegroundColor = false;
             p.ProcessForegroundColor(new System.Windows.Media.Color());
 
             Assert.True(view.calledChangeForegroundColor);
@@ -258,6 +270,7 @@ namespace PresenterTest
             Assert.True(eventsView.calledChangeForegroundColor);
             Assert.True(homePageView.calledChangeForegroundColor);
             Assert.True(personalizationView.calledChangeForegroundColor);
+            Assert.True(gridBoxView.calledChangeForegroundColor);
         }
         [Fact]
 
@@ -268,6 +281,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.OpenHomeCalendar("./testDBInput.db");
             p.InitializeGridBoxView(gridBoxView);
+            gridBoxView.calledGroupByCategories = false;
 
             p.ProcessFilters(null,null,false,true,1);
 
@@ -283,6 +297,7 @@ namespace PresenterTest
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
             Category cat = new Category(1, "placeholder", Category.CategoryType.Event);
+            gridBoxView.calledLoadCalendarItems = false;
 
             p.ProcessFilters(null,null,false,false,cat,true);
 
@@ -296,6 +311,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadByMonth = false;
 
             p.ProcessFilters(null, null, true, false, 1);
 
@@ -309,6 +325,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadByMonthAndCategory = false;
 
             p.ProcessFilters(null,null,true,true,1);
 
@@ -322,6 +339,7 @@ namespace PresenterTest
             Presenter p = new Presenter(view);
             p.InitializeGridBoxView(gridBoxView);
             p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadCalendarItems = false;
 
             p.GetCalendarItems();
 
@@ -345,6 +363,69 @@ namespace PresenterTest
             MainWindowMockView view = new MainWindowMockView();
             Presenter p = new Presenter(view);
             p.NewHomeCalendar("testCalendar", "calendar.db");
+        }
+        [Fact]
+        public void TestUpdateEvent()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            EventsWindowMockView eventView = new EventsWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+            p.InitializeEventView(eventView);
+            p.OpenHomeCalendar("./testDBInput.db");
+            eventView.calledAddEvent = false;
+
+            p.ProcessEditEvent(1,DateTime.Now,10,"placeholder",2);
+
+            Assert.True(eventView.calledAddEvent);
+        }
+        [Fact]
+        public void TestUpdateEventOnSameEventBeingUpdated()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            EventsWindowMockView eventView = new EventsWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+            p.InitializeEventView(eventView);
+            p.OpenHomeCalendar("./testDBInput.db");
+            eventView.calledShowError = false;
+
+            p.ProcessEditEvent(1, DateTime.Now, 10, "placeholder", 2);
+            p.ProcessEditEvent(1, DateTime.Now, 10, "placeholder", 2);
+            Assert.True(eventView.calledShowError);
+        }
+        [Fact]
+        public void TestDelete()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            EventsWindowMockView eventView = new EventsWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+            p.InitializeEventView(eventView);
+            p.OpenHomeCalendar("./testDBInput.db");
+            gridBoxView.calledLoadCalendarItems = false;
+
+            p.ProcessDeleteEvent(1);
+
+            Assert.True(gridBoxView.calledLoadCalendarItems);
+        }
+        [Fact]
+        public void TestDeleteInvalidId()
+        {
+            MainWindowMockView view = new MainWindowMockView();
+            GridViewWindowMockView gridBoxView = new GridViewWindowMockView();
+            EventsWindowMockView eventView = new EventsWindowMockView();
+            Presenter p = new Presenter(view);
+            p.InitializeGridBoxView(gridBoxView);
+            p.InitializeEventView(eventView);
+            p.OpenHomeCalendar("./testDBInput.db");
+            eventView.calledShowError = false;
+            p.ProcessDeleteEvent(-2);
+
+            Assert.True(eventView.calledShowError);
         }
 
 
