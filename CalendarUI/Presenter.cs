@@ -9,10 +9,13 @@ using CalendarUI.Interfaces;
 
 namespace CalendarUI
 {
+    /// <summary>
+    /// The presenter layer of the calendar app. Manages the logic to decide what should be called in the view.
+    /// </summary>
     public class Presenter
     {
         public static System.Windows.Media.Color BorderColor { get; set; }
-        public static System.Windows.Media.Color BackgroundColor { get; set; } 
+        public static System.Windows.Media.Color BackgroundColor { get; set; }
         public static System.Windows.Media.Color ForegroundColor { get; set; }
         public static System.Windows.Media.Color FontColor { get; set; }
 
@@ -29,18 +32,28 @@ namespace CalendarUI
         private string lastDetails;
         private int lastCatId;
 
-        
+
         // private EventsViewInterface categoryView;
         private HomeCalendar model;
+
+        /// <summary>
+        /// Initializes the presenter instance with the first view that it needs to manage.
+        /// </summary>
+        /// <param name="v">The object that inherits the view interface, representing the view that needs to be managed.</param>
         public Presenter(ViewInterface v)
         {
             defaultColors();
             view = v;
         }
 
+        /// <summary>
+        /// Creates a new homecalendar in the specified directory and with the specified name. Used to create the model for MVP.
+        /// </summary>
+        /// <param name="directory">The name of the directory where the file will be saved in.</param>
+        /// <param name="fileName">The name of the file where the homecalendar is saved.</param>
         public void NewHomeCalendar(string directory, string fileName)
         {
-            if(!Directory.Exists(directory))
+            if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
@@ -48,10 +61,14 @@ namespace CalendarUI
             view.ChangeWindow();
         }
 
+        /// <summary>
+        /// Opens an existing homecalendar that will be used as the model. An error is shown in the file is invalid.
+        /// </summary>
+        /// <param name="filepath">The filepath of the homecalendar file.</param>
         public void OpenHomeCalendar(string filepath)
         {
             string extension = Path.GetExtension(filepath);
-            if(extension == ".db")
+            if (extension == ".db")
             {
                 model = new HomeCalendar(filepath);
                 view.ChangeWindow();
@@ -61,6 +78,12 @@ namespace CalendarUI
                 view.ShowError("Invalid file");
             }
         }
+
+        /// <summary>
+        /// Adds a category with the provided information to the model and updates the view accordingly.
+        /// </summary>
+        /// <param name="categoryName">The name of the category that is being added.</param>
+        /// <param name="type">The type of the category that is being added.</param>
         public void ProcessAddCategory(string categoryName, Category.CategoryType type)
         {
             try
@@ -72,13 +95,21 @@ namespace CalendarUI
             {
                 categoryView.ShowError(ex.Message);
             }
-           
+
         }
-        public void ProcessAddEvent(DateTime StartDateTime,double DurationInMinutes,string Details,int CatId)
+
+        /// <summary>
+        /// Adds an event with the provided information to the model and updates the view accordingly.
+        /// </summary>
+        /// <param name="StartDateTime">The start date of the event.</param>
+        /// <param name="DurationInMinutes">The duration in minutes of the event.</param>
+        /// <param name="Details">The details explaining more information of the event.</param>
+        /// <param name="CatId">The category ID of the event.</param>
+        public void ProcessAddEvent(DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
         {
             try
             {
-                if(StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
+                if (StartDateTime == lastStartDate && DurationInMinutes == lastDuration && Details == lastDetails && CatId == lastCatId)
                 {
                     eventView.ShowError("Warning: the event that you are trying to add is identical as the previous one added.");
                     lastStartDate = new DateTime();
@@ -96,7 +127,7 @@ namespace CalendarUI
                     lastCatId = CatId;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 eventView.ShowError(ex.Message);
             }
@@ -104,6 +135,13 @@ namespace CalendarUI
             gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
         }
 
+        /// <summary>
+        /// Edits an event using the provided information and updates the view accordingly.
+        /// </summary>
+        /// <param name="StartDateTime">The new start date of the event.</param>
+        /// <param name="DurationInMinutes">The new duration in minutes of the event.</param>
+        /// <param name="Details">The new details explaining more information of the event.</param>
+        /// <param name="CatId">The new category ID of the event.</param>
         public void ProcessEditEvent(int eventID, DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
         {
             try
@@ -134,6 +172,10 @@ namespace CalendarUI
             gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
         }
 
+        /// <summary>
+        /// Deletes an event with the provided ID. Sends an error to the view if needed.
+        /// </summary>
+        /// <param name="eventID">The ID of the event that is being deleted.</param>
         public void ProcessDeleteEvent(int eventID)
         {
             try
@@ -149,13 +191,22 @@ namespace CalendarUI
         }
 
 
+
+        /// <summary>
+        /// Sets the category view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The category view that the presenter will manage.</param>
         public void InitializeCategoryView(CategoriesViewInterface view)
         {
             categoryView = view;
         }
+
+        /// <summary>
+        /// Loads the category types from the category type enum into the view for the user to see.
+        /// </summary>
         public void LoadCategoryTypes()
         {
-            List<string> list=new List<string>();
+            List<string> list = new List<string>();
             int count = 0;
             foreach (string categoryType in Enum.GetNames(typeof(Category.CategoryType)))
             {
@@ -164,8 +215,13 @@ namespace CalendarUI
             }
             categoryView.LoadCategoryTypes(list);
         }
+
+        /// <summary>
+        /// Loads all categories that exist in the homecalendar into the view for the user to see.
+        /// </summary>
+        /// <param name="check">Check to load categories to the event view or the grid view. 1 loads to the event view and 2 loads to the grid.</param>        
         public void LoadCategories(int check)
-        {        
+        {
             if (check == 1)
             {
                 eventView.LoadCategories(model.categories.List());
@@ -174,18 +230,31 @@ namespace CalendarUI
             {
                 gridView.LoadCategories(model.categories.List());
             }
-           
+
         }
+
+        /// <summary>
+        /// Sets the event view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The event view that the presenter will manage.</param>
         public void InitializeEventView(EventViewInterface view)
         {
             eventView = view;
         }
 
+        /// <summary>
+        /// Sets the home page view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The home page view that the presenter will manage.</param>
         public void InitializeHomePageView(HomePageViewInterface view)
         {
             homePageView = view;
         }
 
+        /// <summary>
+        /// Sets the personalization view of the presenter instance so that it can be accessed and managed.
+        /// </summary>
+        /// <param name="view">The personalization view that the presenter will manage.</param>
         public void InitializePersonalizationWindow(PersonalizationInterface view)
         {
             personalizationView = view;
@@ -194,6 +263,11 @@ namespace CalendarUI
         {
             gridView = view;
         }
+
+        /// <summary>
+        /// Processes a new background color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the background will be updated to.</param>
         public void ProcessBackgroundColor(System.Windows.Media.Color color)
         {
             BackgroundColor = color;
@@ -207,6 +281,10 @@ namespace CalendarUI
             // Add more views here :
         }
 
+        /// <summary>
+        /// Processes a new font color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the font will be updated to in the views.</param>
         public void ProcessFontColor(System.Windows.Media.Color color)
         {
             FontColor = color;
@@ -220,6 +298,10 @@ namespace CalendarUI
             // Add more views here :
         }
 
+        /// <summary>
+        /// Processes a new border color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the borders will be updated to.</param>
         public void ProcessBorderColor(System.Windows.Media.Color color)
         {
             BorderColor = color;
@@ -233,6 +315,10 @@ namespace CalendarUI
             // Add more views here :
         }
 
+        /// <summary>
+        /// Processes a new foreground color for the theme of the application, and updates all of the views to adapt the change.
+        /// </summary>
+        /// <param name="color">The color that the foreground will be updated to.</param>
         public void ProcessForegroundColor(System.Windows.Media.Color color)
         {
             ForegroundColor = color;
@@ -254,11 +340,24 @@ namespace CalendarUI
             ForegroundColor = System.Windows.Media.Color.FromRgb(46, 51, 59);
         }
 
+        /// <summary>
+        /// Gets the list of calendar items from the model and shows them in the view.
+        /// </summary>
         public void GetCalendarItems()
         {
-            List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));          
-            gridView.LoadCalendarItems(items);        
+            List<CalendarItem> items = new List<CalendarItem>(model.GetCalendarItems(null, null, false, 1));
+            gridView.LoadCalendarItems(items);
         }
+
+        /// <summary>
+        /// Processes all of the filters/grouping settings received and loads a list of calendar items using them to the view.
+        /// </summary>
+        /// <param name="startDate">The start date to filter the calendar items. Null if there is none selected.</param>
+        /// <param name="endDate">The end date to filter the calendar items. Null if there is none selected.</param>
+        /// <param name="groupByMonthSelection">True if the result should be grouped by month; false otherwise.</param>
+        /// <param name="groupByCategorySelection">True if the result should be grouped by category; false otherwise.</param>
+        /// <param name="selectedCategory">The category that will be searched for if the category filter flag is enabled.</param>
+        /// <param name="filterFlagSelection">True if the result should be filtered by a categor; false otherwise.</param>
         public void ProcessFilters(DateTime? startDate, DateTime? endDate, bool? groupByMonthSelection, bool? groupByCategorySelection, object selectedCategory, bool? filterFlagSelection = false)
         {
             bool groupByMonth = false;
@@ -288,7 +387,7 @@ namespace CalendarUI
                 List<CalendarItem> items = model.GetCalendarItems(startDate, endDate, filterFlag, categoryId);
                 gridView.LoadCalendarItems(items);
             }
-            else if(groupByMonth && groupByCategory)
+            else if (groupByMonth && groupByCategory)
             {
                 List<Dictionary<string, object>> itemDictionary = model.GetCalendarDictionaryByCategoryAndMonth(startDate, endDate, filterFlag, categoryId);
                 gridView.LoadByMonthAndCategory(itemDictionary);
@@ -303,9 +402,13 @@ namespace CalendarUI
                 List<CalendarItemsByCategory> itemsByCategory = model.GetCalendarItemsByCategory(startDate, endDate, filterFlag, categoryId);
                 gridView.GroupByCategories(itemsByCategory);
             }
-            
+
         }
 
+        /// <summary>
+        /// Gets a list of the categories from the model.
+        /// </summary>
+        /// <returns>A list of all categories in the homecalendar.</returns>
         public List<Category> GetCategoriesList()
         {
             return model.categories.List();
