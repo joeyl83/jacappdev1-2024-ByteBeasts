@@ -367,6 +367,14 @@ namespace CalendarUI
             {
                 MessageBox.Show("No Calendar Items To Search For.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            else if(MonthCheckBox.IsChecked ?? true)
+            {
+                MessageBox.Show("Can't search while sorting by month.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if(ByCategoryCheckBox.IsChecked ?? true)
+            {
+                MessageBox.Show("Can't search while sorting by category.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             else
             {
                 string search = SearchInput.Text.ToLower();
