@@ -361,7 +361,7 @@ namespace CalendarUI
 
             if (string.IsNullOrEmpty(SearchInput.Text))
             {
-                MessageBox.Show("Please input something to search for.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ModifiedFiltersEvent(sender,e);
             }
             else if (GridCalendarItems.Items.Count == 0)
             {
