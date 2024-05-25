@@ -361,7 +361,7 @@ namespace CalendarUI
 
             if (string.IsNullOrEmpty(SearchInput.Text))
             {
-                ModifiedFiltersEvent(sender,e);
+                MessageBox.Show("Please input a valid search.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (GridCalendarItems.Items.Count == 0)
             {
@@ -425,8 +425,8 @@ namespace CalendarUI
                     }
                     if(foundItem != null)
                     {
-                        newList.Add(foundItem);
-                        this.LoadCalendarItems(newList);
+                        GridCalendarItems.SelectedItem = foundItem;
+                        GridCalendarItems.ScrollIntoView(foundItem);
                     }
                     else
                     {
