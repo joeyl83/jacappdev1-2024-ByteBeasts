@@ -57,15 +57,27 @@ namespace CalendarUI
             AddColumn("Duration", "DurationInMinutes");
             AddColumn("Busy Time", "BusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory[0].Items;
+            CheckSearch();
         }
 
-
+        public void CheckSearch()
+        {
+            if (GridCalendarItems.Items.Count == 0)
+            {
+                SearchInput.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                SearchInput.Visibility = Visibility.Visible;
+            }
+        }
         public void LoadByMonth(List<CalendarItemsByMonth> itemsByMonth)
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Month", "Month");
             AddColumn("Busy Time", "TotalBusyTime");
             GridCalendarItems.ItemsSource=itemsByMonth;
+            CheckSearch();
         }
 
         public void LoadByMonthAndCategory(List<Dictionary<string, object>> items)
@@ -80,6 +92,7 @@ namespace CalendarUI
             }
             AddColumn("Total Busy Time", "[TotalBusyTime]");
             GridCalendarItems.ItemsSource = items;
+            CheckSearch();
         }
 
         public void LoadCalendarItems(List<Calendar.CalendarItem> calendarItems)
@@ -103,6 +116,7 @@ namespace CalendarUI
             AddColumn("Duration","DurationInMinutes");
             AddColumn("Busy Time","BusyTime");
             GridCalendarItems.ItemsSource= calendarItems;
+            CheckSearch();
         }
 
         public void ModifiedFiltersEvent(object sender, RoutedEventArgs e)
@@ -125,6 +139,7 @@ namespace CalendarUI
             AddColumn("Category","Category");
             AddColumn("Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
+            CheckSearch();
         }
         public void LoadCategories(List<Category> categories)
         {
@@ -341,5 +356,94 @@ namespace CalendarUI
             ChangeForegroundColor(Presenter.ForegroundColor);
         }
 
+        private void Btn_Search(object sender, RoutedEventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(SearchInput.Text))
+            {
+                MessageBox.Show("Please input a valid search.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (GridCalendarItems.Items.Count == 0)
+            {
+                MessageBox.Show("No Calendar Items To Search For.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if(MonthCheckBox.IsChecked ?? true)
+            {
+                MessageBox.Show("Can't search while sorting by month.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if(ByCategoryCheckBox.IsChecked ?? true)
+            {
+                MessageBox.Show("Can't search while sorting by category.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                string search = SearchInput.Text.ToLower();
+                List<CalendarItem> itemsList = new List<CalendarItem>();
+                List<CalendarItem> newList = new List<CalendarItem>();
+                CalendarItem foundItem = null;
+                bool shouldContinue = true;
+                foreach (var gridItem in GridCalendarItems.Items) 
+                { 
+                    CalendarItem calendarItem = gridItem as CalendarItem;
+
+                    itemsList.Add(calendarItem);
+                }
+
+                if(GridCalendarItems.SelectedItem != null)
+                {
+                    int index = GridCalendarItems.SelectedIndex + 1;
+                    for (int i = index; i < itemsList.Count; i++)
+                    {
+                        if(int.TryParse(search,out int duration))
+                        {
+                            if (itemsList[i].DurationInMinutes == duration)
+                            {
+                                foundItem = itemsList[i];
+                                shouldContinue = false; 
+                                break;
+                            }
+                        }
+                        else if (itemsList[i].ShortDescription.ToLower() == search)
+                        {
+                            foundItem = itemsList[i];
+                            shouldContinue = false;
+                            break;
+                        }
+                    }
+                    if(shouldContinue)
+                    {
+                        for (int i = 0; i < index; i++)
+                        {
+                            CalendarItem item = itemsList[i];
+                            if (int.TryParse(search, out int duration))
+                            {
+                                if (itemsList[i].DurationInMinutes == duration)
+                                {
+                                    foundItem = itemsList[i];
+                                    break;
+                                }
+                            }
+                            else if (itemsList[i].ShortDescription.ToLower() == search)
+                            {
+                            
+                                foundItem = itemsList[i];
+                                break;
+                            }
+                        }
+                    }
+                    if(foundItem != null)
+                    {
+                        GridCalendarItems.SelectedItem = foundItem;
+                        GridCalendarItems.ScrollIntoView(foundItem);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No results found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    
+                }
+
+            }
+        }
     }
 }
