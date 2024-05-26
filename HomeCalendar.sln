@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeCalendar", "HomeCalendar\HomeCalendar.csproj", "{200A0289-7533-418C-84C8-969B55E0BB9B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject_Calendar", "TestProject_Calendar\TestProject_Calendar.csproj", "{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarUI", "CalendarUI\CalendarUI.csproj", "{1F949564-BFAA-4041-AE85-C7918B950685}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPresenter", "TestPresenter\TestPresenter.csproj", "{4E0D3378-6312-47DB-8523-7007D8520F99}"
@@ -27,14 +25,6 @@ Global
 		{200A0289-7533-418C-84C8-969B55E0BB9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{200A0289-7533-418C-84C8-969B55E0BB9B}.Release|x64.ActiveCfg = Release|x64
 		{200A0289-7533-418C-84C8-969B55E0BB9B}.Release|x64.Build.0 = Release|x64
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Debug|x64.ActiveCfg = Debug|x64
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Debug|x64.Build.0 = Debug|x64
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Release|x64.ActiveCfg = Release|x64
-		{87EEF33E-3CD2-4DC9-93F9-78DF82AE38C0}.Release|x64.Build.0 = Release|x64
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F949564-BFAA-4041-AE85-C7918B950685}.Debug|x64.ActiveCfg = Debug|x64
