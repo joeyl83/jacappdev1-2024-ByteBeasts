@@ -442,14 +442,12 @@ namespace CalendarUI
                             if (itemsList[i].DurationInMinutes == duration)
                             {
                                 foundItem = itemsList[i];
-                                shouldContinue = false;
                                 break;
                             }
                         }
                         else if (itemsList[i].ShortDescription.ToLower() == search)
                         {
                             foundItem = itemsList[i];
-                            shouldContinue = false;
                             break;
                         }
                     }
