@@ -87,6 +87,10 @@ namespace CalendarUI
             {
                 ShowError("Fields empty.");
             }
+            else if (!int.TryParse(Duration.Text, out int result))
+            {
+                ShowError("Duration must be an integer.");
+            }
             else
             {
                 Category category = CatComboBox.SelectedItem as Category;
