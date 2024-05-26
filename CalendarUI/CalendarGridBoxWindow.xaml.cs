@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
@@ -430,17 +431,37 @@ namespace CalendarUI
                                 break;
                             }
                         }
-                    }
-                    if(foundItem != null)
+                    } 
+                }
+                else
+                {
+                    for (int i = 0; i < itemsList.Count; i++)
                     {
-                        GridCalendarItems.SelectedItem = foundItem;
-                        GridCalendarItems.ScrollIntoView(foundItem);
+                        if (int.TryParse(search, out int duration))
+                        {
+                            if (itemsList[i].DurationInMinutes == duration)
+                            {
+                                foundItem = itemsList[i];
+                                shouldContinue = false;
+                                break;
+                            }
+                        }
+                        else if (itemsList[i].ShortDescription.ToLower() == search)
+                        {
+                            foundItem = itemsList[i];
+                            shouldContinue = false;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("No results found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    
+                }
+                if (foundItem != null)
+                {
+                    GridCalendarItems.SelectedItem = foundItem;
+                    GridCalendarItems.ScrollIntoView(foundItem);
+                }
+                else
+                {
+                    MessageBox.Show("No results found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
             }
