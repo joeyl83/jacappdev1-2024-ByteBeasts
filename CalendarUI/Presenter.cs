@@ -14,6 +14,7 @@ namespace CalendarUI
     /// </summary>
     public class Presenter
     {
+        public string baseDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + "/Documents/";
         public static System.Windows.Media.Color BorderColor { get; set; }
         public static System.Windows.Media.Color BackgroundColor { get; set; }
         public static System.Windows.Media.Color ForegroundColor { get; set; }
@@ -59,11 +60,11 @@ namespace CalendarUI
             }
             else
             {
-                if (!Directory.Exists(directory))
+                if (!Directory.Exists(baseDirectory + directory))
                 {
-                    Directory.CreateDirectory(directory);
+                    Directory.CreateDirectory(baseDirectory + directory);
                 }
-                model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+                model = new HomeCalendar(baseDirectory + directory + "/" + fileName + ".db", true);
                 view.ChangeWindow();
             }
            
