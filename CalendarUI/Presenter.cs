@@ -150,7 +150,7 @@ namespace CalendarUI
         /// <param name="DurationInMinutes">The new duration in minutes of the event.</param>
         /// <param name="Details">The new details explaining more information of the event.</param>
         /// <param name="CatId">The new category ID of the event.</param>
-        public void ProcessEditEvent(int eventID, DateTime StartDateTime, double DurationInMinutes, string Details, int CatId)
+        public void ProcessEditEvent(int eventID, DateTime StartDateTime, double DurationInMinutes, string Details, int CatId, CalendarItem itemToSelect)
         {
             try
             {
@@ -178,13 +178,14 @@ namespace CalendarUI
             }
 
             gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
+            gridView.SelectCalendarItem(itemToSelect.EventID, false);
         }
 
         /// <summary>
         /// Deletes an event with the provided ID. Sends an error to the view if needed.
         /// </summary>
         /// <param name="eventID">The ID of the event that is being deleted.</param>
-        public void ProcessDeleteEvent(int eventID)
+        public void ProcessDeleteEvent(int eventID, int deletedIndex)
         {
             try
             {
@@ -196,6 +197,7 @@ namespace CalendarUI
             }
 
             gridView.LoadCalendarItems(model.GetCalendarItems(null, null, false, 1));
+            gridView.SelectCalendarItem(deletedIndex, true);
         }
 
 
@@ -420,6 +422,11 @@ namespace CalendarUI
         public List<Category> GetCategoriesList()
         {
             return model.categories.List();
+        }
+
+        public System.Windows.Media.Color getFontColor()
+        {
+            return FontColor;
         }
 
     }

@@ -55,8 +55,8 @@ namespace CalendarUI
 
             AddColumn("Category", "Category");
             AddColumn("Description", "ShortDescription");
-            AddColumn("Duration", "DurationInMinutes");
-            AddColumn("Busy Time", "BusyTime");
+            AddRightJustifiedColumn("Duration", "DurationInMinutes");
+            AddRightJustifiedColumn("Busy Time", "BusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory[0].Items;
             CheckSearch();
         }
@@ -76,7 +76,7 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Month", "Month");
-            AddColumn("Busy Time", "TotalBusyTime");
+            AddRightJustifiedColumn("Busy Time", "TotalBusyTime");
             GridCalendarItems.ItemsSource=itemsByMonth;
             CheckSearch();
         }
@@ -84,14 +84,14 @@ namespace CalendarUI
         public void LoadByMonthAndCategory(List<Dictionary<string, object>> items)
         {
             GridCalendarItems.Columns.Clear();
-            AddColumn("Month", "[Month]");
+            AddRightJustifiedColumn("Month", "[Month]");
 
             List<Category> categoryList = _presenter.GetCategoriesList();
             foreach(Category c in categoryList)
             {
-                AddColumn($"{c.Description}", $"[{c.Description}]");
+                AddRightJustifiedColumn($"{c.Description}", $"[{c.Description}]");
             }
-            AddColumn("Total Busy Time", "[TotalBusyTime]");
+            AddRightJustifiedColumn("Total Busy Time", "[TotalBusyTime]");
             GridCalendarItems.ItemsSource = items;
             CheckSearch();
         }
@@ -114,11 +114,80 @@ namespace CalendarUI
 
             AddColumn("Category","Category");
             AddColumn("Description","ShortDescription");
-            AddColumn("Duration","DurationInMinutes");
-            AddColumn("Busy Time","BusyTime");
+
+            AddRightJustifiedColumn("Duration","DurationInMinutes");
+            AddRightJustifiedColumn("Busy Time","BusyTime");
             GridCalendarItems.ItemsSource= calendarItems;
             CheckSearch();
         }
+
+        //Method that accepts a CalendarItem Object to be selected in the datagrid.
+        public void SelectCalendarItem(int eventId, bool isDeleting)
+        {
+
+            if (!isDeleting)
+            {
+                foreach (var item in GridCalendarItems.Items)
+                {
+                    CalendarItem calendarItem = item as CalendarItem; // eventId CalendarItem with the type of items in your DataGrid
+                    if (calendarItem != null && calendarItem.EventID == eventId) // Replace EventId with the property name in your item class
+                    {
+                        GridCalendarItems.SelectedItem = calendarItem;
+                        break;
+                    }
+                }
+                return;
+            }
+            else
+            {
+                //for (int i = 0; i < GridCalendarItems.Items.Count; i++)
+                //{
+                //    CalendarItem calendarItem = GridCalendarItems.Items[i] as CalendarItem;
+                //    if (calendarItem != null && calendarItem.EventID == eventId)
+                //    {
+                //        GridCalendarItems.SelectedItem = calendarItem;
+
+                //        // Check if there is a next item
+                //        if (i + 1 < GridCalendarItems.Items.Count)
+                //        {
+                //            // Get the next item
+                //            CalendarItem nextItem = GridCalendarItems.Items[i + 1] as CalendarItem;
+
+                //            // Now you can do something with nextItem...
+                //        }
+
+                //        break;
+                //    }
+                //}
+                if (eventId >= 0 && eventId < GridCalendarItems.Items.Count)
+                {
+                    // Select the item at the specified index
+                    GridCalendarItems.SelectedIndex = eventId;
+                }
+            }
+        }
+
+
+        private void AddRightJustifiedColumn(string header, string bindingPath)
+        {
+            DataGridTextColumn column = new DataGridTextColumn();
+            column.Header = header;
+            column.Binding = new Binding(bindingPath);
+            System.Windows.Media.Color fontColor = _presenter.getFontColor();
+
+            // Create a new Style for the cells
+            Style cellStyle = new Style(typeof(DataGridCell));
+            cellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty, TextAlignment.Right));
+            cellStyle.Setters.Add(new Setter(TextBlock.ForegroundProperty, new SolidColorBrush(fontColor)));
+
+            // Apply the Style to the column
+            column.CellStyle = cellStyle;
+
+            GridCalendarItems.Columns.Add(column);
+        }
+
+
+
 
         public void ModifiedFiltersEvent(object sender, RoutedEventArgs e)
         {
@@ -138,7 +207,7 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Category","Category");
-            AddColumn("Busy Time","TotalBusyTime");
+            AddRightJustifiedColumn("Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
             CheckSearch();
         }
@@ -211,15 +280,17 @@ namespace CalendarUI
  
         }
 
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Get the selected event
                 var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
+                int selectedIndex = GridCalendarItems.SelectedIndex;
 
                 // Delete the selected event
-                _presenter.ProcessDeleteEvent(selectedEvent.EventID);
+                _presenter.ProcessDeleteEvent(selectedEvent.EventID, selectedIndex);
             }
             catch
             {

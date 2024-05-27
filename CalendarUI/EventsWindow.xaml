@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="EventsWindow" Height="750" Width="450" ResizeMode="NoResize" Background="#FF17191E" BorderThickness="10" Foreground="White" FontFamily="MV Boli">
+        Title="Events Window" Height="750" Width="450" ResizeMode="NoResize" Background="#FF17191E" WindowStartupLocation="CenterScreen" BorderThickness="10" Foreground="White" FontFamily="MV Boli"
+        Icon="/BB3.png">
 
     <Grid x:Name="mainGrid" Margin="1">
         <Grid.RowDefinitions>

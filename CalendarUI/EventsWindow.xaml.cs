@@ -248,7 +248,7 @@ namespace CalendarUI
                     int hourStart = Int32.Parse(array[0].Trim());
                     DateTime dateTime = (DateTime)StartDate.SelectedDate;
                     int catId = category.Id;
-                    _presenter.ProcessEditEvent(_calendarItem.EventID, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId);
+                    _presenter.ProcessEditEvent(_calendarItem.EventID, dateTime.AddHours(hourStart), Double.Parse(Duration.Text), Details.Text, catId, _calendarItem);
                 }
             }
         }
@@ -264,12 +264,6 @@ namespace CalendarUI
 
     }
 
-    //public void UpdateEvent()
-    //{
-
-    //    //EventSuccess.Visibility = Visibility.Visible;
-    //    //ClearEventDetails();
-    //}
 
 
 
