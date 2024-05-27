@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="CategoriesWindow" Height="450" Width="400"  Background="#FF17191E" BorderThickness="10" Foreground="White" FontFamily="MV Boli" >
+        Title="Categories Window" Height="450" Width="400"  Background="#FF17191E" WindowStartupLocation="CenterScreen" BorderThickness="10" Foreground="White" FontFamily="MV Boli" ResizeMode="NoResize"
+        Icon="/BB3.png">
     <Grid Name="InputGrid">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>

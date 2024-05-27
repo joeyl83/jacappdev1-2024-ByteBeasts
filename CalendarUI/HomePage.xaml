@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="HomePage" Height="450" Width="800" Background="#FF17191E" Foreground="White" FontFamily="MV Boli" BorderThickness="10px">
+        Title="HomePage" Height="450" Width="800" Background="#FF17191E" Foreground="White" WindowStartupLocation="CenterScreen" FontFamily="MV Boli" BorderThickness="10px">
     <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition/>

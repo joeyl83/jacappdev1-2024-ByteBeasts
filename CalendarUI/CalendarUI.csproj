@@ -10,6 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\BB3.ico" />
+    <None Remove="BB3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Haley.WPF" Version="5.4.3.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
   </ItemGroup>
@@ -21,7 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="assets\" />
+    <Resource Include="assets\BB3.ico" />
+    <Resource Include="BB3.png" />
   </ItemGroup>
 
 </Project>

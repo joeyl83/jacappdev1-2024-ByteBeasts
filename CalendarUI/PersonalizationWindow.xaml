@@ -7,7 +7,8 @@
         xmlns:hw="http://schemas.hpod9.com/haley/wpf"
         xmlns:hm="http://schemas.hpod9.com/haley/mvvm"
         mc:Ignorable="d"
-        Title="PersonalizationWindow" ResizeMode="NoResize" Height="500" Width="300" BorderThickness="10px" Background="#17191e" Foreground="White" FontFamily="MV Boli">
+        Title="PersonalizationWindow" ResizeMode="NoResize" Height="500" Width="300" BorderThickness="10px" WindowStartupLocation="CenterScreen" Background="#17191e" Foreground="White" FontFamily="MV Boli" 
+        Icon="/BB3.png">
 
     <StackPanel Margin="20px" x:Name="mainPanel">
         <TextBlock Text="Personalization" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,10"/>
