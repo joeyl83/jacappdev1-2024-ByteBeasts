@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="CalendarGridBoxWindow" Height="500" Width="800" Background="#FF17191E" Foreground="White" FontFamily="MV Boli" BorderThickness="10px" BorderBrush="White" MinWidth="800" MinHeight="500">
+        Title="CalendarGridBoxWindow" Height="480" Width="750" Background="#FF17191E" Foreground="White" FontFamily="MV Boli" BorderThickness="10px" BorderBrush="White" MinHeight="480" MinWidth="340">
     <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="273*"/>
@@ -54,8 +54,8 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Name="SearchInput" Grid.Column="0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,10,10,68"/>
-            <Button Grid.Column="1" FontSize="20" HorizontalAlignment="Right" Width="100" Click="Btn_Search" Margin="0,10,10,68">Search</Button>
+            <TextBox Name="SearchInput" Grid.Column="0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,10, 110,68"/>
+            <Button Grid.Column="1" FontSize="20" HorizontalAlignment="Right" Width="100" Click="Btn_Search" Margin="0,10,10,68">Search🔎</Button>
         </Grid>
 
 
