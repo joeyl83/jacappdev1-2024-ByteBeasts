@@ -53,12 +53,20 @@ namespace CalendarUI
         /// <param name="fileName">The name of the file where the homecalendar is saved.</param>
         public void NewHomeCalendar(string directory, string fileName)
         {
-            if (!Directory.Exists(directory))
+            if (string.IsNullOrEmpty(directory) || string.IsNullOrEmpty(fileName))
             {
-                Directory.CreateDirectory(directory);
+                view.ShowError("Directory name and file name cannot be empty.");
             }
-            model = new HomeCalendar(directory + "/" + fileName + ".db", true);
-            view.ChangeWindow();
+            else
+            {
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                model = new HomeCalendar(directory + "/" + fileName + ".db", true);
+                view.ChangeWindow();
+            }
+           
         }
 
         /// <summary>
