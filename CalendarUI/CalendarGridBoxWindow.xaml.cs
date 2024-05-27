@@ -121,6 +121,53 @@ namespace CalendarUI
             CheckSearch();
         }
 
+        //Method that accepts a CalendarItem Object to be selected in the datagrid.
+        public void SelectCalendarItem(int eventId, bool isDeleting)
+        {
+
+            if (!isDeleting)
+            {
+                foreach (var item in GridCalendarItems.Items)
+                {
+                    CalendarItem calendarItem = item as CalendarItem; // eventId CalendarItem with the type of items in your DataGrid
+                    if (calendarItem != null && calendarItem.EventID == eventId) // Replace EventId with the property name in your item class
+                    {
+                        GridCalendarItems.SelectedItem = calendarItem;
+                        break;
+                    }
+                }
+                return;
+            }
+            else
+            {
+                //for (int i = 0; i < GridCalendarItems.Items.Count; i++)
+                //{
+                //    CalendarItem calendarItem = GridCalendarItems.Items[i] as CalendarItem;
+                //    if (calendarItem != null && calendarItem.EventID == eventId)
+                //    {
+                //        GridCalendarItems.SelectedItem = calendarItem;
+
+                //        // Check if there is a next item
+                //        if (i + 1 < GridCalendarItems.Items.Count)
+                //        {
+                //            // Get the next item
+                //            CalendarItem nextItem = GridCalendarItems.Items[i + 1] as CalendarItem;
+
+                //            // Now you can do something with nextItem...
+                //        }
+
+                //        break;
+                //    }
+                //}
+                if (eventId >= 0 && eventId < GridCalendarItems.Items.Count)
+                {
+                    // Select the item at the specified index
+                    GridCalendarItems.SelectedIndex = eventId;
+                }
+            }
+        }
+
+
         private void AddRightJustifiedColumn(string header, string bindingPath)
         {
             DataGridTextColumn column = new DataGridTextColumn();
@@ -233,15 +280,17 @@ namespace CalendarUI
  
         }
 
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Get the selected event
                 var selectedEvent = (CalendarItem)GridCalendarItems.SelectedItem;
+                int selectedIndex = GridCalendarItems.SelectedIndex;
 
                 // Delete the selected event
-                _presenter.ProcessDeleteEvent(selectedEvent.EventID);
+                _presenter.ProcessDeleteEvent(selectedEvent.EventID, selectedIndex);
             }
             catch
             {

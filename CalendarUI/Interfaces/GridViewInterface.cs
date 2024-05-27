@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
+using CalendarItem = Calendar.CalendarItem;
 
 namespace CalendarUI.Interfaces
 {
@@ -26,6 +27,8 @@ namespace CalendarUI.Interfaces
         void OpenPersonalizationWindow();
 
         public void LoadCategories(List<Category> categories);
+
+        public void SelectCalendarItem(int calendarItem, bool isDeleting);
 
     }
 }
