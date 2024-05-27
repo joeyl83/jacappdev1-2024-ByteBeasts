@@ -55,8 +55,8 @@ namespace CalendarUI
 
             AddColumn("Category", "Category");
             AddColumn("Description", "ShortDescription");
-            AddColumn("Duration", "DurationInMinutes");
-            AddColumn("Busy Time", "BusyTime");
+            AddRightJustifiedColumn("Duration", "DurationInMinutes");
+            AddRightJustifiedColumn("Busy Time", "BusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory[0].Items;
             CheckSearch();
         }
@@ -76,7 +76,7 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Month", "Month");
-            AddColumn("Busy Time", "TotalBusyTime");
+            AddRightJustifiedColumn("Busy Time", "TotalBusyTime");
             GridCalendarItems.ItemsSource=itemsByMonth;
             CheckSearch();
         }
@@ -84,14 +84,14 @@ namespace CalendarUI
         public void LoadByMonthAndCategory(List<Dictionary<string, object>> items)
         {
             GridCalendarItems.Columns.Clear();
-            AddColumn("Month", "[Month]");
+            AddRightJustifiedColumn("Month", "[Month]");
 
             List<Category> categoryList = _presenter.GetCategoriesList();
             foreach(Category c in categoryList)
             {
-                AddColumn($"{c.Description}", $"[{c.Description}]");
+                AddRightJustifiedColumn($"{c.Description}", $"[{c.Description}]");
             }
-            AddColumn("Total Busy Time", "[TotalBusyTime]");
+            AddRightJustifiedColumn("Total Busy Time", "[TotalBusyTime]");
             GridCalendarItems.ItemsSource = items;
             CheckSearch();
         }
@@ -114,11 +114,33 @@ namespace CalendarUI
 
             AddColumn("Category","Category");
             AddColumn("Description","ShortDescription");
-            AddColumn("Duration","DurationInMinutes");
-            AddColumn("Busy Time","BusyTime");
+
+            AddRightJustifiedColumn("Duration","DurationInMinutes");
+            AddRightJustifiedColumn("Busy Time","BusyTime");
             GridCalendarItems.ItemsSource= calendarItems;
             CheckSearch();
         }
+
+        private void AddRightJustifiedColumn(string header, string bindingPath)
+        {
+            DataGridTextColumn column = new DataGridTextColumn();
+            column.Header = header;
+            column.Binding = new Binding(bindingPath);
+            System.Windows.Media.Color fontColor = _presenter.getFontColor();
+
+            // Create a new Style for the cells
+            Style cellStyle = new Style(typeof(DataGridCell));
+            cellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty, TextAlignment.Right));
+            cellStyle.Setters.Add(new Setter(TextBlock.ForegroundProperty, new SolidColorBrush(fontColor)));
+
+            // Apply the Style to the column
+            column.CellStyle = cellStyle;
+
+            GridCalendarItems.Columns.Add(column);
+        }
+
+
+
 
         public void ModifiedFiltersEvent(object sender, RoutedEventArgs e)
         {
@@ -138,7 +160,7 @@ namespace CalendarUI
         {
             GridCalendarItems.Columns.Clear();
             AddColumn("Category","Category");
-            AddColumn("Busy Time","TotalBusyTime");
+            AddRightJustifiedColumn("Busy Time","TotalBusyTime");
             GridCalendarItems.ItemsSource = itemsByCategory;
             CheckSearch();
         }

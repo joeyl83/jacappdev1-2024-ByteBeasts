@@ -422,5 +422,10 @@ namespace CalendarUI
             return model.categories.List();
         }
 
+        public System.Windows.Media.Color getFontColor()
+        {
+            return FontColor;
+        }
+
     }
 }

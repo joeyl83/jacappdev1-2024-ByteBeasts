@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarUI"
         mc:Ignorable="d"
-        Title="CalendarGridBoxWindow" Height="500" Width="800" Background="#FF17191E" Foreground="White" FontFamily="MV Boli" BorderThickness="10px" BorderBrush="White">
+        Title="CalendarGridBoxWindow" Height="500" Width="800" Background="#FF17191E" Foreground="White" FontFamily="MV Boli" BorderThickness="10px" BorderBrush="White" MinWidth="800" MinHeight="500">
     <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="273*"/>
