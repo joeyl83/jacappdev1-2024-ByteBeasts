@@ -39,7 +39,7 @@ namespace CalendarUI
         public void OpenCalendarBtnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + "\\Documents";
             if (openFileDialog.ShowDialog() == true)
             {
                 string filepath = openFileDialog.FileName;

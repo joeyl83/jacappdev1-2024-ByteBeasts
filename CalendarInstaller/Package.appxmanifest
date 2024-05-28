@@ -9,7 +9,7 @@
   <Identity
     Name="a5a37a29-f9ef-4b39-8352-6660d4257bc5"
     Publisher="CN=ByteBeasts"
-    Version="1.0.1.0" />
+    Version="1.0.4.0" />
 
   <Properties>
     <DisplayName>CalendarInstaller</DisplayName>
@@ -36,7 +36,7 @@
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
