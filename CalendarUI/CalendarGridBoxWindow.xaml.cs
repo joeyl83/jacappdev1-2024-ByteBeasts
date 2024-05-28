@@ -475,7 +475,7 @@ namespace CalendarUI
                                 break;
                             }
                         }
-                        else if (itemsList[i].ShortDescription.ToLower() == search)
+                        else if (itemsList[i].ShortDescription.ToLower().Contains(search))
                         {
                             foundItem = itemsList[i];
                             shouldContinue = false;
@@ -495,7 +495,7 @@ namespace CalendarUI
                                     break;
                                 }
                             }
-                            else if (itemsList[i].ShortDescription.ToLower() == search)
+                            else if (itemsList[i].ShortDescription.ToLower().Contains(search))
                             {
                             
                                 foundItem = itemsList[i];
