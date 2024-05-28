@@ -517,7 +517,6 @@ namespace CalendarUI
                             }
                         }
                         else if (itemsList[i].ShortDescription.ToLower().Contains(search))
-                        else if (itemsList[i].ShortDescription.ToLower().Contains(search))
                         {
                             foundItem = itemsList[i];
                             break;
